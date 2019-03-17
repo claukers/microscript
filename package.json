@@ -1,14 +1,14 @@
 {
-  "name": "micros",
+  "name": "microscript",
   "version": "1.0.0",
   "description": "",
   "private": true,
   "main": "dist/index.js",
   "bin": {
-    "micro": "dist/cli/cli.js"
+    "microscript": "dist/cli/cli.js"
   },
   "scripts": {
-    "micro": "node dist/cli/cli.js",
+    "microscript": "node dist/cli/cli.js",
     "prepare": "npm run build",
     "build": "rimraf dist/ && tsc",
     "test": "NODE_ENV=test nyc mocha test/*.test.ts",
