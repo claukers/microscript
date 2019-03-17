@@ -60,11 +60,9 @@ export interface ISimpleMap<T2> {
 export abstract class Util {
   public static sha256 = (data) => crypto.createHash("sha256").update(data, "utf8").digest("base64");
   public static loadConfig() {
-    Util.checkEnvVariables(["MICRO_CONFIG"]);
+    Util.checkEnvVariables(["MICRO_CONFIG", "MICRO_DIRNAME"]);
     if (!Util.configLoaded) {
-      const NODE_ENV = process.env.NODE_ENV || "development";
-      process.env.NODE_ENV = NODE_ENV;
-      const configPath = path.resolve(process.env.MICRO_CONFIG, `${NODE_ENV}.env`);
+      const configPath = path.resolve(process.env.MICRO_CONFIG, `${process.env.NODE_ENV}.env`);
       if (!fs.existsSync(configPath)) {
         throw new Error(`[${configPath}] env file doesnt exists!`);
       } else {
@@ -73,6 +71,26 @@ export abstract class Util {
       config({
         path: configPath
       });
+      const logsFolder = path.resolve(process.env.MICRO_DIRNAME, "logs");
+      const dbFolder = path.resolve(process.env.MICRO_DIRNAME, "db");
+      const migrationsFolder = path.resolve(dbFolder, "migrations");
+      const modelsFolder = path.resolve(dbFolder, "models");
+      const seedersFolder = path.resolve(dbFolder, "seeders");
+      if (!fs.existsSync(logsFolder)) {
+        fs.mkdirSync(logsFolder);
+      }
+      if (!fs.existsSync(dbFolder)) {
+        fs.mkdirSync(dbFolder);
+      }
+      if (!fs.existsSync(migrationsFolder)) {
+        fs.mkdirSync(migrationsFolder);
+      }
+      if (!fs.existsSync(modelsFolder)) {
+        fs.mkdirSync(modelsFolder);
+      }
+      if (!fs.existsSync(seedersFolder)) {
+        fs.mkdirSync(seedersFolder);
+      }
       Util.configLoaded = true;
     }
   }

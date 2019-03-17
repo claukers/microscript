@@ -9,12 +9,12 @@ describe('micro amarilla', function () {
     const test = async () => {
       const micro = new lib.Micro({
         name: "Micro 1",
-        service: path.resolve(__dirname, '..', 'example', 'microservice1'),
+        service: path.resolve(__dirname, '..', 'example', 'src', 'microservice'),
         nodes: 1
       });
       const micro2 = new lib.Micro({
         name: "Micro 2",
-        service: path.resolve(__dirname, '..', 'example', 'microservice1'),
+        service: path.resolve(__dirname, '..', 'example', 'src', 'microservice'),
         nodes: 1
       });
       await micro2.start();
