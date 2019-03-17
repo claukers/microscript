@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { ISimpleMap } from "../util";
 
 const logger = console;
