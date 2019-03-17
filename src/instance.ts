@@ -3,8 +3,9 @@ import { Util } from "./util";
 
 const serviceName = process.argv[3];
 const scriptPath = path.resolve(process.argv[4]);
-process.chdir(path.resolve(path.dirname(scriptPath)));
 const configPath = path.resolve(path.dirname(scriptPath), '..', 'config');
+
+process.chdir(path.resolve(path.dirname(scriptPath), '..'));
 
 process.env["MICRO_CONFIG"] = configPath;
 process.env["MICRO_NAME"] = serviceName;
