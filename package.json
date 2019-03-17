@@ -1,0 +1,40 @@
+{
+  "name": "micros",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "main": "dist/index.js",
+  "bin": {
+    "micro": "dist/cli/cli.js"
+  },
+  "scripts": {
+    "micro": "node dist/cli/cli.js",
+    "prepare": "npm run build",
+    "build": "rimraf dist/ && tsc",
+    "test": "NODE_ENV=test nyc mocha test/*.test.ts",
+    "testfile": "NODE_ENV=test nyc mocha",
+    "lint": "tslint -c ./tslint.json -p ./tsconfig.json",
+    "fixlint": "tslint --fix -c ./tslint.json -p ./tsconfig.json"
+  },
+  "author": "claukers",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^6.1.0",
+    "script-pool": "git+ssh://git@github.com/claukers/script-pool.git",
+    "sequelize": "^4.43.0",
+    "winston": "^3.1.0"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0",
+    "nyc": "^13.3.0",
+    "rimraf": "^2.6.3",
+    "ts-node": "^7.0.1",
+    "tslint": "^5.14.0",
+    "typescript": "^3.3.3333"
+  },
+  "engines": {
+    "node": "^ 10.0.0",
+    "npm": "^ 6.0.0"
+  }
+}
