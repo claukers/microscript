@@ -4,11 +4,9 @@ import { Util } from "./util";
 const serviceName = process.argv[3];
 const scriptPath = path.resolve(process.argv[4]);
 process.chdir(path.resolve(path.dirname(scriptPath)));
-const configPath = path.resolve(path.dirname(scriptPath), 'config');
-const sequelizerc = path.resolve(path.dirname(scriptPath), '.sequelizerc');
+const configPath = path.resolve(path.dirname(scriptPath), '..', 'config');
 
 process.env["MICRO_CONFIG"] = configPath;
-process.env["SEQUELIZERC"] = sequelizerc;
 process.env["MICRO_NAME"] = serviceName;
 
 Util.loadConfig();

@@ -1,4 +1,4 @@
-const { Database, Util } = require("../dist");
+const { Database, Util } = require("../../dist");
 
 const logger = Util.getLogger("microservice1.js");
 

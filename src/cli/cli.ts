@@ -18,7 +18,15 @@ const main = async () => {
     throw new Error("no command");
   } else {
     const cmd = cmds[cmdArg];
-    require(cmd.module);
+    if (!cmd) {
+      logger.info(`Available commands:`);
+      for (const cmd of Object.keys(cmds)) {
+        logger.info(`\t${cmd}\t${cmds[cmd].description}`);
+      }
+      throw new Error("command " + cmdArg + " not found!");
+    } else {
+      require(cmd.module);
+    }
   }
 };
 
