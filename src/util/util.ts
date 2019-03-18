@@ -106,7 +106,7 @@ export abstract class Util {
         fs.writeFileSync(sequelizercPath,
           `const {sequelizercConfig} = require('microscript');
 
-module.exports = sequelizercConfig();          
+module.exports = sequelizercConfig();
 `
         );
       }
@@ -121,7 +121,7 @@ module.exports = sequelizercConfig();
           `'use strict';
 
 const { setupDB } = require('microscript');
-        
+
 module.exports = setupDB();
 `
         );
@@ -140,11 +140,11 @@ module.exports = setupDB();
     });
   }
   public static parseOptions(argName,
-    arg: { [name: string]: any },
-    optionsArray: Array<{
+                             arg: { [name: string]: any },
+                             optionsArray: Array<{
       name: string, type: string, arrayType?: string, required: boolean
     }>,
-    parserOption: IOPTIONPARSER = "no_extra"): { [name: string]: any } {
+                             parserOption: IOPTIONPARSER = "no_extra"): { [name: string]: any } {
     const ret = {};
     if (typeof arg !== "object" || !arg) {
       throw new ParseOptionsError(`${argName} not valid`);
