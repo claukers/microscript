@@ -11,7 +11,7 @@ export const makemigrations = () => {
   process.env.PWD = dbFolder;
   /* tslint:disable */
   logger.log(child_process.execSync(
-    'node ' + path.resolve(__dirname, '..', '..', 'node_modules', 'sequelize-auto-migrations', 'bin', 'makemigration.js').toString(),
+    'npx makemigration',
     {
       env: process.env,
       windowsHide: true,
