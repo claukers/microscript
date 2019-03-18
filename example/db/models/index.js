@@ -1,5 +1,5 @@
 'use strict';
 
-const { setupDB } = require("../../../dist");
-
+const { setupDB } = require('microscript');
+        
 module.exports = setupDB();

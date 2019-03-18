@@ -1,0 +1,3 @@
+const {sequelizercConfig} = require('microscript');
+
+module.exports = sequelizercConfig();          

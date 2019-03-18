@@ -99,12 +99,26 @@ export abstract class Util {
       }
       if (!fs.existsSync(dbFolder)) {
         fs.mkdirSync(dbFolder);
+        fs.writeFileSync(path.resolve(dbFolder, ".sequelizerc"),
+          `const {sequelizercConfig} = require('microscript');
+
+module.exports = sequelizercConfig();          
+`
+        );
       }
       if (!fs.existsSync(migrationsFolder)) {
         fs.mkdirSync(migrationsFolder);
       }
       if (!fs.existsSync(modelsFolder)) {
         fs.mkdirSync(modelsFolder);
+        fs.writeFileSync(path.resolve(modelsFolder, "index.js"),
+          `'use strict';
+
+const { setupDB } = require('microscript');
+        
+module.exports = setupDB();
+`
+        );
       }
       if (!fs.existsSync(seedersFolder)) {
         fs.mkdirSync(seedersFolder);
@@ -120,11 +134,11 @@ export abstract class Util {
     });
   }
   public static parseOptions(argName,
-                             arg: { [name: string]: any },
-                             optionsArray: Array<{
+    arg: { [name: string]: any },
+    optionsArray: Array<{
       name: string, type: string, arrayType?: string, required: boolean
     }>,
-                             parserOption: IOPTIONPARSER = "no_extra"): { [name: string]: any } {
+    parserOption: IOPTIONPARSER = "no_extra"): { [name: string]: any } {
     const ret = {};
     if (typeof arg !== "object" || !arg) {
       throw new ParseOptionsError(`${argName} not valid`);
