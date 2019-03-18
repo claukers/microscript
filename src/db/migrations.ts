@@ -5,7 +5,7 @@ const logger = console;
 
 export const makemigrations = () => {
   try {
-    const dbFolder = path.resolve(process.env.MICRO_DIRNAME, "db");
+    const dbFolder = path.resolve(process.env.MICRO_DIRNAME);
     logger.log(child_process.execSync(
       "npx makemigration",
       {
@@ -22,7 +22,7 @@ export const makemigrations = () => {
 
 export const migrate = () => {
   try {
-    const dbFolder = path.resolve(process.env.MICRO_DIRNAME, "db");
+    const dbFolder = path.resolve(process.env.MICRO_DIRNAME);
     logger.log(child_process.execSync(
       "npx sequelize db:migrate",
       {
@@ -38,7 +38,7 @@ export const migrate = () => {
 
 export const seed = () => {
   try {
-    const dbFolder = path.resolve(process.env.MICRO_DIRNAME, "db");
+    const dbFolder = path.resolve(process.env.MICRO_DIRNAME);
     logger.log(child_process.execSync(
       "npx sequelize db:seed:all",
       {

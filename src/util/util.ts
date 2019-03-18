@@ -94,7 +94,7 @@ export abstract class Util {
       const migrationsFolder = path.resolve(dbFolder, "migrations");
       const modelsFolder = path.resolve(dbFolder, "models");
       const seedersFolder = path.resolve(dbFolder, "seeders");
-      const sequelizercPath = path.resolve(dbFolder, ".sequelizerc");
+      const sequelizercPath = path.resolve(process.env.MICRO_DIRNAME, ".sequelizerc");
       const modelLoaderPath = path.resolve(modelsFolder, "index.js");
       if (!fs.existsSync(logsFolder)) {
         fs.mkdirSync(logsFolder);

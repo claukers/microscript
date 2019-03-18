@@ -32,16 +32,16 @@ export const getSequelizeConfig = () => {
 export const sequelizercConfig = () => {
   const config = getSequelizeConfig();
   const dbFolder = path.resolve(process.env.MICRO_DIRNAME, "db");
-  const tempConfigFile = path.resolve(dbFolder, ".temprcconfig.json");
+  const tempConfigFile = path.resolve(process.env.MICRO_DIRNAME, ".temprcconfig.json");
   fs.writeFileSync(tempConfigFile, JSON.stringify(config));
   const modelsPath = path.resolve(dbFolder, "models");
   const seedersPath = path.resolve(dbFolder, "seeders");
   const migrationsPath = path.resolve(dbFolder, "migrations");
   return {
     "config": tempConfigFile,
-    "migrations-path": modelsPath,
+    "migrations-path": migrationsPath,
     "seeders-path": seedersPath,
-    "models-path": migrationsPath
+    "models-path": modelsPath
   };
 };
 
