@@ -1,8 +1,11 @@
-import * as scriptpool from "script-pool";
-import * as path from "path";
 import { EventEmitter } from "events";
+import * as path from "path";
+import * as child_process from "child_process";
+import * as scriptpool from "script-pool";
 
-export interface MicroConfig {
+const logger = console;
+
+export interface IMicroConfig {
   name: string;
   nodes: number;
   service: string;
@@ -10,18 +13,18 @@ export interface MicroConfig {
 
 export class Micro extends EventEmitter {
   private pool;
-  constructor(config?: MicroConfig) {
+  constructor(config?: IMicroConfig) {
     super();
     this.pool = scriptpool.createClusterPool({
       min: config.nodes,
       max: config.nodes,
       autostart: false
-    }, path.resolve(__dirname, 'instance'), [config.name, config.service]);
-    this.pool.on('factoryCreateError', (err) => {
-      this.emit('factoryCreateError', err);
+    }, path.resolve(__dirname, "instance"), [config.name, config.service]);
+    this.pool.on("factoryCreateError", (err) => {
+      this.emit("factoryCreateError", err);
     });
-    this.pool.on('factoryDestroyError', (err) => {
-      this.emit('factoryDestroyError', err);
+    this.pool.on("factoryDestroyError", (err) => {
+      this.emit("factoryDestroyError", err);
     });
   }
   public async start() {

@@ -31,7 +31,7 @@ export class Database extends EventEmitter {
     }
     const requiredEnvVariables = ["DB_DROPTABLES"];
     Util.checkEnvVariables(requiredEnvVariables);
-    const models = setupDB()
+    const models = setupDB();
     this.sequelize = models.sequelize;
     Object.keys(models).forEach((modelName) => {
       if (modelName !== "sequelize" && modelName !== "Sequelize") {
