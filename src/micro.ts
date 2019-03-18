@@ -1,6 +1,6 @@
+import * as child_process from "child_process";
 import { EventEmitter } from "events";
 import * as path from "path";
-import * as child_process from "child_process";
 import * as scriptpool from "script-pool";
 
 const logger = console;

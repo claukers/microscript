@@ -1,24 +1,53 @@
-import * as path from "path";
 import * as child_process from "child_process";
+import * as path from "path";
 
 const logger = console;
 
 export const makemigrations = () => {
-  const dbFolder = path.resolve(process.env.MICRO_DIRNAME, "db");
-  const oldPWD = process.env.PWD;
-  const oldCWD = process.cwd();
-  process.chdir(dbFolder);
-  process.env.PWD = dbFolder;
-  /* tslint:disable */
-  logger.log(child_process.execSync(
-    'npx makemigration',
-    {
-      env: process.env,
-      windowsHide: true,
+  try {
+    const dbFolder = path.resolve(process.env.MICRO_DIRNAME, "db");
+    logger.log(child_process.execSync(
+      "npx makemigration",
+      {
+        cwd: dbFolder,
+        env: process.env,
+        windowsHide: true
 
-    }
-  ).toString());
-  /* tslint:enable */
-  process.env.PWD = oldPWD;
-  process.chdir(oldCWD);
-}
+      }
+    ).toString());
+  } catch (e) {
+    logger.error(e.message);
+  }
+};
+
+export const migrate = () => {
+  try {
+    const dbFolder = path.resolve(process.env.MICRO_DIRNAME);
+    logger.log(child_process.execSync(
+      "npx sequelize db:migrate",
+      {
+        cwd: dbFolder,
+        env: process.env,
+        windowsHide: true
+      }
+    ).toString());
+  } catch (e) {
+    logger.error(e.message);
+  }
+};
+
+export const seed = () => {
+  try {
+    const dbFolder = path.resolve(process.env.MICRO_DIRNAME);
+    logger.log(child_process.execSync(
+      "npx sequelize db:seed:all",
+      {
+        cwd: dbFolder,
+        env: process.env,
+        windowsHide: true
+      }
+      ).toString());
+  } catch (e) {
+    logger.error(e.message);
+  }
+};

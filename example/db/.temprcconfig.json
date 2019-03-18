@@ -1,0 +1,1 @@
+{"username":"root","password":"password","database":"testdb","host":"localhost","dialect":"sqlite","operatorsAliases":false,"pool":{"acquire":30000,"idle":10000,"max":5,"min":0},"storage":"./dev.sqlite3"}

@@ -6,7 +6,10 @@ const logger = console;
 
 const cmds: ISimpleMap<{ module: string; description: string }> = {
   start: { module: "./start", description: "starts a microservice" },
-  makemigrations: { module: "./makemigrations", description: "seeks changes in your microservice models and creates database migrations" }
+  makemigrations: { module: "./makemigrations", description: "seeks changes in your microservice models and creates database migrations" },
+  migrate: { module: "./migrate", description: "runs the migrations" },
+  automigrate: { module: "./automigrate", description: "runs makemigrations and migrate together" },
+  seed: { module: "./seed", description: "seeds your db" }
 };
 
 const main = async () => {

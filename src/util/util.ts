@@ -61,20 +61,25 @@ export interface ISimpleMap<T2> {
 
 export abstract class Util {
   public static sha256 = (data) => crypto.createHash("sha256").update(data, "utf8").digest("base64");
-  public static setupInstanceEnv(serviceName: string, scriptPath: string) {
+  public static setupSimpleEnv() {
+    Util.checkEnvVariables(["MICRO_DIRNAME"]);
     const NODE_ENV = process.env.NODE_ENV || "development";
     process.env.NODE_ENV = NODE_ENV;
+    const logsFolder = path.resolve(process.env.MICRO_DIRNAME, "logs");
+    process.env.LOG_FILE = path.resolve(logsFolder, `${process.env.NODE_ENV}.log`);
+    process.env.LOG_FILE_TRACE = path.resolve(logsFolder, `${process.env.NODE_ENV}-trace.log`);
+  }
+  public static setupInstanceEnv(serviceName: string, scriptPath: string) {
     const microDirname = path.resolve(path.dirname(scriptPath), "..");
-    const logsFolder = path.resolve(microDirname, "logs");
     process.chdir(microDirname);
     process.env.MICRO_DIRNAME = microDirname;
     process.env.MICRO_NAME = serviceName;
-    process.env.LOG_FILE = path.resolve(logsFolder, `${process.env.NODE_ENV}.log`);
-    process.env.LOG_FILE_TRACE = path.resolve(logsFolder, `${process.env.NODE_ENV}-trace.log`);
+    Util.setupSimpleEnv();
   }
   public static loadConfig() {
     Util.checkEnvVariables(["MICRO_DIRNAME"]);
     if (!Util.configLoaded) {
+      Util.setupSimpleEnv();
       const configPath = path.resolve(process.env.MICRO_DIRNAME, "config", `${process.env.NODE_ENV}.env`);
       if (!fs.existsSync(configPath)) {
         throw new Error(`[${configPath}] env file doesnt exists!`);

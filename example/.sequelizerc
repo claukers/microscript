@@ -1,0 +1,3 @@
+const {sequelizercConfig} = require("../dist");
+
+module.exports = sequelizercConfig();

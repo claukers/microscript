@@ -5,15 +5,13 @@ import * as  path from "path";
 import * as  Sequelize from "sequelize";
 import { Util } from "../util";
 
-export const setupDB = () => {
+export const getSequelizeConfig = () => {
   Util.loadConfig();
   Util.checkEnvVariables(["DB_NAME", "DB_USER", "DB_PASS", "DB_HOST", "DB_DIALECT",
     "DB_OPERATORSALIASES", "DB_POOL_MAX", "DB_POOL_MIN", "DB_POOL_ACQUIRE", "DB_POOL_IDDLE", "DB_STORAGE"
   ]);
 
-  const modelsPath = path.resolve(process.env.MICRO_DIRNAME, "db", "models");
-
-  const config = {
+  return {
     username: process.env.DB_USER,
     password: process.env.DB_PASS,
     database: process.env.DB_NAME,
@@ -29,6 +27,27 @@ export const setupDB = () => {
     storage: process.env.DB_STORAGE,
     logging: Util.getLogger("Sequelize").info
   };
+};
+
+export const sequelizercConfig = () => {
+  const config = getSequelizeConfig();
+  const dbFolder = path.resolve(process.env.MICRO_DIRNAME, "db");
+  const tempConfigFile = path.resolve(dbFolder, ".temprcconfig.json");
+  fs.writeFileSync(tempConfigFile, JSON.stringify(config));
+  const modelsPath = path.resolve(dbFolder, "models");
+  const seedersPath = path.resolve(dbFolder, "seeders");
+  const migrationsPath = path.resolve(dbFolder, "migrations");
+  return {
+    "config": tempConfigFile,
+    "migrations-path": modelsPath,
+    "seeders-path": seedersPath,
+    "models-path": migrationsPath
+  };
+};
+
+export const setupDB = () => {
+  const config = getSequelizeConfig();
+  const modelsPath = path.resolve(process.env.MICRO_DIRNAME, "db", "models");
 
   const db: {
     sequelize: any;
