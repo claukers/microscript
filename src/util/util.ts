@@ -94,12 +94,16 @@ export abstract class Util {
       const migrationsFolder = path.resolve(dbFolder, "migrations");
       const modelsFolder = path.resolve(dbFolder, "models");
       const seedersFolder = path.resolve(dbFolder, "seeders");
+      const sequelizercPath = path.resolve(dbFolder, ".sequelizerc");
+      const modelLoaderPath = path.resolve(modelsFolder, "index.js");
       if (!fs.existsSync(logsFolder)) {
         fs.mkdirSync(logsFolder);
       }
       if (!fs.existsSync(dbFolder)) {
         fs.mkdirSync(dbFolder);
-        fs.writeFileSync(path.resolve(dbFolder, ".sequelizerc"),
+      }
+      if (!fs.existsSync(sequelizercPath)) {
+        fs.writeFileSync(sequelizercPath,
           `const {sequelizercConfig} = require('microscript');
 
 module.exports = sequelizercConfig();          
@@ -111,7 +115,9 @@ module.exports = sequelizercConfig();
       }
       if (!fs.existsSync(modelsFolder)) {
         fs.mkdirSync(modelsFolder);
-        fs.writeFileSync(path.resolve(modelsFolder, "index.js"),
+      }
+      if (!fs.existsSync(modelLoaderPath)) {
+        fs.writeFileSync(modelLoaderPath,
           `'use strict';
 
 const { setupDB } = require('microscript');
