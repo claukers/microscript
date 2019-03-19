@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
-import * as lib from "..";
+import { Micro } from "../micro";
 
 const logger = console;
 
@@ -34,7 +34,7 @@ if (!fs.existsSync(service)) {
   throw new Error(`microservice [${service}] doesnt exists!`);
 }
 
-const micro = new lib.Micro({
+const micro = new Micro({
   name,
   service,
   nodes,
