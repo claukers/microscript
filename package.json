@@ -1,11 +1,11 @@
 {
-  "name": "microscript",
+  "name": "miqro",
   "version": "1.0.0",
   "description": "",
   "private": true,
   "main": "dist/index.js",
   "bin": {
-    "microscript": "dist/cli/cli.js"
+    "miqro": "dist/cli/cli.js"
   },
   "scripts": {
     "micro": "node dist/cli/cli.js",

@@ -6,10 +6,10 @@ import { Util } from "../util";
 const modulePath = process.argv[3];
 
 if (process.argv.length !== 4) {
-  throw new Error(`usage: microscript migrate <microservice.js>`);
+  throw new Error(`usage: miqro migrate <microservice.js>`);
 }
 if (typeof modulePath !== "string") {
-  throw new Error(`<microservice.js> must be a string!\nusage: microscript migrate <microservice.js>`);
+  throw new Error(`<microservice.js> must be a string!\nusage: miqro migrate <microservice.js>`);
 }
 
 const service = path.resolve(modulePath);

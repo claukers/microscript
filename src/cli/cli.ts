@@ -35,7 +35,7 @@ const main = async () => {
 };
 
 main().catch((e) => {
-  logger.error(`usage: microscript <command> [args]`);
+  logger.error(`usage: miqro <command> [args]`);
   logger.error(e);
   process.exit(1);
 });

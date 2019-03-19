@@ -10,22 +10,22 @@ const name = process.argv[5];
 const modulePath = process.argv[6];
 
 if (process.argv.length !== 7) {
-  throw new Error(`usage: microscript start <nodes> <mode> <name> <microservice.js>`);
+  throw new Error(`usage: miqro start <nodes> <mode> <name> <microservice.js>`);
 }
 if (isNaN(nodes)) {
-  throw new Error(`<nodes> must be a number!\nusage: microscript start <nodes> <mode> <name> <microservice.js>`);
+  throw new Error(`<nodes> must be a number!\nusage: miqro start <nodes> <mode> <name> <microservice.js>`);
 }
 if (typeof mode !== "string") {
-  throw new Error(`<mode> must be a string!\nusage: microscript start <nodes> <mode> <name> <microservice.js>`);
+  throw new Error(`<mode> must be a string!\nusage: miqro start <nodes> <mode> <name> <microservice.js>`);
 }
 if (["cluster", "simple"].indexOf(mode) === -1) {
-  throw new Error(`<mode> only can be a cluster or simple!\nusage: microscript start <nodes> <mode> <name> <microservice.js>`);
+  throw new Error(`<mode> only can be a cluster or simple!\nusage: miqro start <nodes> <mode> <name> <microservice.js>`);
 }
 if (typeof name !== "string") {
-  throw new Error(`<name> must be a string!\nusage: microscript start <nodes> <mode> <name> <microservice.js>`);
+  throw new Error(`<name> must be a string!\nusage: miqro start <nodes> <mode> <name> <microservice.js>`);
 }
 if (typeof modulePath !== "string") {
-  throw new Error(`<microservice.js> must be a string!\nusage: microscript start <nodes> <mode> <name> <microservice.js>`);
+  throw new Error(`<microservice.js> must be a string!\nusage: miqro start <nodes> <mode> <name> <microservice.js>`);
 }
 
 const service = path.resolve(modulePath);
