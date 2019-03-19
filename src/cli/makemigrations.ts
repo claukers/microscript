@@ -19,4 +19,5 @@ if (!fs.existsSync(service)) {
 }
 
 Util.setupInstanceEnv("makemigrations", service);
+Util.loadConfig();
 lib.makemigrations();

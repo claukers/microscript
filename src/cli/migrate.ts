@@ -19,4 +19,5 @@ if (!fs.existsSync(service)) {
 }
 
 Util.setupInstanceEnv("migrate", service);
+Util.loadConfig();
 lib.migrate();

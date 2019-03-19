@@ -19,5 +19,6 @@ if (!fs.existsSync(service)) {
 }
 
 Util.setupInstanceEnv("automigrate", service);
+Util.loadConfig();
 lib.makemigrations();
 lib.migrate();

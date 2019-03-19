@@ -4,6 +4,7 @@ import * as fs from "fs";
 import * as path from "path";
 import * as winston from "winston";
 import { ParseOptionsError } from "./error/";
+import { templates } from "./templates";
 
 const {
   format
@@ -16,13 +17,12 @@ const {
 } = format;
 
 const logContainer = new winston.Container();
-const pid = process.pid;
-const env = process.env.NODE_ENV;
-const envString = pid;
 
 const logger = console;
 
 const logFormat = printf((info) => {
+  const pid = process.pid;
+  const envString = pid;
   const component = info.label;
   const level = info.level;
   const text = info.message;
@@ -91,24 +91,27 @@ export abstract class Util {
       });
       const logsFolder = path.resolve(process.env.MICRO_DIRNAME, "logs");
       const dbFolder = path.resolve(process.env.MICRO_DIRNAME, "db");
+      const dbConfigFolder = path.resolve(dbFolder, "config");
       const migrationsFolder = path.resolve(dbFolder, "migrations");
       const modelsFolder = path.resolve(dbFolder, "models");
       const seedersFolder = path.resolve(dbFolder, "seeders");
       const sequelizercPath = path.resolve(process.env.MICRO_DIRNAME, ".sequelizerc");
       const modelLoaderPath = path.resolve(modelsFolder, "index.js");
+      const dbConfigFilePath = path.resolve(dbConfigFolder, "index.js");
       if (!fs.existsSync(logsFolder)) {
         fs.mkdirSync(logsFolder);
       }
       if (!fs.existsSync(dbFolder)) {
         fs.mkdirSync(dbFolder);
       }
+      if (!fs.existsSync(dbConfigFolder)) {
+        fs.mkdirSync(dbConfigFolder);
+      }
+      if (!fs.existsSync(dbConfigFilePath)) {
+        fs.writeFileSync(dbConfigFilePath, templates.dbConfig);
+      }
       if (!fs.existsSync(sequelizercPath)) {
-        fs.writeFileSync(sequelizercPath,
-          `const {sequelizercConfig} = require('microscript');
-
-module.exports = sequelizercConfig();
-`
-        );
+        fs.writeFileSync(sequelizercPath, templates.sequelizerc);
       }
       if (!fs.existsSync(migrationsFolder)) {
         fs.mkdirSync(migrationsFolder);
@@ -117,14 +120,7 @@ module.exports = sequelizercConfig();
         fs.mkdirSync(modelsFolder);
       }
       if (!fs.existsSync(modelLoaderPath)) {
-        fs.writeFileSync(modelLoaderPath,
-          `'use strict';
-
-const { setupDB } = require('microscript');
-
-module.exports = setupDB();
-`
-        );
+        fs.writeFileSync(modelLoaderPath, templates.modelsIndex);
       }
       if (!fs.existsSync(seedersFolder)) {
         fs.mkdirSync(seedersFolder);

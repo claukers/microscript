@@ -16,11 +16,12 @@ const script = require(scriptPath);
 /* tslint:enable */
 
 logger.debug(`setting up express`);
-// TODO create and setup express
-const app = null;
 
 logger.debug(`launching script [${scriptPath}]`);
-script(app).catch((e) => {
+let app = null;
+script().then((scriptApp) => {
+  app = scriptApp;
+}).catch((e) => {
   logger.error(e);
   logger.error(e.stack);
 });

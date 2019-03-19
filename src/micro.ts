@@ -5,9 +5,12 @@ import * as scriptpool from "script-pool";
 
 const logger = console;
 
+export type IMode = "cluster" | "fork" | "simple";
+
 export interface IMicroConfig {
   name: string;
-  nodes: number;
+  nodes?: number;
+  mode?: IMode;
   service: string;
 }
 
@@ -15,6 +18,8 @@ export class Micro extends EventEmitter {
   private pool;
   constructor(config?: IMicroConfig) {
     super();
+    // TODO use config.mode
+    // TODO check nodes warn if set when config mode simple
     this.pool = scriptpool.createClusterPool({
       min: config.nodes,
       max: config.nodes,

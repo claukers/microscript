@@ -19,4 +19,5 @@ if (!fs.existsSync(service)) {
 }
 
 Util.setupInstanceEnv("seed", service);
+Util.loadConfig();
 lib.seed();

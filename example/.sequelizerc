@@ -1,3 +1,8 @@
-const {sequelizercConfig} = require("../dist");
+const path = require("path");
 
-module.exports = sequelizercConfig();
+module.exports = {
+  "config": path.resolve(__dirname, "db", "config", "index.js"),
+  "migrations-path": path.resolve(__dirname, "db", "migrations"),
+  "seeders-path": path.resolve(__dirname, "db", "seeders"),
+  "models-path": path.resolve(__dirname, "db", "models"),
+};
