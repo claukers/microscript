@@ -3,7 +3,7 @@ import * as fs from "fs";
 import * as path from "path";
 import * as Sequelize from "sequelize";
 import { ISimpleMap, Util } from "../util";
-import { setupDB } from "./loader";
+import { setupDB } from "../util/loader";
 
 export type DataBaseState = "stopped" | "starting" | "started" | "startstop" | "error";
 

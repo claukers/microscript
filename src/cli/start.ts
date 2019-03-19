@@ -5,20 +5,27 @@ import * as lib from "..";
 const logger = console;
 
 const nodes = parseInt(process.argv[3], 10);
-const name = process.argv[4];
-const modulePath = process.argv[5];
+const mode = process.argv[4];
+const name = process.argv[5];
+const modulePath = process.argv[6];
 
-if (process.argv.length !== 6) {
-  throw new Error(`usage: microscript start <nodes> <name> <microservice.js>`);
+if (process.argv.length !== 7) {
+  throw new Error(`usage: microscript start <nodes> <mode> <name> <microservice.js>`);
 }
 if (isNaN(nodes)) {
-  throw new Error(`<nodes> must be a number!\nusage: microscript start <nodes> <name> <microservice.js>`);
+  throw new Error(`<nodes> must be a number!\nusage: microscript start <nodes> <mode> <name> <microservice.js>`);
+}
+if (typeof mode !== "string") {
+  throw new Error(`<mode> must be a string!\nusage: microscript start <nodes> <mode> <name> <microservice.js>`);
+}
+if (["cluster", "simple"].indexOf(mode) === -1) {
+  throw new Error(`<mode> only can be a cluster or simple!\nusage: microscript start <nodes> <mode> <name> <microservice.js>`);
 }
 if (typeof name !== "string") {
-  throw new Error(`<name> must be a string!\nusage: microscript start <nodes> <name> <microservice.js>`);
+  throw new Error(`<name> must be a string!\nusage: microscript start <nodes> <mode> <name> <microservice.js>`);
 }
 if (typeof modulePath !== "string") {
-  throw new Error(`<microservice.js> must be a string!\nusage: microscript start <nodes> <name> <microservice.js>`);
+  throw new Error(`<microservice.js> must be a string!\nusage: microscript start <nodes> <mode> <name> <microservice.js>`);
 }
 
 const service = path.resolve(modulePath);
@@ -30,7 +37,8 @@ if (!fs.existsSync(service)) {
 const micro = new lib.Micro({
   name,
   service,
-  nodes
+  nodes,
+  mode: mode as any
 });
 
 micro.start().catch((e) => {
