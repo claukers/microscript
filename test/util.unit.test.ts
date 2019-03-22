@@ -47,7 +47,7 @@ describe('lib.Util.parseOptions unit tests', function () {
     rewiremock.default.disable();
     done();
   });
-  it('simple check no_extra', (done) => {
+  it('simple valid check no_extra', (done) => {
     const test = async () => {
       const { Util } = require("../src/util/util");
       const ret = Util.parseOptions("argName", {
@@ -74,6 +74,34 @@ describe('lib.Util.parseOptions unit tests', function () {
       chai.expect(typeof ret.object).to.be.equals("object");
       chai.expect(ret.stringArray.length).to.be.equals(2);
       chai.expect(ret.numberArray.length).to.be.equals(3);
+    };
+    test().then(done).catch(done);
+  });
+  it('simple invalid number check no_extra', (done) => {
+    const test = async () => {
+      try {
+        const { Util } = require("../src/util/util");
+        Util.parseOptions("argName", {
+          number: "number",
+          string: "string",
+          boolean: true,
+          object: {
+
+          },
+          stringArray: ["", ""],
+          numberArray: [1, 2, 3]
+        }, [
+            { name: "number", type: "number", required: true },
+            { name: "string", type: "string", required: true },
+            { name: "boolean", type: "boolean", required: true },
+            { name: "object", type: "object", required: true },
+            { name: "stringArray", type: "array", arrayType: "string", required: true },
+            { name: "numberArray", type: "array", arrayType: "number", required: true }
+          ], "no_extra");
+        chai.expect(false).to.be.equals(true);
+      } catch (e) {
+        chai.expect(e.message).to.be.equals("argName.number not number");
+      }
     };
     test().then(done).catch(done);
   });
