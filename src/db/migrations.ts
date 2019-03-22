@@ -12,7 +12,6 @@ export const makemigrations = () => {
         cwd: dbFolder,
         env: process.env,
         windowsHide: true
-
       }
     ).toString());
   } catch (e) {
@@ -46,7 +45,7 @@ export const seed = () => {
         env: process.env,
         windowsHide: true
       }
-      ).toString());
+    ).toString());
   } catch (e) {
     logger.error(e.message);
   }

@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
-import { Micro } from "../micro";
+import { Miqro } from "../miqro";
 
 const logger = console;
 
@@ -34,7 +34,7 @@ if (!fs.existsSync(service)) {
   throw new Error(`microservice [${service}] doesnt exists!`);
 }
 
-const micro = new Micro({
+const micro = new Miqro({
   name,
   service,
   nodes,

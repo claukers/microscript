@@ -1,12 +1,11 @@
-import * as child_process from "child_process";
 import { EventEmitter } from "events";
 import * as path from "path";
 import * as scriptpool from "script-pool";
-import { setupInstance, runInstance } from "./util/loader";
+import { runInstance, setupInstance } from "./util/loader";
 
 const logger = console;
 
-export type IMode = "cluster" /*| "fork"*/ | "simple";
+export type IMode = "cluster" | "fork" | "simple";
 
 export interface IMicroConfig {
   name: string;
@@ -15,8 +14,9 @@ export interface IMicroConfig {
   service: string;
 }
 
-export class Micro extends EventEmitter {
+export class Miqro extends EventEmitter {
   private pool;
+  private instanceApp;
   private simpleInstance = null;
   constructor(private config: IMicroConfig) {
     super();
@@ -34,7 +34,10 @@ export class Micro extends EventEmitter {
           this.emit("factoryDestroyError", err);
         });
         break;
-      /*case "fork":
+      case "fork":
+        if (config.nodes !== 1) {
+          throw new Error(`${config.nodes} not supported in fork mode (try 1 or cluster mode)!`);
+        }
         this.pool = scriptpool.createForkPool({
           min: config.nodes,
           max: config.nodes,
@@ -46,14 +49,14 @@ export class Micro extends EventEmitter {
         this.pool.on("factoryDestroyError", (err) => {
           this.emit("factoryDestroyError", err);
         });
-        break;*/
+        break;
       case "simple":
         if (config.nodes !== 1) {
           throw new Error(`${config.nodes} not supported in simple mode (try 1 or cluster mode)!`);
         }
         break;
       default:
-        throw new Error(`${config.mode} not supported!`);
+        throw new Error(`mode ${config.mode} not supported!`);
     }
     // TODO use config.mode
     // TODO check nodes warn if set when config mode simple
@@ -64,13 +67,15 @@ export class Micro extends EventEmitter {
       await this.pool.start();
     } else if (this.config.mode === "simple") {
       this.simpleInstance = setupInstance(this.config.name, this.config.service);
-      await runInstance(this.simpleInstance.logger, this.simpleInstance.script, this.config.service);
+      this.instanceApp = await runInstance(this.simpleInstance.logger, this.simpleInstance.script, this.config.service);
     }
   }
   public async stop() {
     if (this.pool) {
       await this.pool.drain();
       await this.pool.clear();
+    } else if (this.instanceApp) {
+      this.instanceApp.server.close();
     }
   }
 }

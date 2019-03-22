@@ -1,6 +1,4 @@
 import { EventEmitter } from "events";
-import * as fs from "fs";
-import * as path from "path";
 import * as Sequelize from "sequelize";
 import { ISimpleMap, Util } from "../util";
 import { setupDB } from "../util/loader";
@@ -27,7 +25,7 @@ export class Database extends EventEmitter {
   constructor() {
     super();
     if (logger === null) {
-      logger = Util.getLogger("DataBase");
+      logger = Util.getLogger("Database");
     }
     const requiredEnvVariables = ["DB_DROPTABLES"];
     Util.checkEnvVariables(requiredEnvVariables);
@@ -38,20 +36,6 @@ export class Database extends EventEmitter {
         this.models[modelName] = models[modelName];
       }
     });
-  }
-
-  public async transaction(transactionCB: (t: Sequelize.Transaction) => PromiseLike<any>) {
-    await this.sequelize.transaction((t: Sequelize.Transaction) => {
-      return transactionCB(t);
-    });
-  }
-
-  public async query(q: { query: string, values: any[] }, t?) {
-    if (t) {
-      return this.sequelize.query(q, { transaction: t });
-    } else {
-      return this.sequelize.query(q);
-    }
   }
 
   public async start() {
