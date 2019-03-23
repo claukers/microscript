@@ -2,10 +2,15 @@ import { describe, it, before, after } from 'mocha';
 import * as chai from 'chai';
 import * as sinon from 'sinon';
 import * as path from 'path';
-import * as rewiremock from 'rewiremock';
+import rewiremockdefault, * as rewiremock from 'rewiremock';
 
 describe('lib.util.loader unit tests', function () {
   this.timeout(100000);
+  const fakeMiddleware = {
+    setupMiddleware: sinon.fake(async () => {
+
+    })
+  }
   const fakeLogger = {
     info: sinon.fake(),
     error: sinon.fake()
@@ -46,6 +51,7 @@ describe('lib.util.loader unit tests', function () {
     rewiremock.default("nodeScript").with(fakeScriptModule);
     rewiremock.default(pathrc).with({ "models-path": "models" });
     rewiremock.default("models").with(fakeModels);
+    rewiremock.default("../middleware").with(fakeMiddleware);
     rewiremock.default.enable();
     done();
   });
@@ -87,11 +93,13 @@ describe('lib.util.loader unit tests', function () {
       const oldCount = fakeExpress.callCount;
       const oldCount2 = fakeApp.listen.callCount;
       const oldCount3 = FakeUtil.checkEnvVariables.callCount;
+      const oldCount4 = fakeMiddleware.setupMiddleware.callCount;
       const loaders = require("../src/util/loader");
       await loaders.runInstance(fakeLogger, fakeScriptModule, "nodeScript");
       chai.expect(fakeExpress.callCount).to.be.equals(oldCount + 1);
       chai.expect(fakeApp.listen.callCount).to.be.equals(oldCount2 + 1);
       chai.expect(FakeUtil.checkEnvVariables.callCount).to.be.equals(oldCount3 + 1);
+      chai.expect(fakeMiddleware.setupMiddleware.callCount).to.be.equals(oldCount4 + 1);
     };
     test().then(done).catch(done);
   });

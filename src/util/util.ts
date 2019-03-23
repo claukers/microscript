@@ -228,7 +228,14 @@ export abstract class Util {
         ]
       });
     }
-    return logContainer.get(identifier);
+    const loggerO = logContainer.get(identifier);
+    (loggerO as any).stream = {
+      write: (message, encoding) => {
+        // use the 'info' log level so the output will be picked up by both transports (file and console)
+        loggerO.info(message.trim());
+      }
+    };
+    return loggerO;
   }
   private static configLoaded: boolean = false;
 }

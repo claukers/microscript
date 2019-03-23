@@ -31,6 +31,9 @@ export class Database extends EventEmitter {
     Util.checkEnvVariables(requiredEnvVariables);
     const models = setupDB();
     this.sequelize = models.sequelize;
+    (this.sequelize as any).log = (text) => {
+      logger.debug(text);
+    };
     Object.keys(models).forEach((modelName) => {
       if (modelName !== "sequelize" && modelName !== "Sequelize") {
         this.models[modelName] = models[modelName];
