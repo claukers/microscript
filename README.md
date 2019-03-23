@@ -2,7 +2,7 @@
 
 little framework for creating microservices with **express**, **sequelize** and **sequelize-auto-migrations**.
 
-- Database models **auto-migration**.
+- Database **auto-migration**.
 
 - **Route->ModelService->Model** pattern base classes.
 
@@ -195,6 +195,6 @@ example 1 simple node
 
 **simple mode is usefull for debugging the service**
 
-## api
+## documentation
 
 TODO
