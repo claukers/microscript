@@ -19,7 +19,7 @@ little framework for creating microservices with **express**, **sequelize** and 
 
 ```javascript
 const {
-  ModelServiceRoute, 
+  ModelRoute, 
   ModelService,
   Database
 } = require("miqro");
@@ -29,7 +29,7 @@ const db = Database.getInstance();
 
 module.exports = async (app) => {
   app.use("/post", 
-    new ModelServiceRoute(
+    new ModelRoute(
       new ModelService(
         db.models.post
       )

@@ -15,6 +15,18 @@ export class ServiceRoute extends Route {
     super();
     logger = Util.getLogger("ServiceRoute");
   }
+  public get(route, handler: IServiceHandler) {
+    this.addRoute("get", route, handler);
+  }
+  public post(route, handler: IServiceHandler) {
+    this.addRoute("post", route, handler);
+  }
+  public delete(route, handler: IServiceHandler) {
+    this.addRoute("delete", route, handler);
+  }
+  public patch(route, handler: IServiceHandler) {
+    this.addRoute("patch", route, handler);
+  }
   protected addRoute(method: string, route: string, handler: IServiceHandler) {
     this.router[method](route, async (req, res, next) => {
       try {
