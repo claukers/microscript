@@ -19,3 +19,9 @@ query.js
 apidoc/
 .vscode/
 /nbproject/private/
+example/logs
+example/.sequelizerc
+example/config/log.js
+example/models/index.js
+example/migrations
+example/seeders
