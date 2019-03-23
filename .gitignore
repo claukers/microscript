@@ -24,5 +24,9 @@ example/.sequelizerc
 example/config/log.js
 example/db/config
 example/db/models/index.js
+example/db/models/account.js
+example/db/models/accountuser.js
+example/db/models/token.js
+example/db/models/user.js
 example/db/migrations
 example/db/seeders

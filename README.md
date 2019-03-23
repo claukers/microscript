@@ -2,17 +2,19 @@
 
 little framework for creating microservices with **express**, **sequelize** and **sequelize-auto-migrations**.
 
-- Database **auto-migration**.
+- database **auto-migration**.
 
-- **Route->ModelService->Model** pattern base classes.
+- **route->modelservice->model** pattern base classes.
 
-- Runner for cluster and debug.
+- optional **jwt** implementation.
 
-- Configuration for multiple enviroments with dotenv files.
+- runner for cluster, fork and debug.
+
+- configuration for multiple enviroments with dotenv files.
   
-- All project configuration, migrations, seeders and models are independant of **miqro** so you can **eject** your microservice easily from **miqro** and/or use another runner like **pm2**.
+- all project configuration, migrations, seeders and models are independant of **miqro** so you can **eject** your microservice easily from **miqro** and/or use another runner like **pm2**.
 
-- Exports type files for using miqro with **Typescript**.
+- exports type files for using miqro with **Typescript**.
 
 
 ## posts.js
@@ -145,6 +147,237 @@ or directly with node inspect.
 ## configuration
 
 by default all configuration is done with env variables. You can load the env variables using the ```Util.loadConfig()``` call. This will load the correct **dotenv** file located in ```$MIQRO_DIRNAME/config/$NODE_ENV.env```.
+
+## jwt
+
+miqro provides a very simple implementation of jwt using the **jsonwebtoken** module. Like every piece of miqro the use of this is optional. 
+
+**NOTE** it's recommended that you put a API Gateway or Managment software on top of your miqroservices than implementing authentication directly on yout service.
+
+#### setup account, user, token database models
+
+create ```$MIQRO_DIRNAME/db/models/account.js```
+
+```javascript
+'use strict';
+module.exports = (sequelize, DataTypes) => {
+  const account = sequelize.define('account', {
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    type: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    valid: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false
+    }
+  }, {});
+  account.associate = function (models) {
+  };
+  return account;
+};
+```
+
+create ```$MIQRO_DIRNAME/db/models/user.js```
+
+```javascript
+'use strict';
+module.exports = (sequelize, DataTypes) => {
+  const user = sequelize.define('user', {
+    name: {
+      type: DataTypes.STRING,
+      primaryKey: true,
+      allowNull: false
+    },
+    role: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    valid: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false
+    }
+  }, {});
+  user.associate = function (models) {
+  };
+  return user;
+};
+```
+
+create ```$MIQRO_DIRNAME/db/models/accountuser.js```
+
+```javascript
+'use strict';
+module.exports = (sequelize, DataTypes) => {
+  const accountuser = sequelize.define('accountuser', {
+    valid: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false
+    },
+    role: {
+      type: DataTypes.STRING,
+      allowNull: false
+    }
+  }, {});
+  accountuser.associate = function (models) {
+    models.user.belongsToMany(models.account, { through: models.accountuser });
+    models.account.belongsToMany(models.user, { through: models.accountuser });
+  };
+  return accountuser;
+};
+```
+
+create ```$MIQRO_DIRNAME/db/models/token.js```
+
+```javascript
+'use strict';
+module.exports = (sequelize, DataTypes) => {
+  const token = sequelize.define('token', {
+    token: {
+      type: DataTypes.STRING,
+      primaryKey: true,
+      allowNull: false
+    },
+    expiration: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    valid: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false
+    }
+  }, {});
+  token.associate = function (models) {
+    models.token.belongsTo(models.user);
+    models.user.hasMany(models.token);
+  };
+  return token;
+};
+```
+
+**NOTE** you can add more complex models if you like. the above is the minimal setup.
+
+#### setup jwt_header, jwt_secret and default expiration
+
+edit your ```$MIQRO_DIRNAME/config/$NODE_ENV.env``` file and add this.
+
+```dotenv
+JWT_HEADER=X-MYSERVICE-TOKEN
+JWT_SECRET=super secret
+JWT_EXPIRATION=3d
+```
+
+#### create a protected route
+
+a protected route is a route that can only be access with a valid token. the token must be in the incoming **request header** called like the **JWT_HEADER** env variable. 
+
+the **JWT_HEADER** env variable can be set in the ```$MIQRO_DIRNAME/config/$NODE_ENV.env``` dotenv file.
+
+```javascript
+...
+const { ProtectedRoute } = require("miqro");
+...
+// create a protected route
+const api = new ProtectedRoute();
+// add some protected routes
+// keep in mind that the role of the user will NOT be checked so add that logic to your service
+api.router.get("/secrets");
+api.router.use("/user", new ModelRoute(new ModelService(db.models.user)));
+...
+// attach route
+app.use("/api/v1", api.routes());
+```
+
+#### add the login, logout routes
+
+```javascript
+...
+const { AuthRoute } = require("miqro");
+...
+// create a auth route
+const auth = new AuthRoute();
+// attach route
+app.use("/auth", auth.routes());
+...
+```
+
+**NOTE** attach the AuthRoute in a non-protected route te be accesible.
+
+this AuthRoute consist in.
+
+
+
+- **POST** ```/login```
+
+  - get a valid token with username/password
+
+    - request
+
+      - body.username: string // the username
+
+      - body.password: string // the password
+
+    - response
+
+      - status 200 | 400
+    
+      - body.success: boolean // true if successfull
+
+      - body.message: string // message of what happend
+
+      - body.username?: string // the username
+
+      - body.accounts?: string[] // the list of accounts the user belongs to
+
+      - body.token?: string // token if successfull
+
+
+- **GET** ```/login``` 
+
+  - get the user information via the token
+
+    - request
+
+      - header.$JWT_HEADER: token
+
+    - response
+
+      - status 200 | 400
+    
+      - body.success: boolean // true if successfull
+
+      - body.message: string // message of what happend
+
+      - body.username?: string // the username
+
+      - body.accounts?: string[] // the list of accounts the user belongs to
+
+
+- **GET** ```/logout```
+
+  - invalidate a valid token
+
+    - request
+
+      - header.$JWT_HEADER: token
+
+    - response
+
+      - status 200 | 400
+    
+      - body.success: boolean // true if successfull
+
+      - body.message: string // message of what happend
+
 
 ## using miqro without the runner
 
