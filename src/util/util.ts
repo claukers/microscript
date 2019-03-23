@@ -5,6 +5,7 @@ import * as path from "path";
 import * as winston from "winston";
 import { ParseOptionsError } from "./error/";
 import { templates } from "./templates";
+import { winstonConfig } from "./loader";
 
 const {
   format
@@ -62,25 +63,25 @@ export interface ISimpleMap<T2> {
 export abstract class Util {
   public static sha256 = (data) => crypto.createHash("sha256").update(data, "utf8").digest("base64");
   public static setupSimpleEnv() {
-    Util.checkEnvVariables(["MICRO_DIRNAME"]);
+    Util.checkEnvVariables(["MIQRO_DIRNAME"]);
     const NODE_ENV = process.env.NODE_ENV || "development";
     process.env.NODE_ENV = NODE_ENV;
-    const logsFolder = path.resolve(process.env.MICRO_DIRNAME, "logs");
+    const logsFolder = path.resolve(process.env.MIQRO_DIRNAME, "logs");
     process.env.LOG_FILE = path.resolve(logsFolder, `${process.env.NODE_ENV}.log`);
     process.env.LOG_FILE_TRACE = path.resolve(logsFolder, `${process.env.NODE_ENV}-trace.log`);
   }
   public static setupInstanceEnv(serviceName: string, scriptPath: string) {
     const microDirname = path.resolve(path.dirname(scriptPath), "..");
     process.chdir(microDirname);
-    process.env.MICRO_DIRNAME = microDirname;
+    process.env.MIQRO_DIRNAME = microDirname;
     process.env.MICRO_NAME = serviceName;
     Util.setupSimpleEnv();
   }
   public static loadConfig() {
-    Util.checkEnvVariables(["MICRO_DIRNAME"]);
+    Util.checkEnvVariables(["MIQRO_DIRNAME"]);
     if (!Util.configLoaded) {
       Util.setupSimpleEnv();
-      const configPath = path.resolve(process.env.MICRO_DIRNAME, "config", `${process.env.NODE_ENV}.env`);
+      const configPath = path.resolve(process.env.MIQRO_DIRNAME, "config", `${process.env.NODE_ENV}.env`);
       if (!fs.existsSync(configPath)) {
         throw new Error(`[${configPath}] env file doesnt exists!`);
       } else {
@@ -89,15 +90,19 @@ export abstract class Util {
       config({
         path: configPath
       });
-      const logsFolder = path.resolve(process.env.MICRO_DIRNAME, "logs");
-      const dbFolder = path.resolve(process.env.MICRO_DIRNAME, "db");
+      const logsFolder = path.resolve(process.env.MIQRO_DIRNAME, "logs");
+      const dbFolder = path.resolve(process.env.MIQRO_DIRNAME, "db");
       const dbConfigFolder = path.resolve(dbFolder, "config");
       const migrationsFolder = path.resolve(dbFolder, "migrations");
       const modelsFolder = path.resolve(dbFolder, "models");
       const seedersFolder = path.resolve(dbFolder, "seeders");
-      const sequelizercPath = path.resolve(process.env.MICRO_DIRNAME, ".sequelizerc");
+      const sequelizercPath = path.resolve(process.env.MIQRO_DIRNAME, ".sequelizerc");
       const modelLoaderPath = path.resolve(modelsFolder, "index.js");
+      const logjsPath = path.resolve(process.env.MIQRO_DIRNAME, "config", "log.js");
       const dbConfigFilePath = path.resolve(dbConfigFolder, "index.js");
+      if (!fs.existsSync(logjsPath)) {
+        fs.writeFileSync(logjsPath, templates.logjs);
+      }
       if (!fs.existsSync(logsFolder)) {
         fs.mkdirSync(logsFolder);
       }
@@ -136,11 +141,11 @@ export abstract class Util {
     });
   }
   public static parseOptions(argName,
-                             arg: { [name: string]: any },
-                             optionsArray: Array<{
+    arg: { [name: string]: any },
+    optionsArray: Array<{
       name: string, type: string, arrayType?: string, required: boolean
     }>,
-                             parserOption: IOPTIONPARSER = "no_extra"): { [name: string]: any } {
+    parserOption: IOPTIONPARSER = "no_extra"): { [name: string]: any } {
     const ret = {};
     if (typeof arg !== "object" || !arg) {
       throw new ParseOptionsError(`${argName} not valid`);
@@ -198,35 +203,13 @@ export abstract class Util {
   }
   public static getLogger(identifier: string) {
     Util.loadConfig();
-    Util.checkEnvVariables(["LOG_LEVEL", "LOG_FILE", "LOG_FILE_TRACE"]);
     if (typeof identifier !== "string") {
       throw new Error("Bad log identifier");
     }
     if (!logContainer.has(identifier)) {
-
-      const level = process.env[`LOG_LEVEL_${identifier}`] || process.env.LOG_LEVEL;
-      logContainer.add(identifier, {
-        format: combine(
-          label({
-            label: identifier
-          }),
-          timestamp(),
-          logFormat
-        ),
-        transports: [
-          new winston.transports.Console({
-            level
-          }),
-          new winston.transports.File({
-            level,
-            filename: path.resolve(process.env.LOG_FILE)
-          }),
-          new winston.transports.File({
-            level: "silly",
-            filename: path.resolve(process.env.LOG_FILE_TRACE)
-          })
-        ]
-      });
+      const configMaker = winstonConfig();
+      const config = configMaker(identifier);
+      logContainer.add(identifier, config);
     }
     const loggerO = logContainer.get(identifier);
     (loggerO as any).stream = {

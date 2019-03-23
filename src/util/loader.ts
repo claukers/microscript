@@ -6,8 +6,14 @@ import { setupMiddleware } from "../middleware";
 import { Util } from "../util";
 
 export const setupDB = () => {
-  const sequelizerc = require(path.resolve(process.env.MICRO_DIRNAME, ".sequelizerc"));
+  const sequelizerc = require(path.resolve(process.env.MIQRO_DIRNAME, ".sequelizerc"));
   return require(sequelizerc["models-path"]);
+};
+
+export const winstonConfig = () => {
+  const logPath = path.resolve(process.env.MIQRO_DIRNAME, "config", "log.js");
+  const logConfig = require(logPath);
+  return logConfig;
 };
 
 export const setupInstance = (serviceName, scriptPath) => {
@@ -16,7 +22,7 @@ export const setupInstance = (serviceName, scriptPath) => {
 
   const logger = Util.getLogger(`${serviceName}`);
 
-  logger.info(`config loaded from [${process.env.MICRO_DIRNAME}]`);
+  logger.info(`config loaded from [${process.env.MIQRO_DIRNAME}]`);
 
   logger.info(`loading script from [${scriptPath}]!`);
   /* tslint:disable */
