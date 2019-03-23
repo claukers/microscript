@@ -57,7 +57,8 @@ create a service file ```src/posts.js``` like this.
 const {
   ModelRoute, 
   ModelService,
-  Database
+  Database,
+  Util
 } = require("miqro");
 
 const logger = Util.getLogger("posts.js");
@@ -74,7 +75,7 @@ module.exports = async (app) => {
 };
 ```
 
-create a database model file ```db/models/posts.js```.
+create a database model file ```db/models/post.js```.
 
 ```javascript
 'use strict';
