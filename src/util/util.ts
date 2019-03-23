@@ -7,32 +7,9 @@ import { ParseOptionsError } from "./error/";
 import { templates } from "./templates";
 import { winstonConfig } from "./loader";
 
-const {
-  format
-} = winston;
-const {
-  combine,
-  label,
-  printf,
-  timestamp
-} = format;
-
 const logContainer = new winston.Container();
 
 const logger = console;
-
-const logFormat = printf((info) => {
-  const pid = process.pid;
-  const envString = pid;
-  const component = info.label;
-  const level = info.level;
-  const text = info.message;
-  const ret = `${new Date(info.timestamp).getTime()} ${envString} ` +
-    `[${component}] ` +
-    `${level !== "info" ? (level === "error" || level === "warn" ? `[${level.toUpperCase()}] ` : `[${level}] `) : ""}` +
-    `${text}`;
-  return ret;
-});
 
 export type IOPTIONPARSER = "remove_extra" | "add_extra" | "no_extra";
 export type IParseSimpleType = "string" | "boolean" | "number" | "object";
