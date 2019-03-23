@@ -9,7 +9,9 @@ const cmds: ISimpleMap<{ module: string; description: string }> = {
   makemigrations: { module: "./makemigrations", description: "seeks changes in your microservice models and creates database migrations" },
   migrate: { module: "./migrate", description: "runs the migrations" },
   automigrate: { module: "./automigrate", description: "runs makemigrations and migrate together" },
-  seed: { module: "./seed", description: "seeds your db" }
+  seed: { module: "./seed", description: "seeds your db" },
+  init: { module: "./init", description: "inits your config folder (MIQRO_DIRNAME)" },
+  reset: { module: "./reset", description: "delete custom made config files." }
 };
 
 const main = async () => {
