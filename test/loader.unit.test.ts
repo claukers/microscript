@@ -63,11 +63,11 @@ describe('lib.util.loader unit tests', function () {
     const test = async () => {
       const loaders = require("../src/util/loader");
       const { setupDB } = loaders;
-      const oldDIR = process.env.MICRO_DIRNAME;
-      process.env.MICRO_DIRNAME = "";
+      const oldDIR = process.env.MIQRO_DIRNAME;
+      process.env.MIQRO_DIRNAME = "";
       const ret = setupDB();
       chai.expect(ret).to.be.equals(fakeModels);
-      process.env.MICRO_DIRNAME = oldDIR;
+      process.env.MIQRO_DIRNAME = oldDIR;
     };
     test().then(done).catch(done);
   });

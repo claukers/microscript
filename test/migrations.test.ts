@@ -33,8 +33,8 @@ describe('lib.db.migrations.makemigrations/migrate/seed unit tests', function ()
   });
   it('makemigrations', (done) => {
     const test = async () => {
-      const oldDIR = process.env.MICRO_DIRNAME;
-      process.env.MICRO_DIRNAME = "BLA";
+      const oldDIR = process.env.MIQRO_DIRNAME;
+      process.env.MIQRO_DIRNAME = "BLA";
       const migrations = require('../src/db/migrations');
       const oldCount = fakePath.resolve.callCount;
       const oldCount2 = fakeCP.execSync.callCount;
@@ -49,14 +49,14 @@ describe('lib.db.migrations.makemigrations/migrate/seed unit tests', function ()
       chai.expect(lastCPOptions.cwd).to.be.equals("BLA");
       chai.expect(lastCPOptions.env).to.be.equals(process.env);
       chai.expect(lastCPOptions.windowsHide).to.be.equals(true);
-      process.env.MICRO_DIRNAME = oldDIR;
+      process.env.MIQRO_DIRNAME = oldDIR;
     };
     test().then(done).catch(done);
   });
   it('migrate', (done) => {
     const test = async () => {
-      const oldDIR = process.env.MICRO_DIRNAME;
-      process.env.MICRO_DIRNAME = "BLA";
+      const oldDIR = process.env.MIQRO_DIRNAME;
+      process.env.MIQRO_DIRNAME = "BLA";
       const migrations = require('../src/db/migrations');
       const oldCount = fakePath.resolve.callCount;
       const oldCount2 = fakeCP.execSync.callCount;
@@ -71,14 +71,14 @@ describe('lib.db.migrations.makemigrations/migrate/seed unit tests', function ()
       chai.expect(lastCPOptions.cwd).to.be.equals("BLA");
       chai.expect(lastCPOptions.env).to.be.equals(process.env);
       chai.expect(lastCPOptions.windowsHide).to.be.equals(true);
-      process.env.MICRO_DIRNAME = oldDIR;
+      process.env.MIQRO_DIRNAME = oldDIR;
     };
     test().then(done).catch(done);
   });
   it('seed', (done) => {
     const test = async () => {
-      const oldDIR = process.env.MICRO_DIRNAME;
-      process.env.MICRO_DIRNAME = "BLA";
+      const oldDIR = process.env.MIQRO_DIRNAME;
+      process.env.MIQRO_DIRNAME = "BLA";
       const migrations = require('../src/db/migrations');
       const oldCount = fakePath.resolve.callCount;
       const oldCount2 = fakeCP.execSync.callCount;
@@ -93,7 +93,7 @@ describe('lib.db.migrations.makemigrations/migrate/seed unit tests', function ()
       chai.expect(lastCPOptions.cwd).to.be.equals("BLA");
       chai.expect(lastCPOptions.env).to.be.equals(process.env);
       chai.expect(lastCPOptions.windowsHide).to.be.equals(true);
-      process.env.MICRO_DIRNAME = oldDIR;
+      process.env.MIQRO_DIRNAME = oldDIR;
     };
     test().then(done).catch(done);
   });
