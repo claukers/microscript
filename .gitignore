@@ -22,6 +22,7 @@ apidoc/
 example/logs
 example/.sequelizerc
 example/config/log.js
-example/models/index.js
-example/migrations
-example/seeders
+example/db/config
+example/db/models/index.js
+example/db/migrations
+example/db/seeders
