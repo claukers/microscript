@@ -17,4 +17,23 @@ export class ModelService extends AbstractModelService {
       where: options.what
     });
   }
+  public async post(options: IPostArgs): Promise<any> {
+    return this.model.create(options.post);
+  }
+  public async patch(options: IPatchArgs): Promise<any> {
+    const instances = await this.get(options);
+    if (instances.length === 1) {
+      return await instances[0].update(options.patch);
+    } else {
+      return null;
+    }
+  }
+  public async delete(options: IGetArgs): Promise<any> {
+    const instances = await this.get(options);
+    if (instances.length === 1) {
+      return await instances[0].destroy();
+    } else {
+      return null;
+    }
+  }
 }

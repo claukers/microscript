@@ -40,6 +40,8 @@ export class ServiceRoute extends Route {
           new NotFoundResponse().send(res);
         } else if (e.isParserOptionsError) {
           new BadRequestResponse(e.message).send(res);
+        } else if (e.name === "SequelizeValidationError") {
+          new BadRequestResponse(e.message).send(res);
         } else {
           logger.error(e);
         }
