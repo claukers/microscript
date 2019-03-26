@@ -31,5 +31,7 @@ module.exports = async (app) => {
     allowedMethods: ["GET"]
   }).routes());
 
+  logger.info("app init done");
+
   return app;
 };
