@@ -2,7 +2,7 @@ import * as express from "express";
 import { IModelService, ISession } from "../service";
 import { Util } from "../util";
 import { IAPIRequest, ModelServiceResponse } from "./response";
-import { ServiceRoute } from "./service";
+import { ServiceRoute, IServiceRouteOptions } from "./service";
 
 let logger = null;
 
@@ -12,8 +12,8 @@ export class ModelRoute extends ServiceRoute {
   ) {
     return;
   }
-  constructor(protected service: IModelService) {
-    super();
+  constructor(protected service: IModelService, options?: IServiceRouteOptions) {
+    super(options);
     if (!logger) {
       logger = Util.getLogger("ModelServiceRoute");
     }

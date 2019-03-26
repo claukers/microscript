@@ -1,3 +1,3 @@
 export * from "./common";
-export * from "./amodel";
 export * from "./model";
+export * from "./auth";

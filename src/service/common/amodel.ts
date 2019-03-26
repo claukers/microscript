@@ -1,4 +1,4 @@
-import { IGetArgs, IModelService, IPatchArgs, IPostArgs, MethodNotImplementedError } from "./common";
+import { IGetArgs, IModelService, IPatchArgs, IPostArgs, MethodNotImplementedError } from ".";
 
 export abstract class AbstractModelService implements IModelService {
   public async get(options: IGetArgs): Promise<any> {

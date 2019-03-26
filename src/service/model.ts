@@ -1,7 +1,7 @@
 import * as Sequelize from "sequelize";
 import { Util } from "../util";
-import { AbstractModelService } from "./amodel";
-import { IGetArgs, IModelService, IPatchArgs, IPostArgs, MethodNotImplementedError } from "./common";
+import { IGetArgs, IPatchArgs, IPostArgs, AbstractModelService } from "./common";
+import { IServiceRouteOptions } from "../route";
 
 let logger = null;
 

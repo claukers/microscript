@@ -10,31 +10,42 @@ export interface IServiceHandler {
   (req: IAPIRequest, res: express.Response, next: express.NextFunction): Promise<any>;
 }
 
+export interface IServiceRouteOptions {
+  allowedMethods?: string[]
+}
+
 export class ServiceRoute extends Route {
-  constructor() {
+  constructor(protected options?: IServiceRouteOptions) {
     super();
-    logger = Util.getLogger("ServiceRoute");
+    if (!logger) {
+      logger = Util.getLogger("ServiceRoute");
+    }
   }
-  public get(route, handler: IServiceHandler) {
+  public get(route: string, handler: IServiceHandler) {
     this.addRoute("get", route, handler);
   }
-  public post(route, handler: IServiceHandler) {
+  public post(route: string, handler: IServiceHandler) {
     this.addRoute("post", route, handler);
   }
-  public delete(route, handler: IServiceHandler) {
+  public delete(route: string, handler: IServiceHandler) {
     this.addRoute("delete", route, handler);
   }
-  public patch(route, handler: IServiceHandler) {
+  public patch(route: string, handler: IServiceHandler) {
     this.addRoute("patch", route, handler);
   }
+  public use(route: string, handler: IServiceHandler) {
+    this.addRoute(null, route, handler);
+  }
   protected addRoute(method: string, route: string, handler: IServiceHandler) {
-    this.router[method](route, async (req, res, next) => {
+    const realHandler = async (req: IAPIRequest, res, next) => {
       try {
-        // TODO get session
-        const session = null;
-        const ret = await handler(req, res, next);
-        logger.debug(`${req.method} handler ret [${ret}]`);
-        return true;
+        if (this.options && this.options.allowedMethods && this.options.allowedMethods.indexOf(req.method.toUpperCase()) === -1) {
+          new NotFoundResponse().send(res);
+        } else {
+          const ret = await handler(req, res, next);
+          logger.debug(`${req.method} handler ret [${ret}]`);
+          return ret;
+        }
       } catch (e) {
         if (e.isMethodNotImplementedError) {
           new NotFoundResponse().send(res);
@@ -46,6 +57,19 @@ export class ServiceRoute extends Route {
           logger.error(e);
         }
       }
-    });
+    };
+    if (!method) {
+      if (route) {
+        this.router.use(route, realHandler);
+      } else {
+        this.router.use(realHandler);
+      }
+    } else {
+      if (route) {
+        this.router[method](route, realHandler);
+      } else {
+        this.router[method](realHandler);
+      }
+    }
   }
 }

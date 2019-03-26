@@ -152,7 +152,7 @@ by default all configuration is done with env variables. You can load the env va
 
 miqro provides a very simple implementation of jwt using the **jsonwebtoken** module. Like every piece of miqro the use of this is optional. 
 
-**NOTE** it's recommended that you put a API Gateway or Managment software on top of your miqroservices than implementing authentication directly on yout service.
+**NOTE** it's recommended that you put a API Gateway or Managment software ( like KONG ) on top of your miqroservices than implementing authentication directly on your service.
 
 #### setup account, user, token database models
 
