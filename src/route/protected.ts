@@ -2,20 +2,28 @@ import { ServiceRoute, IServiceHandler, IServiceRouteOptions } from "./service";
 import { IAPIRequest, BadRequestResponse } from "./response";
 import * as express from "express";
 import { Util } from "../util";
-import { AuthService, ISession } from "../service";
+import { AuthService, ISession, IAuthService } from "../service";
 
 let logger = null;
 
+export interface IProtectedRouteOptions extends IServiceRouteOptions {
+  auth: IAuthService;
+}
+
 export class ProtectedRoute extends ServiceRoute {
-  private jwtInited = false;
-  private authService: AuthService;
-  constructor(options?: IServiceRouteOptions) {
+  protected jwtInited = false;
+  protected authService: IAuthService;
+  constructor(options?: IProtectedRouteOptions) {
     super(options);
     if (!logger) {
       logger = Util.getLogger("ProtectedRoute");
     }
     Util.checkEnvVariables(["JWT_HEADER"]);
-    this.authService = AuthService.getInstance();
+    if (options && options.auth) {
+      this.authService = options.auth;
+    } else {
+      this.authService = new AuthService();
+    }
   }
   protected initJwt() {
     if (!this.jwtInited) {
@@ -24,7 +32,7 @@ export class ProtectedRoute extends ServiceRoute {
         try {
           const token = req.header(process.env.JWT_HEADER);
           if (token) {
-            const session: ISession = await this.authService.verify(token);
+            const session: ISession = await this.authService.verify({ token });
             if (session) {
               req.session = session;
               next();

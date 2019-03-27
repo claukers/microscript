@@ -1,26 +1,25 @@
 import { Util } from "../util";
 import { ISession } from "./common";
+import { IAPIRequest } from "../route";
 
-export class AuthService {
-  private static instance = null;
-  public static getInstance() {
-    if (!AuthService.instance) {
-      AuthService.instance = new AuthService();
-    }
-    return AuthService.instance;
-  }
+export interface IAuthService {
+  verify(options: { token: string }): Promise<ISession>;
+  authenticate(req: IAPIRequest): Promise<ISession>;
+}
+
+export class AuthService implements IAuthService {
   constructor() {
     Util.checkEnvVariables(["JWT_SECRET", "JWT_EXPIRATION"]);
   }
-  public async authenticate(options: { username: string, password: string }): Promise<ISession> {
+  public async authenticate(req: IAPIRequest): Promise<ISession> {
     return {
-      token: "1",
+      token: null,
       account: null,
       groups: null,
       user: null
     };
   }
-  public async verify(token: string): Promise<ISession> {
+  public async verify({ token }): Promise<ISession> {
     return {
       token,
       account: null,

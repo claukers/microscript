@@ -1,6 +1,6 @@
 import * as express from "express";
 import { Util } from "../util";
-import { BadRequestResponse, IAPIRequest, NotFoundResponse } from "./response";
+import { BadRequestResponse, IAPIRequest, NotFoundResponse, ErrorResponse } from "./response";
 import { Route } from "./route";
 
 let logger;
@@ -55,6 +55,7 @@ export class ServiceRoute extends Route {
           new BadRequestResponse(e.message).send(res);
         } else {
           logger.error(e);
+          new ErrorResponse(e.message).send(res);
         }
       }
     };

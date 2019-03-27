@@ -1,17 +1,19 @@
 import * as express from "express";
 import { IModelService, ISession } from "../service";
 import { Util } from "../util";
-import { IAPIRequest, ModelServiceResponse } from "./response";
+import { IAPIRequest, ModelServiceResponse, AuthResponse } from "./response";
 import { ServiceRoute, IServiceRouteOptions } from "./service";
+
+export interface IModelRoute {
+  getInstance(req: IAPIRequest, res: express.Response): Promise<void>;
+  postInstance(req: IAPIRequest, res: express.Response): Promise<void>;
+  deleteInstance(req: IAPIRequest, res: express.Response): Promise<void>;
+  patchInstance(req: IAPIRequest, res: express.Response): Promise<void>;
+}
 
 let logger = null;
 
-export class ModelRoute extends ServiceRoute {
-  public static createModelMethodHandler(
-    handler: (req: IAPIRequest, res: express.Response, next: express.NextFunction) => Promise<any>
-  ) {
-    return;
-  }
+export class ModelRoute extends ServiceRoute implements IModelRoute {
   constructor(protected service: IModelService, options?: IServiceRouteOptions) {
     super(options);
     if (!logger) {
@@ -31,14 +33,13 @@ export class ModelRoute extends ServiceRoute {
     });
     // Delete by id
     this.delete("/:id", async (req: IAPIRequest, res: express.Response) => {
-      return await this.delInstance(req, res);
+      return await this.deleteInstance(req, res);
     });
     // Patch by id
     this.patch("/:id", async (req: IAPIRequest, res: express.Response) => {
       return await this.patchInstance(req, res);
     });
   }
-
   async getInstance(req: IAPIRequest, res: express.Response) {
     const body = req.body;
     Util.parseOptions("body", body, [], "no_extra");
@@ -61,7 +62,7 @@ export class ModelRoute extends ServiceRoute {
     logger.debug(`${req.method} handler ret [${ret}]`);
     await new ModelServiceResponse(ret).send(res);
   }
-  async delInstance(req: IAPIRequest, res: express.Response) {
+  async deleteInstance(req: IAPIRequest, res: express.Response) {
     const body = req.body;
     Util.parseOptions("body", body, [], "no_extra");
     const ret = await this.service.delete({
@@ -84,6 +85,4 @@ export class ModelRoute extends ServiceRoute {
     logger.debug(`${req.method} handler ret [${ret}]`);
     await new ModelServiceResponse(ret).send(res);
   }
-
-
 }
