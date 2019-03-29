@@ -132,17 +132,23 @@ now lets take care of the tables of the development database.
 
 **automigrate will create migrations for creations, deletions or modifications of models created in the project and will try to apply them.**
 
-then start your service in a cluster of 4 proccess.
+then start a node inspect/debug friendly mode.
+
+```npx miqro start src/posts.js```
+
+or directly with node inspect 
+
+```node inspect node_modules/.bin/miqro start src/posts.js```
+
+**usefull for some IDE's with node debug support like VSCode**
+
+You can also start the service in a cluster mode for better performance with the miqro runner.
+
+example.
 
 ```npx miqro start 4 cluster src/posts.js```
 
-or to start a node inspect/debug friendly mode.
-
-```npx miqro start 1 simple src/posts.js```
-
-or directly with node inspect.
-
-```node inspect node_modules/.bin/miqro start 1 simple src/posts.js```
+this will create 4 processes running your service in a node cluster.
 
 ## configuration
 
@@ -264,14 +270,21 @@ app.use("/api/v1", api.routes());
 
 ## using miqro without the runner
 
-you should be able to run your microservice outside the miqro runner simply defining the ```MIQRO_DIRNAME``` env variable so that the components of **miqro** you are using will be able to **find** the config **dotenv files**.
+you should be able to run your microservice without the miqro runner simply defining the ```MIQRO_DIRNAME``` env variable so that the components of **miqro** you are using will be able to **find** the config **dotenv files**.
 
 the ```MIQRO_DIRNAME``` env variable must point to the parent folder of the ```config``` folder that contains the dotenv files.
 
-create a ```src/main.js``` creating a simple express server.
+like this.
+
+```
+$MIQRO_DIRNAME/config/development.env
+```
+
+then create a ```src/main.js``` creating a simple express server.
 ```javascript
 const express = require("express");
 const { Util, setupMiddleware } = require("miqro");
+// process.env.MIQRO_DIRNAME must exists!
 Util.loadConfig();
 
 const logger = Util.getLogger("main.js");
@@ -286,30 +299,30 @@ service(app).then((server) => {
 
 then run it
 
-```MIQRO_DIRNAME=$PWD node src/main.js```
+```node src/main.js```
 
 
 ## using the miqro runner
 
-miqro has its own runner with autorestart and can start your service in a cluster, fork or simple mode.
+miqro has its own runner with auto-restart and can start your service in a **cluster**, **fork** or simple mode for debugging purposes.
 
 usage 
 
-```miqro start <nodes> <mode> <microservice.js>```
+```miqro start [nodes=1] [mode=simple] <microservice.js>```
 
-example 4 cluster nodes
+example start in simple node
+
+```miqro start src/posts.js```
+
+**simple mode is usefull for running the service in a debug environment like node inspect**
+
+example start with 4 cluster nodes
 
 ```miqro start 4 cluster src/posts.js```
 
-example 1 fork node
+example start in fork node
 
-```miqro start 1 fork src/posts.js```
-
-example 1 simple node
-
-```miqro start 1 simple src/posts.js```
-
-**simple mode is usefull for debugging the service**
+```miqro start fork src/posts.js```
 
 ## documentation
 

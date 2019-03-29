@@ -31,7 +31,12 @@ const main = async () => {
       }
       throw new Error("command " + cmdArg + " not found!");
     } else {
-      require(cmd.module);
+      try {
+        require(cmd.module);
+      } catch (e) {
+        logger.error(e.message);
+        process.exit(1);
+      }
     }
   }
 };
