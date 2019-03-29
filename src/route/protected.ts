@@ -31,17 +31,17 @@ export class ProtectedRoute extends ServiceRoute {
       this.router.use(async (req: IAPIRequest, res: express.Response, next: express.NextFunction) => {
         try {
           const token = req.header(process.env.JWT_HEADER);
-          if (token) {
+          if (!token) {
+            await new BadRequestResponse(`No token provided!`).send(res);
+          } else {
             const session: ISession = await this.authService.verify({ token });
-            if (session) {
+            if (!session) {
+              await new BadRequestResponse(`Fail to authenticate token!`).send(res);
+            } else {
               req.session = session;
               next();
-              return;
             }
-          } else {
-            await new BadRequestResponse(`No token provided!`).send(res);
           }
-          await new BadRequestResponse(`Fail to authenticate token!`).send(res);
         } catch (e) {
           logger.error(e);
           await new BadRequestResponse(`Fail to authenticate token!`).send(res);
