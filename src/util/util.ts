@@ -179,7 +179,6 @@ export abstract class Util {
     }
   }
   public static getLogger(identifier: string) {
-    Util.loadConfig();
     if (typeof identifier !== "string") {
       throw new Error("Bad log identifier");
     }

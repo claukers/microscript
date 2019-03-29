@@ -6,11 +6,13 @@ import { setupMiddleware } from "../middleware";
 import { Util } from "../util";
 
 export const setupDB = () => {
+  Util.checkEnvVariables(["MIQRO_DIRNAME"]);
   const sequelizerc = require(path.resolve(process.env.MIQRO_DIRNAME, ".sequelizerc"));
   return require(sequelizerc["models-path"]);
 };
 
 export const winstonConfig = () => {
+  Util.checkEnvVariables(["MIQRO_DIRNAME"]);
   const logPath = path.resolve(process.env.MIQRO_DIRNAME, "config", "log.js");
   const logConfig = require(logPath);
   return logConfig;
