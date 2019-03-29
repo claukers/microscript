@@ -27,7 +27,7 @@ module.exports = async (app) => {
 
   // un protected route
   // /post ( only GET method allowed )
-  app.use("/post", new ModelRoute(new ModelService(db.models.post), {
+  app.use("/public/post", new ModelRoute(new ModelService(db.models.post), {
     allowedMethods: ["GET"]
   }).routes());
 
