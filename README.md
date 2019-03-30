@@ -53,7 +53,7 @@ create a empty nodejs project.
 
 ```$ npm install --save miqro```
 
-create a service file ```src/posts.js``` like this.
+create a main service file ```src/posts.js``` like this.
 
 ```javascript
 const {
@@ -77,7 +77,7 @@ module.exports = async (app) => {
 };
 ```
 
-create a database model file ```db/models/post.js```.
+create a sequelize model file ```db/models/post.js```.
 
 ```javascript
 'use strict';
@@ -103,34 +103,15 @@ module.exports = (sequelize, DataTypes) => {
 
 ```
 
-finally lets create a dotenv file for your **NODE_ENV** by default is **development** ```config/development.env```.
-
-```dotenv
-DB_NAME=testdb
-DB_HOST=localhost
-DB_USER=root
-DB_PASS=password
-DB_DIALECT=sqlite
-DB_OPERATORSALIASES=false
-DB_POOL_MAX=5
-DB_POOL_MIN=0
-DB_POOL_ACQUIRE=30000
-DB_POOL_IDDLE=10000
-DB_STORAGE=./dev.sqlite3
-DB_DROPTABLES=false
-LOG_LEVEL="info"
-PORT=8080
-```
-
-**every environment must have it's own dotenv file**
-
 now lets take care of the tables of the development database.
 
 ```npx miqro automigrate src/posts.js```
 
 **take notice that the last argument is the service script not a model in particular.**
 
-**automigrate will create migrations for creations, deletions or modifications of models created in the project and will try to apply them.**
+**automigrate will run sequelize-automigrations and that will create migrations for creations, deletions or modifications of models created in the project and will try to apply them.**
+
+finally lets review the newly generated dotenv configuration file for your **$NODE_ENV**( by default is **development** ) located in ```config/development.env```. This file holds the configuration environment variables miqro uses to configure its component. **Its is encouraged to load the passwords. secrets and other sensible information from a secret manager into the process.env.**
 
 then start a node inspect/debug friendly mode.
 

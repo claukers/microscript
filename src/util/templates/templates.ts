@@ -129,7 +129,40 @@ module.exports = (identifier) => {
 };
 `;
 
+export const defaultEnvFile = `# db
+DB_NAME=db
+DB_HOST=localhost
+# should be loadad from a secret manager into process.env.DB_USER
+DB_USER=
+# should be loadad from a secret manager into process.env.DB_PASS
+DB_PASS=
+DB_DIALECT=sqlite
+DB_OPERATORSALIASES=false
+DB_POOL_MAX=5
+DB_POOL_MIN=0
+DB_POOL_ACQUIRE=30000
+DB_POOL_IDDLE=10000
+DB_STORAGE=./db.sqlite3
+DB_DROPTABLES=false
+# logging
+LOG_LEVEL="info"
+LOG_LEVEL_Sequelize="error"
+# htto server
+PORT=8080
+# jsonwebtoken
+JWT_HEADER=X-TOKEN
+# should be loadad from a secret manager into process.env.JWT_SECRET
+JWT_SECRET=
+JWT_EXPIRATION=3d
+# body-parser
+BODYPARSER_INFLATE=true
+BODYPARSER_LIMIT="100kb"
+BODYPARSER_STRICT=true
+BODYPARSER_TYPE="100kb"
+`;
+
 export const templates = {
+  defaultEnvFile,
   modelsIndex,
   dbConfig,
   sequelizerc,

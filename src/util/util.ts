@@ -50,7 +50,11 @@ export abstract class Util {
   public static setupInstanceEnv(serviceName: string, scriptPath: string) {
     const microDirname = path.resolve(path.dirname(scriptPath), "..");
     process.chdir(microDirname);
-    process.env.MIQRO_DIRNAME = microDirname;
+    if (!process.env.MIQRO_DIRNAME) {
+      process.env.MIQRO_DIRNAME = microDirname;
+    } else {
+      logger.warn(`NOT changing to MIQRO_DIRNAME[${microDirname}] because already defined as ${process.env.MIQRO_DIRNAME}!`);
+    }
     process.env.MICRO_NAME = serviceName;
     Util.setupSimpleEnv();
   }
@@ -60,7 +64,9 @@ export abstract class Util {
       Util.setupSimpleEnv();
       const configPath = path.resolve(process.env.MIQRO_DIRNAME, "config", `${process.env.NODE_ENV}.env`);
       if (!fs.existsSync(configPath)) {
-        throw new Error(`[${configPath}] env file doesnt exists!`);
+        logger.warn(`[${configPath}] env file doesnt exists!`);
+        logger.warn(`creating a new ${configPath} env file`);
+        fs.writeFileSync(configPath, templates.defaultEnvFile);
       } else {
         logger.log(`loading ${configPath}`);
       }
