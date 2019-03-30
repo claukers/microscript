@@ -4,7 +4,7 @@ little framework for creating microservices with **express**, **sequelize** and 
 
 - database **auto-migration**.
 
-- **route->modelservice->model** pattern base classes.
+- **route->service->model** pattern base classes.
 
 - optional **jwt** implementation.
 
@@ -111,7 +111,7 @@ now lets take care of the tables of the development database.
 
 **automigrate will run sequelize-automigrations and that will create migrations for creations, deletions or modifications of models created in the project and will try to apply them.**
 
-finally lets review the newly generated dotenv configuration file for your **$NODE_ENV**( by default is **development** ) located in ```config/development.env```. This file holds the configuration environment variables miqro uses to configure its component. **Its is encouraged to load the passwords. secrets and other sensible information from a secret manager into the process.env.**
+finally lets review the newly generated dotenv configuration file for your **$NODE_ENV**( by default is **development** ) located in ```config/development.env```. This file holds the configuration environment variables miqro uses to configure every component like database and jwt. **Its is encouraged to load the passwords. secrets and other sensible information from a secret manager into the process.env.**
 
 then start a node inspect/debug friendly mode.
 
@@ -143,12 +143,12 @@ miqro provides a very simple implementation of jwt using the **jsonwebtoken** mo
 
 #### setup jwt_header, jwt_secret and default expiration
 
-edit your ```$MIQRO_DIRNAME/config/$NODE_ENV.env``` file and add this.
+edit your ```$MIQRO_DIRNAME/config/$NODE_ENV.env``` file and look at the following variables.
 
 ```dotenv
-JWT_HEADER=X-MYSERVICE-TOKEN
-JWT_SECRET=super secret
-JWT_EXPIRATION=3d
+JWT_HEADER=#the header to be used for the token
+JWT_SECRET=#the secret for signing the token better to load it from a secret manager
+JWT_EXPIRATION=#the default expiration of the signed tokens
 ```
 
 #### create a simple jwt protected route

@@ -23,7 +23,7 @@ module.exports = async (app) => {
   api.use("/post", new ModelRoute(new ModelService(db.models.post)).routes());
 
   // attach api to app
-  app.use("/api", api.routes());
+  app.use("/api/v1", api.routes());
 
   // un protected route
   // /post ( only GET method allowed )
