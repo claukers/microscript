@@ -102,7 +102,6 @@ export class Miqro extends EventEmitter {
     if (this.state !== "stopped") {
       throw new Error(`cannot start if not stopped!`);
     }
-    this.configure(this.config);
     this.state = "starting";
     if (this.pool) {
       await this.pool.start();
@@ -123,6 +122,7 @@ export class Miqro extends EventEmitter {
       await this.pool.drain();
       await this.pool.clear();
       this.state = "stopped";
+      this.configure(this.config);
     } else if (this.instanceApp) {
       this.instanceApp.server.close();
       this.state = "stopped";
