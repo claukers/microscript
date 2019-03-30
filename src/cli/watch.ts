@@ -77,12 +77,15 @@ watch.watchTree(serviceDirname, (f, curr, prev) => {
     // Finished walking the tree
   } else if (prev === null) {
     // f is a new file
+    logger.log(`${f} new file`);
     restart();
   } else if (curr.nlink === 0) {
     // f was removed
+    logger.log(`${f} removed`);
     restart();
   } else {
     // f was changed
+    logger.log(`change in ${f}`);
     restart();
   }
 });
