@@ -19,12 +19,12 @@ if (!fs.existsSync(service)) {
 
 Util.setupInstanceEnv("automigrate", service);
 const dbFolder = path.resolve(process.env.MIQRO_DIRNAME, "db");
+const dbConfigFolder = path.resolve(process.env.MIQRO_DIRNAME, "config");
 const modelsFolder = path.resolve(dbFolder, "models");
-const dbConfigFolder = path.resolve(dbFolder, "config");
 const sequelizercPath = path.resolve(process.env.MIQRO_DIRNAME, ".sequelizerc");
 const modelLoaderPath = path.resolve(modelsFolder, "index.js");
 const logjsPath = path.resolve(process.env.MIQRO_DIRNAME, "config", "log.js");
-const dbConfigFilePath = path.resolve(dbConfigFolder, "index.js");
+const dbConfigFilePath = path.resolve(dbConfigFolder, "db.js");
 
 fs.unlinkSync(sequelizercPath);
 fs.unlinkSync(modelLoaderPath);
