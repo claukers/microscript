@@ -22,6 +22,13 @@ describe('lib.Miqro.start/stop unit tests', function () {
   });
   const fakePool = {
     on: sinon.fake(),
+    acquire: sinon.fake(async () => {
+      return {
+        once: sinon.fake()
+      };
+    }),
+    release: sinon.fake(async () => {
+    }),
     start: sinon.fake(),
     drain: sinon.fake(),
     clear: sinon.fake()

@@ -50,7 +50,7 @@ export abstract class Util {
   public static setupInstanceEnv(serviceName: string, scriptPath: string) {
     const microDirname = path.resolve(path.dirname(scriptPath), "..");
     process.chdir(microDirname);
-    if (!process.env.MIQRO_DIRNAME) {
+    if (!process.env.MIQRO_DIRNAME || process.env.MIQRO_DIRNAME === "undefined") {
       process.env.MIQRO_DIRNAME = microDirname;
     } else {
       logger.warn(`NOT changing to MIQRO_DIRNAME[${microDirname}] because already defined as ${process.env.MIQRO_DIRNAME}!`);
