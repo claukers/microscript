@@ -1,6 +1,6 @@
 import * as express from "express";
 import { Util } from "../util";
-import { BadRequestResponse, IAPIRequest, NotFoundResponse, ErrorResponse } from "./response";
+import { BadRequestResponse, ErrorResponse, IAPIRequest, NotFoundResponse } from "./response";
 import { Route } from "./route";
 
 let logger;
@@ -11,7 +11,7 @@ export interface IServiceHandler {
 }
 
 export interface IServiceRouteOptions {
-  allowedMethods?: string[]
+  allowedMethods?: string[];
 }
 
 export class ServiceRoute extends Route {

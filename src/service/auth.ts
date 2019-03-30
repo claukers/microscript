@@ -1,6 +1,6 @@
+import { IAPIRequest } from "../route";
 import { Util } from "../util";
 import { ISession } from "./common";
-import { IAPIRequest } from "../route";
 
 export interface IAuthService {
   verify(options: { token: string }): Promise<ISession>;

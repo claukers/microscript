@@ -69,7 +69,7 @@ module.exports = {
 };
 `;
 
-const logjs = 
+const logjs =
 `const path = require("path");
 const winston = require("winston");
 const {

@@ -26,6 +26,36 @@ export class Miqro extends EventEmitter {
     super();
     this.configure(config);
   }
+  public async start() {
+    if (this.state !== "stopped") {
+      throw new Error(`cannot start if not stopped!`);
+    }
+    this.state = "starting";
+    if (this.pool) {
+      await this.pool.start();
+      this.state = "started";
+      await this.setupAutostart();
+    } else if (this.config.mode === "simple") {
+      this.simpleInstance = setupInstance(this.config.name, this.config.service);
+      this.instanceApp = await runInstance(this.simpleInstance.logger, this.simpleInstance.script, this.config.service);
+      this.state = "started";
+    }
+  }
+  public async stop() {
+    if (this.state !== "started") {
+      throw new Error(`cannot stop if not started!`);
+    }
+    this.state = "stopping";
+    if (this.pool) {
+      await this.pool.drain();
+      await this.pool.clear();
+      this.state = "stopped";
+      this.configure(this.config);
+    } else if (this.instanceApp) {
+      this.instanceApp.server.close();
+      this.state = "stopped";
+    }
+  }
   private configure(config) {
     if (this.state !== "stopped") {
       throw new Error(`cannot configured if not stopped!`);
@@ -96,36 +126,6 @@ export class Miqro extends EventEmitter {
     }
     for (const instance of instances) {
       await this.pool.release(instance);
-    }
-  }
-  public async start() {
-    if (this.state !== "stopped") {
-      throw new Error(`cannot start if not stopped!`);
-    }
-    this.state = "starting";
-    if (this.pool) {
-      await this.pool.start();
-      this.state = "started";
-      await this.setupAutostart();
-    } else if (this.config.mode === "simple") {
-      this.simpleInstance = setupInstance(this.config.name, this.config.service);
-      this.instanceApp = await runInstance(this.simpleInstance.logger, this.simpleInstance.script, this.config.service);
-      this.state = "started";
-    }
-  }
-  public async stop() {
-    if (this.state !== "started") {
-      throw new Error(`cannot stop if not started!`);
-    }
-    this.state = "stopping";
-    if (this.pool) {
-      await this.pool.drain();
-      await this.pool.clear();
-      this.state = "stopped";
-      this.configure(this.config);
-    } else if (this.instanceApp) {
-      this.instanceApp.server.close();
-      this.state = "stopped";
     }
   }
 }

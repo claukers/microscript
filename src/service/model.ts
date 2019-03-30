@@ -1,7 +1,7 @@
 import * as Sequelize from "sequelize";
-import { Util } from "../util";
-import { IGetArgs, IPatchArgs, IPostArgs, AbstractModelService } from "./common";
 import { IServiceRouteOptions } from "../route";
+import { Util } from "../util";
+import { AbstractModelService, IGetArgs, IPatchArgs, IPostArgs } from "./common";
 
 let logger = null;
 
@@ -23,7 +23,7 @@ export class ModelService extends AbstractModelService {
   public async patch(options: IPatchArgs): Promise<any> {
     const instances = await this.get(options);
     if (instances.length === 1) {
-      return await instances[0].update(options.patch);
+      return instances[0].update(options.patch);
     } else {
       return null;
     }
@@ -31,7 +31,7 @@ export class ModelService extends AbstractModelService {
   public async delete(options: IGetArgs): Promise<any> {
     const instances = await this.get(options);
     if (instances.length === 1) {
-      return await instances[0].destroy();
+      return instances[0].destroy();
     } else {
       return null;
     }

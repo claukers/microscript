@@ -1,5 +1,5 @@
-import { APIResponse } from "./api";
 import { ISession } from "../../service";
+import { APIResponse } from "./api";
 
 export class AuthResponse extends APIResponse {
   constructor(session?: ISession) {

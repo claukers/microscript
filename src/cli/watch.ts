@@ -7,7 +7,10 @@ const usage = `usage: miqro watch [nodes=1] [mode=simple] <microservice.js>`;
 
 const logger = console;
 
-let nodes, modulePath, name, mode;
+let nodes;
+let modulePath;
+let name;
+let mode;
 
 if (process.argv.length === 4) {
   mode = "simple";
@@ -73,7 +76,7 @@ const restart = () => {
 };
 logger.log(`watching ${serviceDirname}`);
 watch.watchTree(serviceDirname, (f, curr, prev) => {
-  if (typeof f == "object" && prev === null && curr === null) {
+  if (typeof f === "object" && prev === null && curr === null) {
     // Finished walking the tree
   } else if (prev === null) {
     // f is a new file

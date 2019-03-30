@@ -1,8 +1,8 @@
-import { ServiceRoute, IServiceHandler, IServiceRouteOptions } from "./service";
-import { IAPIRequest, BadRequestResponse } from "./response";
 import * as express from "express";
+import { AuthService, IAuthService, ISession } from "../service";
 import { Util } from "../util";
-import { AuthService, ISession, IAuthService } from "../service";
+import { BadRequestResponse, IAPIRequest } from "./response";
+import { IServiceHandler, IServiceRouteOptions, ServiceRoute } from "./service";
 
 let logger = null;
 
@@ -19,11 +19,7 @@ export class ProtectedRoute extends ServiceRoute {
       logger = Util.getLogger("ProtectedRoute");
     }
     Util.checkEnvVariables(["JWT_HEADER"]);
-    if (options && options.auth) {
-      this.authService = options.auth;
-    } else {
-      this.authService = new AuthService();
-    }
+    this.authService = options && options.auth ? options.auth : new AuthService();
   }
   protected initJwt() {
     if (!this.jwtInited) {

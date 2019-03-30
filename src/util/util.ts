@@ -4,8 +4,8 @@ import * as fs from "fs";
 import * as path from "path";
 import * as winston from "winston";
 import { ParseOptionsError } from "./error/";
-import { templates } from "./templates";
 import { winstonConfig } from "./loader";
+import { templates } from "./templates";
 
 const logContainer = new winston.Container();
 
@@ -124,11 +124,11 @@ export abstract class Util {
     });
   }
   public static parseOptions(argName,
-    arg: { [name: string]: any },
-    optionsArray: Array<{
+                             arg: { [name: string]: any },
+                             optionsArray: Array<{
       name: string, type: string, arrayType?: string, required: boolean
     }>,
-    parserOption: IOPTIONPARSER = "no_extra"): { [name: string]: any } {
+                             parserOption: IOPTIONPARSER = "no_extra"): { [name: string]: any } {
     const ret = {};
     if (typeof arg !== "object" || !arg) {
       throw new ParseOptionsError(`${argName} not valid`);
@@ -190,8 +190,8 @@ export abstract class Util {
     }
     if (!logContainer.has(identifier)) {
       const configMaker = winstonConfig();
-      const config = configMaker(identifier);
-      logContainer.add(identifier, config);
+      const configO = configMaker(identifier);
+      logContainer.add(identifier, configO);
     }
     const loggerO = logContainer.get(identifier);
     (loggerO as any).stream = {

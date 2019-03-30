@@ -1,8 +1,8 @@
-import { IAPIRequest, AuthResponse } from "./response";
 import * as express from "express";
-import { IProtectedRouteOptions, ProtectedRoute } from "./protected";
-import { Util } from "../util";
 import { ISession } from "../service";
+import { Util } from "../util";
+import { IProtectedRouteOptions, ProtectedRoute } from "./protected";
+import { AuthResponse, IAPIRequest } from "./response";
 
 let logger = null;
 

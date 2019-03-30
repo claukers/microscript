@@ -1,8 +1,8 @@
 import * as express from "express";
 import { IModelService, ISession } from "../service";
 import { Util } from "../util";
-import { IAPIRequest, ModelServiceResponse, AuthResponse } from "./response";
-import { ServiceRoute, IServiceRouteOptions } from "./service";
+import { AuthResponse, IAPIRequest, ModelServiceResponse } from "./response";
+import { IServiceRouteOptions, ServiceRoute } from "./service";
 
 export interface IModelRoute {
   getInstance(req: IAPIRequest, res: express.Response): Promise<void>;
@@ -21,26 +21,26 @@ export class ModelRoute extends ServiceRoute implements IModelRoute {
     }
     // Get All
     this.get("/", async (req: IAPIRequest, res: express.Response) => {
-      return await this.getInstance(req, res);
+      return this.getInstance(req, res);
     });
     // Get by Id
     this.get("/:id", async (req: IAPIRequest, res: express.Response) => {
-      return await this.getInstance(req, res);
+      return this.getInstance(req, res);
     });
     // Post
     this.post("/", async (req: IAPIRequest, res: express.Response) => {
-      return await this.postInstance(req, res);
+      return this.postInstance(req, res);
     });
     // Delete by id
     this.delete("/:id", async (req: IAPIRequest, res: express.Response) => {
-      return await this.deleteInstance(req, res);
+      return this.deleteInstance(req, res);
     });
     // Patch by id
     this.patch("/:id", async (req: IAPIRequest, res: express.Response) => {
-      return await this.patchInstance(req, res);
+      return this.patchInstance(req, res);
     });
   }
-  async getInstance(req: IAPIRequest, res: express.Response) {
+  public async getInstance(req: IAPIRequest, res: express.Response) {
     const body = req.body;
     Util.parseOptions("body", body, [], "no_extra");
     const ret = await this.service.get({
@@ -50,7 +50,7 @@ export class ModelRoute extends ServiceRoute implements IModelRoute {
     logger.debug(`${req.method} handler ret [${ret}]`);
     await new ModelServiceResponse(ret).send(res);
   }
-  async postInstance(req: IAPIRequest, res: express.Response) {
+  public async postInstance(req: IAPIRequest, res: express.Response) {
     const body = req.body;
     const { post } = Util.parseOptions("body", body, [
       { name: "post", type: "object", required: true }
@@ -62,7 +62,7 @@ export class ModelRoute extends ServiceRoute implements IModelRoute {
     logger.debug(`${req.method} handler ret [${ret}]`);
     await new ModelServiceResponse(ret).send(res);
   }
-  async deleteInstance(req: IAPIRequest, res: express.Response) {
+  public async deleteInstance(req: IAPIRequest, res: express.Response) {
     const body = req.body;
     Util.parseOptions("body", body, [], "no_extra");
     const ret = await this.service.delete({
@@ -72,7 +72,7 @@ export class ModelRoute extends ServiceRoute implements IModelRoute {
     logger.debug(`${req.method} handler ret [${ret}]`);
     await new ModelServiceResponse(ret).send(res);
   }
-  async patchInstance(req: IAPIRequest, res: express.Response) {
+  public async patchInstance(req: IAPIRequest, res: express.Response) {
     const body = req.body;
     const { patch } = Util.parseOptions("body", body, [
       { name: "patch", type: "object", required: true }

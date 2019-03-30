@@ -6,7 +6,10 @@ const usage = `usage: miqro start [nodes=1] [mode=simple] <microservice.js>`;
 
 const logger = console;
 
-let nodes, modulePath, name, mode;
+let nodes;
+let modulePath;
+let name;
+let mode;
 
 if (process.argv.length === 4) {
   mode = "simple";
