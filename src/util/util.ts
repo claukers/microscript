@@ -75,14 +75,14 @@ export abstract class Util {
       });
       const logsFolder = path.resolve(process.env.MIQRO_DIRNAME, "logs");
       const dbFolder = path.resolve(process.env.MIQRO_DIRNAME, "db");
-      const dbConfigFolder = path.resolve(dbFolder, "config");
+      const dbConfigFolder = path.resolve(process.env.MIQRO_DIRNAME, "config");
       const migrationsFolder = path.resolve(dbFolder, "migrations");
       const modelsFolder = path.resolve(dbFolder, "models");
       const seedersFolder = path.resolve(dbFolder, "seeders");
       const sequelizercPath = path.resolve(process.env.MIQRO_DIRNAME, ".sequelizerc");
       const modelLoaderPath = path.resolve(modelsFolder, "index.js");
       const logjsPath = path.resolve(process.env.MIQRO_DIRNAME, "config", "log.js");
-      const dbConfigFilePath = path.resolve(dbConfigFolder, "index.js");
+      const dbConfigFilePath = path.resolve(dbConfigFolder, "db.js");
       if (!fs.existsSync(logjsPath)) {
         fs.writeFileSync(logjsPath, templates.logjs);
       }

@@ -22,7 +22,7 @@ apidoc/
 example/logs
 example/.sequelizerc
 example/config/log.js
-example/db/config
+example/config/db.js
 example/db/models/index.js
 example/db/models/account.js
 example/db/models/accountuser.js

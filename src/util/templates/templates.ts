@@ -62,7 +62,7 @@ const sequelizerc =
 `const path = require("path");
 
 module.exports = {
-  "config": path.resolve(__dirname, "db", "config", "index.js"),
+  "config": path.resolve(__dirname, "config", "db.js"),
   "migrations-path": path.resolve(__dirname, "db", "migrations"),
   "seeders-path": path.resolve(__dirname, "db", "seeders"),
   "models-path": path.resolve(__dirname, "db", "models"),
