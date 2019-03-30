@@ -26,7 +26,14 @@ const modelLoaderPath = path.resolve(modelsFolder, "index.js");
 const logjsPath = path.resolve(process.env.MIQRO_DIRNAME, "config", "log.js");
 const dbConfigFilePath = path.resolve(dbConfigFolder, "db.js");
 
-fs.unlinkSync(sequelizercPath);
-fs.unlinkSync(modelLoaderPath);
-fs.unlinkSync(logjsPath);
-fs.unlinkSync(dbConfigFilePath);
+const saveUnLink = (filePath) => {
+  try {
+    fs.unlinkSync(filePath);
+  } catch (e) {
+    console.error(e.message);
+  }
+};
+saveUnLink(sequelizercPath);
+saveUnLink(modelLoaderPath);
+saveUnLink(logjsPath);
+saveUnLink(dbConfigFilePath);
