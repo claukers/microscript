@@ -30,6 +30,7 @@
     "sequelize-auto-migrations": "^1.0.3",
     "sequelize-cli": "^5.4.0",
     "sqlite3": "^4.0.6",
+    "watch": "^1.0.2",
     "winston": "^3.1.0"
   },
   "devDependencies": {

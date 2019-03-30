@@ -14,7 +14,7 @@ little framework for creating microservices with **express**, **sequelize** and 
   
 - all project configuration, migrations, seeders and models are independant of **miqro** so you can **eject** your microservice easily from **miqro** and/or use another runner like **pm2**.
 
-- exports type files for using miqro with **Typescript**.
+- exports type files for using miqro with **Typescript**. basic example on https://github.com/claukers/miqro-typescript
 
 
 ## posts.js
@@ -307,4 +307,25 @@ example start in fork node
 
 ## documentation
 
+### api
+
 TODO
+
+### cli
+
+TODO
+
+```npx miqro <command> [args..]```
+
+```
+usage: miqro <command> [args]
+Available commands:
+	start	starts a microservice
+	watch	starts a microservice in watch mode on the service dir.
+	makemigrations	seeks changes in your models and creates migrations
+	migrate	runs the migrations
+	automigrate	runs makemigrations and migrate together
+	seed	seeds your db
+	init	inits your config folder (MIQRO_DIRNAME)
+	reset	delete custom made config files.
+```

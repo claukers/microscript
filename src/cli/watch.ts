@@ -1,8 +1,9 @@
 import * as fs from "fs";
 import * as path from "path";
+import * as watch from "watch";
 import { Miqro } from "../miqro";
 
-const usage = `usage: miqro start [nodes=1] [mode=simple] <microservice.js>`;
+const usage = `usage: miqro watch [nodes=1] [mode=simple] <microservice.js>`;
 
 const logger = console;
 
@@ -56,4 +57,32 @@ const micro = new Miqro({
 
 micro.start().catch((e) => {
   logger.error(e);
+});
+
+const serviceDirname = path.resolve(path.dirname(service));
+
+let restartTimeout = null;
+const restart = () => {
+  logger.warn("restart queue");
+  clearTimeout(restartTimeout);
+  restartTimeout = setTimeout(async () => {
+    logger.warn("restarting");
+    await micro.stop();
+    await micro.start();
+  }, 2000);
+};
+logger.log(`watching ${serviceDirname}`);
+watch.watchTree(serviceDirname, (f, curr, prev) => {
+  if (typeof f == "object" && prev === null && curr === null) {
+    // Finished walking the tree
+  } else if (prev === null) {
+    // f is a new file
+    restart();
+  } else if (curr.nlink === 0) {
+    // f was removed
+    restart();
+  } else {
+    // f was changed
+    restart();
+  }
 });
