@@ -3,6 +3,7 @@ import * as path from "path";
 import { Util } from "../util";
 
 const modulePath = process.argv[3];
+const logger = console;
 
 if (process.argv.length !== 4) {
   throw new Error(`usage: miqro reset <microservice.js>`);
@@ -30,7 +31,7 @@ const saveUnLink = (filePath) => {
   try {
     fs.unlinkSync(filePath);
   } catch (e) {
-    console.error(e.message);
+    logger.error(e.message);
   }
 };
 saveUnLink(sequelizercPath);
