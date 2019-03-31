@@ -5,7 +5,7 @@ const {
   ProtectedRoute,
   ModelRoute,
   APIResponse
-} = require("../../dist");
+} = require("../dist");
 
 const logger = Util.getLogger("microservice.js");
 const db = Database.getInstance();

@@ -48,7 +48,7 @@ export abstract class Util {
     process.env.LOG_FILE_TRACE = path.resolve(logsFolder, `${process.env.NODE_ENV}-trace.log`);
   }
   public static setupInstanceEnv(serviceName: string, scriptPath: string) {
-    const microDirname = path.resolve(path.dirname(scriptPath), "..");
+    const microDirname = path.resolve(path.dirname(scriptPath));
     process.chdir(microDirname);
     if (!process.env.MIQRO_DIRNAME || process.env.MIQRO_DIRNAME === "undefined") {
       process.env.MIQRO_DIRNAME = microDirname;
@@ -58,15 +58,19 @@ export abstract class Util {
     process.env.MICRO_NAME = serviceName;
     Util.setupSimpleEnv();
   }
-  public static loadConfig() {
+  public static loadConfig(initEnv?: boolean) {
     Util.checkEnvVariables(["MIQRO_DIRNAME"]);
     if (!Util.configLoaded) {
       Util.setupSimpleEnv();
       const configPath = path.resolve(process.env.MIQRO_DIRNAME, "config", `${process.env.NODE_ENV}.env`);
       if (!fs.existsSync(configPath)) {
-        logger.warn(`[${configPath}] env file doesnt exists!`);
-        logger.warn(`creating a new ${configPath} env file`);
-        fs.writeFileSync(configPath, templates.defaultEnvFile);
+        if (!initEnv) {
+          throw new Error(`[${configPath}] env file doesnt exists!`);
+        } else {
+          logger.warn(`[${configPath}] env file doesnt exists!`);
+          logger.warn(`creating a new ${configPath} env file`);
+          fs.writeFileSync(configPath, templates.defaultEnvFile);
+        }
       } else {
         logger.log(`loading ${configPath}`);
       }
@@ -124,11 +128,11 @@ export abstract class Util {
     });
   }
   public static parseOptions(argName,
-                             arg: { [name: string]: any },
-                             optionsArray: Array<{
+    arg: { [name: string]: any },
+    optionsArray: Array<{
       name: string, type: string, arrayType?: string, required: boolean
     }>,
-                             parserOption: IOPTIONPARSER = "no_extra"): { [name: string]: any } {
+    parserOption: IOPTIONPARSER = "no_extra"): { [name: string]: any } {
     const ret = {};
     if (typeof arg !== "object" || !arg) {
       throw new ParseOptionsError(`${argName} not valid`);

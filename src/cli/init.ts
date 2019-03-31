@@ -18,4 +18,4 @@ if (!fs.existsSync(service)) {
 }
 
 Util.setupInstanceEnv("automigrate", service);
-Util.loadConfig();
+Util.loadConfig(true);

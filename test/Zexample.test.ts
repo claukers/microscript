@@ -21,7 +21,7 @@ describe('Zexample start', function () {
       const lib = require('../src');
       const micro = new lib.Miqro({
         name: "Micro 1",
-        service: path.resolve(__dirname, '..', 'example', 'src', 'microservice'),
+        service: path.resolve(__dirname, '..', 'example', 'microservice'),
         nodes: 1,
         mode: "simple"
       });
@@ -37,7 +37,7 @@ describe('Zexample start', function () {
         const lib = require('../src');
         const micro = new lib.Miqro({
           name: "Micro 1",
-          service: path.resolve(__dirname, '..', 'example', 'src', 'microservice'),
+          service: path.resolve(__dirname, '..', 'example', 'microservice'),
           nodes: 1,
           mode: "unsoported" as any
         });
