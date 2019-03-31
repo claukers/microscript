@@ -1,0 +1,6 @@
+config/db.js
+config/log.js
+logs/
+db/models/index.js
+.sequelizerc
+*.sqlite3

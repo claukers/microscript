@@ -82,6 +82,7 @@ export abstract class Util {
         path: configPath
       });
       const logsFolder = path.resolve(process.env.MIQRO_DIRNAME, "logs");
+      const gitignorePath = path.resolve(process.env.MIQRO_DIRNAME, ".gitignore");
       const dbFolder = path.resolve(process.env.MIQRO_DIRNAME, "db");
       const migrationsFolder = path.resolve(dbFolder, "migrations");
       const modelsFolder = path.resolve(dbFolder, "models");
@@ -90,6 +91,9 @@ export abstract class Util {
       const modelLoaderPath = path.resolve(modelsFolder, "index.js");
       const logjsPath = path.resolve(process.env.MIQRO_DIRNAME, "config", "log.js");
       const dbConfigFilePath = path.resolve(configFolder, "db.js");
+      if (!fs.existsSync(gitignorePath)) {
+        fs.writeFileSync(gitignorePath, templates.gitignore);
+      }
       if (!fs.existsSync(configFolder)) {
         fs.mkdirSync(configFolder);
       }
@@ -131,11 +135,11 @@ export abstract class Util {
     });
   }
   public static parseOptions(argName,
-                             arg: { [name: string]: any },
-                             optionsArray: Array<{
+    arg: { [name: string]: any },
+    optionsArray: Array<{
       name: string, type: string, arrayType?: string, required: boolean
     }>,
-                             parserOption: IOPTIONPARSER = "no_extra"): { [name: string]: any } {
+    parserOption: IOPTIONPARSER = "no_extra"): { [name: string]: any } {
     const ret = {};
     if (typeof arg !== "object" || !arg) {
       throw new ParseOptionsError(`${argName} not valid`);

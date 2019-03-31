@@ -166,7 +166,16 @@ BODYPARSER_STRICT=true
 BODYPARSER_TYPE="100kb"
 `;
 
+export const gitignore = `config/db.js
+config/log.js
+logs/
+db/models/index.js
+.sequelizerc
+*.sqlite3
+`;
+
 export const templates = {
+  gitignore,
   defaultEnvFile,
   modelsIndex,
   dbConfig,
