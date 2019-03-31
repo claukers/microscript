@@ -2,10 +2,13 @@
   "name": "miqro",
   "version": "1.0.0",
   "description": "",
-  "private": true,
   "main": "dist/index.js",
   "bin": {
     "miqro": "dist/cli/cli.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/claukers/miqro.git"
   },
   "scripts": {
     "miqro": "node dist/cli/cli.js",
@@ -25,7 +28,7 @@
     "install": "^0.12.2",
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.9.1",
-    "script-pool": "git+ssh://git@github.com/claukers/script-pool.git",
+    "script-pool": "^1.0.1",
     "sequelize": "^4.43.1",
     "sequelize-auto-migrations": "^1.0.3",
     "sequelize-cli": "^5.4.0",
