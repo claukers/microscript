@@ -53,7 +53,7 @@ create a empty nodejs project.
 
 ```$ npm install --save miqro```
 
-create a main service file ```src/posts.js``` like this.
+create a main service file ```posts.js``` like this.
 
 ```javascript
 const {
@@ -105,7 +105,7 @@ module.exports = (sequelize, DataTypes) => {
 
 now lets take care of the tables of the development database.
 
-```npx miqro automigrate src/posts.js```
+```npx miqro automigrate posts.js```
 
 **take notice that the last argument is the service script not a model in particular.**
 
@@ -115,11 +115,11 @@ finally lets review the newly generated dotenv configuration file for your **$NO
 
 then start a node inspect/debug friendly mode.
 
-```npx miqro start src/posts.js```
+```npx miqro start posts.js```
 
 or directly with node inspect 
 
-```node inspect node_modules/.bin/miqro start src/posts.js```
+```node inspect node_modules/.bin/miqro start posts.js```
 
 **usefull for some IDE's with node debug support like VSCode**
 
@@ -127,7 +127,7 @@ You can also start the service in a cluster mode for better performance with the
 
 example.
 
-```npx miqro start 4 cluster src/posts.js```
+```npx miqro start 4 cluster posts.js```
 
 this will create 4 processes running your service in a node cluster.
 
@@ -233,7 +233,7 @@ like this.
 $MIQRO_DIRNAME/config/development.env
 ```
 
-then create a ```src/main.js``` creating a simple express server.
+then create a ```main.js``` creating a simple express server.
 ```javascript
 const express = require("express");
 const { Util, setupMiddleware } = require("miqro");
@@ -241,7 +241,7 @@ const { Util, setupMiddleware } = require("miqro");
 Util.loadConfig();
 
 const logger = Util.getLogger("main.js");
-const service = require("./src/posts.js"); // the service file
+const service = require("./posts.js"); // the service file
 
 const app = express();
 setupMiddleware(app, logger);
@@ -252,7 +252,7 @@ service(app).then((server) => {
 
 then run it
 
-```node src/main.js```
+```node main.js```
 
 
 ## using the miqro runner
@@ -265,17 +265,17 @@ usage
 
 example start in simple node
 
-```miqro start src/posts.js```
+```miqro start posts.js```
 
 **simple mode is usefull for running the service in a debug environment like node inspect**
 
 example start with 4 cluster nodes
 
-```miqro start 4 cluster src/posts.js```
+```miqro start 4 cluster posts.js```
 
 example start in fork node
 
-```miqro start fork src/posts.js```
+```miqro start fork posts.js```
 
 ## documentation
 
