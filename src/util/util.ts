@@ -62,12 +62,16 @@ export abstract class Util {
     Util.checkEnvVariables(["MIQRO_DIRNAME"]);
     if (!Util.configLoaded) {
       Util.setupSimpleEnv();
+      const configFolder = path.resolve(process.env.MIQRO_DIRNAME, "config");
       const configPath = path.resolve(process.env.MIQRO_DIRNAME, "config", `${process.env.NODE_ENV}.env`);
       if (!fs.existsSync(configPath)) {
         if (!initEnv) {
           throw new Error(`[${configPath}] env file doesnt exists!`);
         } else {
           logger.warn(`[${configPath}] env file doesnt exists!`);
+          if (!fs.existsSync(configFolder)) {
+            fs.mkdirSync(configFolder);
+          }
           logger.warn(`creating a new ${configPath} env file`);
           fs.writeFileSync(configPath, templates.defaultEnvFile);
         }
@@ -79,14 +83,16 @@ export abstract class Util {
       });
       const logsFolder = path.resolve(process.env.MIQRO_DIRNAME, "logs");
       const dbFolder = path.resolve(process.env.MIQRO_DIRNAME, "db");
-      const dbConfigFolder = path.resolve(process.env.MIQRO_DIRNAME, "config");
       const migrationsFolder = path.resolve(dbFolder, "migrations");
       const modelsFolder = path.resolve(dbFolder, "models");
       const seedersFolder = path.resolve(dbFolder, "seeders");
       const sequelizercPath = path.resolve(process.env.MIQRO_DIRNAME, ".sequelizerc");
       const modelLoaderPath = path.resolve(modelsFolder, "index.js");
       const logjsPath = path.resolve(process.env.MIQRO_DIRNAME, "config", "log.js");
-      const dbConfigFilePath = path.resolve(dbConfigFolder, "db.js");
+      const dbConfigFilePath = path.resolve(configFolder, "db.js");
+      if (!fs.existsSync(configFolder)) {
+        fs.mkdirSync(configFolder);
+      }
       if (!fs.existsSync(logjsPath)) {
         fs.writeFileSync(logjsPath, templates.logjs);
       }
@@ -95,9 +101,6 @@ export abstract class Util {
       }
       if (!fs.existsSync(dbFolder)) {
         fs.mkdirSync(dbFolder);
-      }
-      if (!fs.existsSync(dbConfigFolder)) {
-        fs.mkdirSync(dbConfigFolder);
       }
       if (!fs.existsSync(dbConfigFilePath)) {
         fs.writeFileSync(dbConfigFilePath, templates.dbConfig);
