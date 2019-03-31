@@ -18,7 +18,7 @@ const service = path.resolve(modulePath);
 if (!fs.existsSync(service)) {
   logger.warn(`microservice [${service}] doesnt exists!`);
   logger.warn(`creating [${service}]!`);
-  const mainjsPath = path.resolve(path.dirname(service), 'main.js');
+  const mainjsPath = path.resolve(path.dirname(service), "main.js");
   fs.writeFileSync(service, templates.indexjs());
   if (!fs.existsSync(mainjsPath)) {
     fs.writeFileSync(mainjsPath, templates.mainjs(path.basename(service)));
