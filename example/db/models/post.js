@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     }
   }, {});
-  post.associate = function(models) {
+  post.associate = (models) => {
   };
   return post;
 };

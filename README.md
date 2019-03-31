@@ -21,10 +21,11 @@ little framework for creating microservices with **express**, **sequelize** and 
 
 ```javascript
 const {
-  ModelRoute, 
+  ModelRoute,
   ModelService,
-  Database
-} = require("miqro");
+  Database,
+  Util
+} = require("../dist");
 
 const logger = Util.getLogger("posts.js");
 const db = Database.getInstance();
@@ -39,14 +40,14 @@ module.exports = async (app) => {
   * for model db.models.post
   * to allow delete add it to the allowedMethods list
   */
-  app.use("/post", 
+  app.use("/post",
     new ModelRoute(
       new ModelService(
         db.models.post
       ),
-    {
-      allowedMethods: ["GET", "POST", "PATCH"]
-    }).routes());
+      {
+        allowedMethods: ["GET", "POST", "PATCH"]
+      }).routes());
   return app;
 };
 ```
@@ -74,22 +75,33 @@ edit the main service file ```posts.js``` to look like this.
 
 ```javascript
 const {
-  ModelRoute, 
+  ModelRoute,
   ModelService,
   Database,
   Util
-} = require("miqro");
+} = require("../dist");
 
 const logger = Util.getLogger("posts.js");
 const db = Database.getInstance();
 
 module.exports = async (app) => {
-  app.use("/post", 
+  /*
+  * GET /post/
+  * GET /post/:id
+  * PATCH /post/:id
+  * POST /post/
+  * 
+  * for model db.models.post
+  * to allow delete add it to the allowedMethods list
+  */
+  app.use("/post",
     new ModelRoute(
       new ModelService(
         db.models.post
-      )
-    ).routes());
+      ),
+      {
+        allowedMethods: ["GET", "POST", "PATCH"]
+      }).routes());
   return app;
 };
 ```
@@ -113,11 +125,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     }
   }, {});
-  post.associate = function(models) {
+  post.associate = (models) => {
   };
   return post;
 };
-
 ```
 
 now lets take care of the tables of the development database.

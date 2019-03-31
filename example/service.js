@@ -1,21 +1,30 @@
 const {
-    Database,
-    Util,
-    APIResponse
-  } = require("../dist");
-  const path = require("path");
-  
-  module.exports = async (app) => {
-    const logger = Util.getLogger(path.basename(__filename));
-    const db = await Database.getInstance();
-  
-    app.get("/hello", async (req, res) => {
-      logger.info("GET /hello called!");
-      await new APIResponse({
-        result: "world"
-      }).send(res);
-    });
-    logger.info("started");
-    return app;
-  };
-  
+  ModelRoute,
+  ModelService,
+  Database,
+  Util
+} = require("../dist");
+
+const logger = Util.getLogger("posts.js");
+const db = Database.getInstance();
+
+module.exports = async (app) => {
+  /*
+  * GET /post/
+  * GET /post/:id
+  * PATCH /post/:id
+  * POST /post/
+  * 
+  * for model db.models.post
+  * to allow delete add it to the allowedMethods list
+  */
+  app.use("/post",
+    new ModelRoute(
+      new ModelService(
+        db.models.post
+      ),
+      {
+        allowedMethods: ["GET", "POST", "PATCH"]
+      }).routes());
+  return app;
+};
