@@ -25,7 +25,7 @@ const {
   ModelService,
   Database,
   Util
-} = require("../dist");
+} = require("miqro");
 
 const logger = Util.getLogger("posts.js");
 const db = Database.getInstance();
@@ -79,7 +79,7 @@ const {
   ModelService,
   Database,
   Util
-} = require("../dist");
+} = require("miqro");
 
 const logger = Util.getLogger("posts.js");
 const db = Database.getInstance();
