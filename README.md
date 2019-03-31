@@ -77,6 +77,12 @@ module.exports = async (app) => {
 };
 ```
 
+init your microservice configuration
+
+```npx miqro init posts.js```
+
+**NOTE** this is only needed once
+
 create a sequelize model file ```db/models/post.js```.
 
 ```javascript
