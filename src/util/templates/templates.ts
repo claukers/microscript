@@ -149,6 +149,11 @@ LOG_LEVEL="info"
 LOG_LEVEL_Sequelize="error"
 # htto server
 PORT=8080
+HTTPS_ENABLE=false
+# should be loadad from a secret manager into process.env.JWT_SECRET
+HTTPS_KEY=
+# should be loadad from a secret manager into process.env.JWT_SECRET
+HTTPS_CERT=
 # jsonwebtoken
 JWT_HEADER=X-TOKEN
 # should be loadad from a secret manager into process.env.JWT_SECRET

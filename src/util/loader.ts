@@ -2,6 +2,9 @@
 
 import * as  express from "express";
 import * as  path from "path";
+import * as  fs from "fs";
+import * as https from "https";
+import * as http from "http";
 import { setupMiddleware } from "../middleware";
 import { Util } from "../util";
 
@@ -37,20 +40,35 @@ export const setupInstance = (serviceName, scriptPath) => {
 };
 
 export const runInstance = async (logger, script, scriptPath) => {
-  Util.checkEnvVariables(["PORT"]);
+  Util.checkEnvVariables(["PORT", "HTTPS_ENABLE"]);
   return new Promise(async (resolve, reject) => {
     logger.info(`launching script`);
     const bApp = express();
     await setupMiddleware(bApp, logger);
     script(bApp).then((app) => {
-      const server = app.listen(process.env.PORT, (err) => {
-        if (err) {
+      try {
+        const errorHandler = (err) => {
           reject(err);
+        };
+        let server = null;
+        if (process.env.HTTPS_ENABLE === "true") {
+          logger.info(`HTTPS enabled`);
+          Util.checkEnvVariables(["HTTPS_KEY", "HTTPS_CERT"]);
+          const key = fs.readFileSync(path.resolve(process.env.HTTPS_KEY), 'utf8');
+          const cert = fs.readFileSync(path.resolve(process.env.HTTPS_CERT), 'utf8');
+          server = https.createServer({ key, cert }, app);
         } else {
-          logger.info(`script started on [${process.env.PORT}]`);
-          resolve({ app, server });
+          server = http.createServer(app);
         }
-      });
+        server.once("error", errorHandler);
+        server.listen(process.env.PORT, () => {
+          logger.info(`script started on [${process.env.PORT}]`);
+          server.removeListener("error", errorHandler);
+          resolve({ app, server });
+        });
+      } catch (e) {
+        reject(e);
+      }
     }).catch((e) => {
       logger.error(e);
       logger.error(e.stack);
