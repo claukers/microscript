@@ -1,7 +1,9 @@
 import * as fs from "fs";
 import * as path from "path";
 import { Util } from "../util";
+import { templates } from "../util/templates";
 
+const logger = console;
 const modulePath = process.argv[3];
 
 if (process.argv.length !== 4) {
@@ -14,7 +16,13 @@ if (typeof modulePath !== "string") {
 const service = path.resolve(modulePath);
 
 if (!fs.existsSync(service)) {
-  throw new Error(`microservice [${service}] doesnt exists!`);
+  logger.warn(`microservice [${service}] doesnt exists!`);
+  logger.warn(`creating [${service}]!`);
+  const mainjsPath = path.resolve(path.dirname(service), 'main.js');
+  fs.writeFileSync(service, templates.indexjs());
+  if (!fs.existsSync(mainjsPath)) {
+    fs.writeFileSync(mainjsPath, templates.mainjs(path.basename(service)));
+  }
 }
 
 Util.setupInstanceEnv("automigrate", service);

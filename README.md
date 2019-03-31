@@ -53,7 +53,13 @@ create a empty nodejs project.
 
 ```$ npm install --save miqro```
 
-create a main service file ```posts.js``` like this.
+inits a miqro service configurations
+
+```$ npx miqro init posts.js```
+
+**NOTE** this is only needed once
+
+edit the main service file ```posts.js``` to look like this.
 
 ```javascript
 const {
@@ -76,12 +82,6 @@ module.exports = async (app) => {
   return app;
 };
 ```
-
-init your microservice configuration
-
-```npx miqro init posts.js```
-
-**NOTE** this is only needed once
 
 create a sequelize model file ```db/models/post.js```.
 
@@ -242,18 +242,20 @@ $MIQRO_DIRNAME/config/development.env
 then create a ```main.js``` creating a simple express server.
 ```javascript
 const express = require("express");
-const { Util, setupMiddleware } = require("miqro");
+const { Util, setupMiddleware } = require("../dist");
 // process.env.MIQRO_DIRNAME must exists!
 Util.loadConfig();
 
 const logger = Util.getLogger("main.js");
-const service = require("./posts.js"); // the service file
+const service = require("./service.js");
 
 const app = express();
 setupMiddleware(app, logger);
 service(app).then((server) => {
   server.listen(process.env.PORT);
-}).listen(process.env.PORT);
+}).catch((e) => {
+  logger.error(e);
+});
 ```
 
 then run it

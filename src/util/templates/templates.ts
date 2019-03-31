@@ -1,5 +1,5 @@
 const modelsIndex =
-`'use strict';
+  `'use strict';
 
 const fs = require("fs");
 const path = require("path");
@@ -33,7 +33,7 @@ Object.keys(db).forEach((modelName) => {
 module.exports = db;
 `;
 const dbConfig =
-`["DB_NAME", "DB_USER", "DB_PASS", "DB_HOST", "DB_DIALECT",
+  `["DB_NAME", "DB_USER", "DB_PASS", "DB_HOST", "DB_DIALECT",
 "DB_OPERATORSALIASES", "DB_POOL_MAX", "DB_POOL_MIN", "DB_POOL_ACQUIRE", "DB_POOL_IDDLE", "DB_STORAGE"
 ].forEach((envName) => {
 if (process.env[envName] === undefined) {
@@ -59,7 +59,7 @@ module.exports = {
 `;
 
 const sequelizerc =
-`const path = require("path");
+  `const path = require("path");
 
 module.exports = {
   "config": path.resolve(__dirname, "config", "db.js"),
@@ -70,7 +70,7 @@ module.exports = {
 `;
 
 const logjs =
-`const path = require("path");
+  `const path = require("path");
 const winston = require("winston");
 const {
   format
@@ -174,7 +174,52 @@ db/models/index.js
 *.sqlite3
 `;
 
+export const mainjs = (servicejs) => {
+  return `const express = require("express");
+const { Util, setupMiddleware } = require("miqro");
+// process.env.MIQRO_DIRNAME must exists!
+Util.loadConfig();
+
+const logger = Util.getLogger("main.js");
+const service = require("./${servicejs}");
+
+const app = express();
+setupMiddleware(app, logger);
+service(app).then((server) => {
+  server.listen(process.env.PORT);
+}).catch((e) => {
+  logger.error(e);
+});
+`;
+};
+
+export const indexjs = () => {
+  return `const {
+    Database,
+    Util,
+    APIResponse
+  } = require("miqro");
+  const path = require("path");
+  
+  module.exports = async (app) => {
+    const logger = Util.getLogger(path.basename(__filename));
+    const db = await Database.getInstance();
+  
+    app.get("/hello", async (req, res) => {
+      logger.info("GET /hello called!");
+      await new APIResponse({
+        result: "world"
+      }).send(res);
+    });
+    logger.info("started");
+    return app;
+  };
+  `;
+};
+
 export const templates = {
+  indexjs,
+  mainjs,
   gitignore,
   defaultEnvFile,
   modelsIndex,
