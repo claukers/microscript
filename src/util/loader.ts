@@ -1,10 +1,10 @@
 "use strict";
 
 import * as  express from "express";
-import * as  path from "path";
 import * as  fs from "fs";
-import * as https from "https";
 import * as http from "http";
+import * as https from "https";
+import * as  path from "path";
 import { setupMiddleware } from "../middleware";
 import { Util } from "../util";
 
@@ -54,8 +54,8 @@ export const runInstance = async (logger, script, scriptPath) => {
         if (process.env.HTTPS_ENABLE === "true") {
           logger.info(`HTTPS enabled`);
           Util.checkEnvVariables(["HTTPS_KEY", "HTTPS_CERT"]);
-          const key = fs.readFileSync(path.resolve(process.env.HTTPS_KEY), 'utf8');
-          const cert = fs.readFileSync(path.resolve(process.env.HTTPS_CERT), 'utf8');
+          const key = fs.readFileSync(path.resolve(process.env.HTTPS_KEY), "utf8");
+          const cert = fs.readFileSync(path.resolve(process.env.HTTPS_CERT), "utf8");
           server = https.createServer({ key, cert }, app);
         } else {
           server = http.createServer(app);

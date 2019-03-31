@@ -180,13 +180,24 @@ the **JWT_HEADER** env variable can be set in the ```$MIQRO_DIRNAME/config/$NODE
 ...
 const { AuthRoute } = require("miqro");
 ...
-// create a protected route and add some protected routes
-// keep in mind that only the token will be validated
-const api = new AuthRoute()
-  .use("/user", new ModelRoute(new ModelService(db.models.user)));
+const api = new AuthRoute({
+  auth: {
+    authenticate: async (req) => {
+      // Use req to authenticate 
+      return {
+        account: "account",
+        user: "user",
+        groups: ["group1", "group2"]
+      }; // OR NULL/undefined/false for a an invalid authenticate
+    },
+    onAuthenticate: async (session) => {
+      // posible store the token in db for manual invalidation ?
+    }
+  }
+});
 ...
 // attach route
-app.use("/api/v1", api.routes());
+app.use("/api/v1/auth", api.routes());
 ```
 
 #### create a custom protected route
@@ -199,47 +210,8 @@ const { ProtectedRoute } = require("miqro");
 // keep in mind that only the token will be validated
 const api = new ProtectedRoute({
   auth: {
-    verify: async ({ token }) => {
-      return {
-        token: "token";
-        account: "account",
-        user: "user",
-        groups: ["group1", "group2"]
-      }; // OR NULL/undefined/false for a an invalid token
-    }
-  }
-})
-  .use("/user", new ModelRoute(new ModelService(db.models.user)));
-...
-// attach route
-app.use("/api/v1", api.routes());
-```
-
-#### create a custom auth route
-
-```javascript
-...
-const { AuthRoute } = require("miqro");
-...
-// create a protected route and add some protected routes
-// keep in mind that only the token will be validated
-const api = new AuthRoute({
-  auth: {
-    authenticate: async (req) => {
-      return {
-        token: "token";
-        account: "account",
-        user: "user",
-        groups: ["group1", "group2"]
-      }; // OR NULL/undefined/false for a an invalid authenticate
-    },
-    verify: async ({ token }) => {
-      return {
-        token: "token";
-        account: "account",
-        user: "user",
-        groups: ["group1", "group2"]
-      }; // OR NULL/undefined/false for a an invalid token
+    verify: async (session) => {
+      return true; // OR NULL/undefined/false for a an invalid session
     }
   }
 })

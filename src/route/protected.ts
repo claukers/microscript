@@ -1,5 +1,5 @@
 import * as express from "express";
-import { AuthService, IAuthService, ISession } from "../service";
+import { AuthService, IAuthOptions, IAuthService, ISession } from "../service";
 import { Util } from "../util";
 import { BadRequestResponse, IAPIRequest } from "./response";
 import { IServiceHandler, IServiceRouteOptions, ServiceRoute } from "./service";
@@ -7,7 +7,7 @@ import { IServiceHandler, IServiceRouteOptions, ServiceRoute } from "./service";
 let logger = null;
 
 export interface IProtectedRouteOptions extends IServiceRouteOptions {
-  auth: IAuthService;
+  auth: IAuthOptions;
 }
 
 export class ProtectedRoute extends ServiceRoute {
@@ -19,7 +19,7 @@ export class ProtectedRoute extends ServiceRoute {
       logger = Util.getLogger("ProtectedRoute");
     }
     Util.checkEnvVariables(["JWT_HEADER"]);
-    this.authService = options && options.auth ? options.auth : new AuthService();
+    this.authService = options && options.auth ? new AuthService(options.auth) : new AuthService();
   }
   protected initJwt() {
     if (!this.jwtInited) {
