@@ -1,5 +1,5 @@
 const express = require("express");
-const { Util, setupMiddleware } = require("../dist");
+const { Util, setupMiddleware } = require("miqro");
 // process.env.MIQRO_DIRNAME must exists!
 Util.loadConfig();
 

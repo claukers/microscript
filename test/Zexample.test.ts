@@ -10,6 +10,8 @@ describe('Zexample start', function () {
     rewiremock.default.enable();
     rewiremock.default.disable();
     rewiremock.default.enable();
+    const miqro = require("../src");
+    rewiremock.default("miqro").with(miqro);
     done();
   });
   after((done) => {
