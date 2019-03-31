@@ -76,19 +76,37 @@ const restart = () => {
 };
 logger.log(`watching ${serviceDirname}`);
 watch.watchTree(serviceDirname, (f, curr, prev) => {
+  let ext = "";
+  try {
+    ext = path.extname(f);
+  } catch (e) {
+    ext = "";
+  }
   if (typeof f === "object" && prev === null && curr === null) {
     // Finished walking the tree
   } else if (prev === null) {
     // f is a new file
-    logger.log(`${f} new file`);
-    restart();
+    const basedir = path.dirname(f);
+    const name = path.basename(basedir);
+    if (name !== "logs" && ext !== ".log") {
+      logger.log(`${f} new file`);
+      restart();
+    }
   } else if (curr.nlink === 0) {
     // f was removed
-    logger.log(`${f} removed`);
-    restart();
+    const basedir = path.dirname(f);
+    const name = path.basename(basedir);
+    if (name !== "logs" && ext !== ".log") {
+      logger.log(`${f} removed`);
+      restart();
+    }
   } else {
     // f was changed
-    logger.log(`change in ${f}`);
-    restart();
+    const basedir = path.dirname(f);
+    const name = path.basename(basedir);
+    if (name !== "logs" && ext !== ".log") {
+      logger.log(`change in ${f}`);
+      restart();
+    }
   }
 });
