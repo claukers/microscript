@@ -163,6 +163,36 @@ this will create 4 processes running your service in a node cluster.
 
 by default all configuration is done with env variables. You can load the env variables using the ```Util.loadConfig()``` call. This will load the correct **dotenv** file located in ```$MIQRO_DIRNAME/config/$NODE_ENV.env```.
 
+## request body parsing
+
+by default body parser is used with the following options
+```
+BODYPARSER_INFLATE=true
+BODYPARSER_LIMIT="100kb"
+BODYPARSER_STRICT=true
+BODYPARSER_TYPE="100kb"
+```
+
+you can change them in the appropiate dotenv file.
+
+additionally miqro provides a **checkOptions** method that throws a ParserOptionError that is **automatically** handled by **ModelRoute** and **ServiceRoute** routes.
+
+for example
+
+```javascript
+const { Util } = require("miqro");
+...
+const body = req.body;
+const { name, id, aliases } = Util.parseOptions("body", body, [
+  { name: "name", type: "string", required: true },
+  { name: "id", type: "number", required: true }
+  { name: "aliases", type: "array", arrayType: "string", required: false }
+], "no_extra");
+...
+```
+
+in case a the body doesnt pass the parseOptions function the route will return a **BadRequestResponse** with a message like ```body.name not a string!``` automatically.
+
 ## jwt
 
 miqro provides a very simple implementation of jwt using the **jsonwebtoken** module. Like every piece of miqro the use of this is optional. 
