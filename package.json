@@ -17,7 +17,8 @@
     "test": "NODE_ENV=test nyc mocha test/*.test.ts",
     "testfile": "NODE_ENV=test nyc mocha",
     "lint": "tslint -c ./tslint.json -p ./tsconfig.json",
-    "fixlint": "tslint --fix -c ./tslint.json -p ./tsconfig.json"
+    "fixlint": "tslint --fix -c ./tslint.json -p ./tsconfig.json",
+    "doc": "typedoc --tsconfig ./tsconfig.json --target ES6 --module commonjs --out ./docs/ ./src/"
   },
   "author": "claukers",
   "license": "ISC",
@@ -50,6 +51,7 @@
     "sinon": "^7.3.1",
     "ts-node": "^7.0.1",
     "tslint": "^5.14.0",
+    "typedoc": "^0.14.2",
     "typescript": "^3.4.1"
   },
   "engines": {

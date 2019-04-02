@@ -163,7 +163,7 @@ JWT_EXPIRATION=3d
 BODYPARSER_INFLATE=true
 BODYPARSER_LIMIT="100kb"
 BODYPARSER_STRICT=true
-BODYPARSER_TYPE="100kb"
+BODYPARSER_TYPE="application/json"
 `;
 
 export const gitignore = `config/db.js

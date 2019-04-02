@@ -170,7 +170,7 @@ by default body parser is used with the following options
 BODYPARSER_INFLATE=true
 BODYPARSER_LIMIT="100kb"
 BODYPARSER_STRICT=true
-BODYPARSER_TYPE="100kb"
+BODYPARSER_TYPE="application/json"
 ```
 
 you can change them in the appropiate dotenv file.
