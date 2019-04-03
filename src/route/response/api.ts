@@ -1,8 +1,10 @@
 import * as express from "express";
 import { ISession } from "../../service";
+import { ISimpleMap } from "../../util";
 
 export interface IAPIRequest extends express.Request {
   session: ISession;
+  params: ISimpleMap<any>;
 }
 
 export class APIResponse {

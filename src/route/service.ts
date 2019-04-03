@@ -33,6 +33,9 @@ export class ServiceRoute extends Route {
   public patch(route: string, handler: IServiceHandler) {
     this.addRoute("patch", route, handler);
   }
+  public put(route: string, handler: IServiceHandler) {
+    this.addRoute("put", route, handler);
+  }
   public use(route: string, handler: IServiceHandler) {
     this.addRoute(null, route, handler);
   }
