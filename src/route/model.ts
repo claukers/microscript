@@ -9,6 +9,7 @@ export interface IModelRoute {
   postInstance(req: IAPIRequest, res: express.Response): Promise<void>;
   deleteInstance(req: IAPIRequest, res: express.Response): Promise<void>;
   patchInstance(req: IAPIRequest, res: express.Response): Promise<void>;
+  putInstance(req: IAPIRequest, res: express.Response): Promise<void>;
 }
 
 let logger = null;
@@ -38,6 +39,10 @@ export class ModelRoute extends ServiceRoute implements IModelRoute {
     // Patch by id
     this.patch("/:id", async (req: IAPIRequest, res: express.Response) => {
       return this.patchInstance(req, res);
+    });
+    // Patch by id
+    this.put("/", async (req: IAPIRequest, res: express.Response) => {
+      return this.putInstance(req, res);
     });
   }
   public async getInstance(req: IAPIRequest, res: express.Response) {
@@ -81,6 +86,18 @@ export class ModelRoute extends ServiceRoute implements IModelRoute {
       session: req.session,
       what: req.params.id !== undefined ? { id: [req.params.id] } : {},
       patch
+    });
+    logger.debug(`${req.method} handler ret [${ret}]`);
+    await new ModelServiceResponse(ret).send(res);
+  }
+  public async putInstance(req: IAPIRequest, res: express.Response) {
+    const body = req.body;
+    const { put } = Util.parseOptions("body", body, [
+      { name: "put", type: "object", required: true }
+    ], "no_extra");
+    const ret = await this.service.put({
+      session: req.session,
+      put
     });
     logger.debug(`${req.method} handler ret [${ret}]`);
     await new ModelServiceResponse(ret).send(res);
