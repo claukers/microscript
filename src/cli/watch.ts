@@ -72,14 +72,8 @@ const restart = (silent?) => {
         env: process.env,
         windowsHide: true
       });
-      proc.stdout.on("data", (data) => {
-        logger.log(data.toString());
-      });
-
-      proc.stderr.on("data", (data) => {
-        logger.error(data.toString());
-      });
-
+      proc.stdout.pipe(process.stdout);
+      proc.stderr.pipe(process.stderr);
       proc.on("close", (code) => {
         logger.log(`exited with code ${code}`);
         proc = null;
