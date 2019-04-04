@@ -1,8 +1,8 @@
-import * as express from "express";
+import { Request, Response } from "express";
 import { ISession } from "../../service";
 import { ISimpleMap } from "../../util";
 
-export interface IAPIRequest extends express.Request {
+export interface IAPIRequest extends Request {
   session: ISession;
   params: ISimpleMap<any>;
 }
@@ -10,7 +10,7 @@ export interface IAPIRequest extends express.Request {
 export class APIResponse {
   public status = 200;
   constructor(private body?: any) { }
-  public async send(res: express.Response) {
+  public async send(res: Response) {
     res.status(this.status);
     res.json(this.body);
   }

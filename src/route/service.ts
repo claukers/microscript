@@ -1,4 +1,5 @@
 import * as express from "express";
+import { IncomingMessage } from "http";
 import { Util } from "../util";
 import { BadRequestResponse, ErrorResponse, IAPIRequest, NotFoundResponse } from "./response";
 import { Route } from "./route";
@@ -42,6 +43,7 @@ export class ServiceRoute extends Route {
   protected addRoute(method: string, route: string, handler: IServiceHandler) {
     const realHandler = async (req: IAPIRequest, res, next) => {
       try {
+
         if (this.options && this.options.allowedMethods && this.options.allowedMethods.indexOf(req.method.toUpperCase()) === -1) {
           new NotFoundResponse().send(res);
         } else {

@@ -1,6 +1,6 @@
 import * as Sequelize from "sequelize";
 import { Util } from "../util";
-import { AbstractModelService, IGetArgs, IPatchArgs, IPostArgs, IPutArgs } from "./common";
+import { AbstractModelService, IServiceArgs } from "./common";
 
 let logger = null;
 
@@ -11,15 +11,15 @@ export class ModelService extends AbstractModelService {
       logger = Util.getLogger("ModelService");
     }
   }
-  public async get(options: IGetArgs): Promise<any> {
+  public async get(options: IServiceArgs): Promise<any> {
     return this.model.findAll({
       where: options.what
     });
   }
-  public async post(options: IPostArgs): Promise<any> {
+  public async post(options: IServiceArgs): Promise<any> {
     return this.model.create(options.post);
   }
-  public async patch(options: IPatchArgs): Promise<any> {
+  public async patch(options: IServiceArgs): Promise<any> {
     const instances = await this.get(options);
     if (instances.length === 1) {
       return instances[0].update(options.patch);
@@ -27,7 +27,7 @@ export class ModelService extends AbstractModelService {
       return null;
     }
   }
-  public async delete(options: IGetArgs): Promise<any> {
+  public async delete(options: IServiceArgs): Promise<any> {
     const instances = await this.get(options);
     if (instances.length === 1) {
       return instances[0].destroy();

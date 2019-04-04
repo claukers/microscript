@@ -1,19 +1,20 @@
-import { IPutArgs, IGetArgs, IModelService, IPatchArgs, IPostArgs, MethodNotImplementedError } from "./model";
+import { IServiceArgs } from "./args";
+import { IModelService, MethodNotImplementedError } from "./model";
 
 export abstract class AbstractModelService implements IModelService {
-  public async get(options: IGetArgs): Promise<any> {
+  public async get(options: IServiceArgs): Promise<any> {
     throw new MethodNotImplementedError("Method not implemented.");
   }
-  public async post(options: IPostArgs): Promise<any> {
+  public async post(options: IServiceArgs): Promise<any> {
     throw new MethodNotImplementedError("Method not implemented.");
   }
-  public async put(options: IPutArgs): Promise<any> {
+  public async put(options: IServiceArgs): Promise<any> {
     throw new MethodNotImplementedError("Method not implemented.");
   }
-  public async patch(options: IPatchArgs): Promise<any> {
+  public async patch(options: IServiceArgs): Promise<any> {
     throw new MethodNotImplementedError("Method not implemented.");
   }
-  public async delete(options: IGetArgs): Promise<any> {
+  public async delete(options: IServiceArgs): Promise<any> {
     throw new MethodNotImplementedError("Method not implemented.");
   }
 }

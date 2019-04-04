@@ -20,8 +20,8 @@ export class Database extends EventEmitter {
   }
   private static instance: Database = null;
   public models: IModelMap = {};
+  public sequelize: Sequelize.Sequelize;
   private state: DataBaseState = "stopped";
-  private sequelize: Sequelize.Sequelize;
   constructor() {
     super();
     if (logger === null) {
@@ -40,7 +40,18 @@ export class Database extends EventEmitter {
       }
     });
   }
-
+  public async transaction(transactionCB: (t: Sequelize.Transaction) => PromiseLike<any>) {
+    await this.sequelize.transaction((t: Sequelize.Transaction) => {
+      return transactionCB(t);
+    });
+  }
+  public async query(q: { query: string, values: any[] }, t?) {
+    if (t) {
+      return this.sequelize.query(q, { transaction: t });
+    } else {
+      return this.sequelize.query(q);
+    }
+  }
   public async start() {
     if (this.state !== "stopped") {
       throw new Error("DataBase not stopped!");
