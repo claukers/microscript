@@ -1,7 +1,7 @@
+import * as cp from "child_process";
 import * as fs from "fs";
 import * as path from "path";
 import * as watch from "watch";
-import { Miqro } from "../miqro";
 
 const usage = `usage: miqro watch [nodes=1] [mode=simple] <microservice.js>`;
 
@@ -51,30 +51,54 @@ if (!fs.existsSync(service)) {
   throw new Error(`microservice [${service}] doesnt exists!`);
 }
 
-const micro = new Miqro({
-  name,
-  service,
-  nodes,
-  mode: mode as any
-});
-
-micro.start().catch((e) => {
-  logger.error(e);
-});
-
 const serviceDirname = path.resolve(path.dirname(service));
 
+let proc = null;
+
 let restartTimeout = null;
-const restart = () => {
-  logger.warn("restart queue");
+const restart = (silent?) => {
+  if (!silent) {
+    logger.warn("restart queue");
+  }
   clearTimeout(restartTimeout);
   restartTimeout = setTimeout(async () => {
-    logger.warn("restarting");
-    await micro.stop();
-    await micro.start();
-  }, 2000);
+    if (!silent) {
+      logger.warn("restarting");
+    }
+    const start = () => {
+      logger.log("running");
+      proc = cp.spawn("npx", ["miqro", "start", nodes, mode, service], {
+        cwd: serviceDirname,
+        env: process.env,
+        windowsHide: true
+      });
+      proc.stdout.pipe(process.stdout);
+      proc.stderr.pipe(process.stderr);
+      proc.on("close", (code) => {
+        logger.log(`exited with code ${code}`);
+        proc = null;
+      });
+    };
+    if (proc) {
+      let alive = false;
+      try {
+        proc.kill(0);
+        alive = true;
+      } catch (e) {
+        logger.error(e);
+      }
+      proc.once("close", (code) => {
+        start();
+      });
+      proc.kill("SIGHUP");
+      proc = null;
+    } else {
+      start();
+    }
+  }, silent ? 0 : 2000);
 };
 logger.log(`watching ${serviceDirname}`);
+restart(true);
 watch.watchTree(serviceDirname, (f, curr, prev) => {
   let ext = "";
   let basedir = "";
