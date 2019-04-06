@@ -22,25 +22,25 @@ export class ServiceRoute extends Route {
       logger = Util.getLogger("ServiceRoute");
     }
   }
-  public get(route: string, handler: IServiceHandler) {
+  public get(route: string | string[], handler: IServiceHandler) {
     this.addRoute("get", route, handler);
   }
-  public post(route: string, handler: IServiceHandler) {
+  public post(route: string | string[], handler: IServiceHandler) {
     this.addRoute("post", route, handler);
   }
-  public delete(route: string, handler: IServiceHandler) {
+  public delete(route: string | string[], handler: IServiceHandler) {
     this.addRoute("delete", route, handler);
   }
-  public patch(route: string, handler: IServiceHandler) {
+  public patch(route: string | string[], handler: IServiceHandler) {
     this.addRoute("patch", route, handler);
   }
-  public put(route: string, handler: IServiceHandler) {
+  public put(route: string | string[], handler: IServiceHandler) {
     this.addRoute("put", route, handler);
   }
-  public use(route: string, handler: IServiceHandler) {
+  public use(route: string | string[], handler: IServiceHandler) {
     this.addRoute(null, route, handler);
   }
-  protected addRoute(method: string, route: string, handler: IServiceHandler) {
+  protected addRoute(method: string, route: string | string[], handler: IServiceHandler) {
     const realHandler = async (req: IAPIRequest, res, next) => {
       try {
 
@@ -69,15 +69,28 @@ export class ServiceRoute extends Route {
         }
       }
     };
+
     if (!method) {
       if (route) {
-        this.router.use(route, realHandler);
+        if (typeof route === "string") {
+          this.router.use(route, realHandler);
+        } else {
+          for (const r of route) {
+            this.router.use(r, realHandler);
+          }
+        }
       } else {
         this.router.use(realHandler);
       }
     } else {
       if (route) {
-        this.router[method](route, realHandler);
+        if (typeof route === "string") {
+          this.router[method](route, realHandler);
+        } else {
+          for (const r of route) {
+            this.router[method](r, realHandler);
+          }
+        }
       } else {
         this.router[method](realHandler);
       }
