@@ -1,6 +1,7 @@
 import * as Sequelize from "sequelize";
-import { Util } from "../util";
+import { Util, ParseOptionsError } from "../util";
 import { AbstractModelService, IServiceArgs } from "./common";
+import { Database } from "../db";
 
 let logger = null;
 
@@ -21,17 +22,39 @@ export class ModelService extends AbstractModelService {
     Util.parseOptions("params", params, [
       { name: "id", type: "number", required: false }
     ], "no_extra");
-    Util.parseOptions("query", query, [], "no_extra");
+    const { include } = Util.parseOptions("query", query, [
+      { name: "include", type: "string", required: false }
+    ], "no_extra");
+    let include_models = [];
+    if (include) {
+      let include_list = [];
+      try {
+        include_list = JSON.parse(include);
+      } catch (e) {
+        throw new ParseOptionsError(`query.include not a valid JSON`);
+      }
+      for (const include_model of include_list) {
+        const model = Database.getInstance().models[include_model];
+        if (model) {
+          include_models.push(model);
+        } else {
+          throw new ParseOptionsError(`query.include[${include_model}] model doesnt exists!`);
+        }
+      }
+    }
     Util.parseOptions("body", body, [], "no_extra");
     let ret;
     if (options.params.id) {
       ret = await this.model.findAll({
         where: {
           id: options.params.id
-        }
+        },
+        include: include_models
       });
     } else {
-      ret = await this.model.findAll();
+      ret = await this.model.findAll({
+        include: include_models
+      });
     }
     return ret;
   }
