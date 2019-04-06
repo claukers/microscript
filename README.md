@@ -1,5 +1,7 @@
 # miqro
 
+**in early development not to use in production**
+
 little framework for creating microservices with **express**, **sequelize** and **sequelize-auto-migrations**.
 
 - database **auto-migration**.
