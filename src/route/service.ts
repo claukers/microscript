@@ -1,7 +1,7 @@
 import * as express from "express";
-import { IncomingMessage } from "http";
+import { ServiceArg } from "../service";
 import { Util } from "../util";
-import { BadRequestResponse, ErrorResponse, IAPIRequest, NotFoundResponse } from "./response";
+import { BadRequestResponse, ErrorResponse, IAPIRequest, NotFoundResponse, ServiceResponse } from "./response";
 import { Route } from "./route";
 
 let logger;
@@ -13,6 +13,16 @@ export interface IServiceHandler {
 
 export interface IServiceRouteOptions {
   allowedMethods?: string[];
+}
+
+export function createServiceHandler(service, method) {
+  return async (req, res) => {
+    await new ServiceResponse(
+      await service[method](
+        new ServiceArg(req)
+      )
+    ).send(res);
+  };
 }
 
 export class ServiceRoute extends Route {
