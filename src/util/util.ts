@@ -135,15 +135,16 @@ export abstract class Util {
     });
   }
   public static parseOptions(argName,
-                             arg: { [name: string]: any },
-                             optionsArray: Array<{
+    arg: { [name: string]: any },
+    optionsArray: Array<{
       name: string, type: string, arrayType?: string, required: boolean
     }>,
-                             parserOption: IOPTIONPARSER = "no_extra"): { [name: string]: any } {
+    parserOption: IOPTIONPARSER = "no_extra"): { [name: string]: any } {
     const ret = {};
     if (typeof arg !== "object" || !arg) {
       throw new ParseOptionsError(`${argName} not valid`);
     }
+    let undefinedCount = 0;
     optionsArray.forEach((patchAttr) => {
       const name = patchAttr.name;
       const type = patchAttr.type;
@@ -175,7 +176,7 @@ export abstract class Util {
     });
     const argKeys = Object.keys(arg);
     const retKeys = Object.keys(ret);
-    if (retKeys.length === argKeys.length) {
+    if (retKeys.length === argKeys.length - undefinedCount) {
       return ret;
     } else {
       if (parserOption === "remove_extra") {

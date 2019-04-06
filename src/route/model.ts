@@ -1,7 +1,7 @@
 import * as express from "express";
-import { IModelService, ISession } from "../service";
+import { IModelService } from "../service";
 import { Util } from "../util";
-import { AuthResponse, IAPIRequest, ModelServiceResponse } from "./response";
+import { IAPIRequest, ModelServiceResponse } from "./response";
 import { IServiceRouteOptions, ServiceRoute } from "./service";
 
 export interface IModelRoute {
@@ -46,58 +46,51 @@ export class ModelRoute extends ServiceRoute implements IModelRoute {
     });
   }
   public async getInstance(req: IAPIRequest, res: express.Response) {
-    const body = req.body;
-    Util.parseOptions("body", body, [], "no_extra");
     const ret = await this.service.get({
       session: req.session,
-      what: req.params.id !== undefined ? { id: [req.params.id] } : {}
+      query: req.query,
+      params: req.params,
+      body: req.body
     });
     logger.debug(`${req.method} handler ret [${ret}]`);
     await new ModelServiceResponse(ret).send(res);
   }
   public async postInstance(req: IAPIRequest, res: express.Response) {
-    const body = req.body;
-    const { post } = Util.parseOptions("body", body, [
-      { name: "post", type: "object", required: true }
-    ], "no_extra");
     const ret = await this.service.post({
       session: req.session,
-      post
+      query: req.query,
+      params: req.params,
+      body: req.body
     });
     logger.debug(`${req.method} handler ret [${ret}]`);
     await new ModelServiceResponse(ret).send(res);
   }
   public async deleteInstance(req: IAPIRequest, res: express.Response) {
-    const body = req.body;
-    Util.parseOptions("body", body, [], "no_extra");
     const ret = await this.service.delete({
       session: req.session,
-      what: req.params.id !== undefined ? { id: [req.params.id] } : {}
+      query: req.query,
+      params: req.params,
+      body: req.body
     });
     logger.debug(`${req.method} handler ret [${ret}]`);
     await new ModelServiceResponse(ret).send(res);
   }
   public async patchInstance(req: IAPIRequest, res: express.Response) {
-    const body = req.body;
-    const { patch } = Util.parseOptions("body", body, [
-      { name: "patch", type: "object", required: true }
-    ], "no_extra");
     const ret = await this.service.patch({
       session: req.session,
-      what: req.params.id !== undefined ? { id: [req.params.id] } : {},
-      patch
+      query: req.query,
+      params: req.params,
+      body: req.body
     });
     logger.debug(`${req.method} handler ret [${ret}]`);
     await new ModelServiceResponse(ret).send(res);
   }
   public async putInstance(req: IAPIRequest, res: express.Response) {
-    const body = req.body;
-    const { put } = Util.parseOptions("body", body, [
-      { name: "put", type: "object", required: true }
-    ], "no_extra");
     const ret = await this.service.put({
       session: req.session,
-      put
+      query: req.query,
+      params: req.params,
+      body: req.body
     });
     logger.debug(`${req.method} handler ret [${ret}]`);
     await new ModelServiceResponse(ret).send(res);

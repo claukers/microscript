@@ -1,11 +1,11 @@
 import { EventEmitter } from "events";
-import * as Sequelize from "sequelize";
+import { Model, Transaction, Sequelize } from "sequelize";
 import { ISimpleMap, Util } from "../util";
 import { setupDB } from "../util/loader";
 
 export type DataBaseState = "stopped" | "starting" | "started" | "startstop" | "error";
 
-export interface IModelMap extends ISimpleMap<Sequelize.Model<any, any>> {
+export interface IModelMap extends ISimpleMap<Model<any, any>> {
 }
 
 let logger = null;
@@ -20,7 +20,7 @@ export class Database extends EventEmitter {
   }
   private static instance: Database = null;
   public models: IModelMap = {};
-  public sequelize: Sequelize.Sequelize;
+  public sequelize: Sequelize;
   private state: DataBaseState = "stopped";
   constructor() {
     super();
@@ -40,8 +40,8 @@ export class Database extends EventEmitter {
       }
     });
   }
-  public async transaction(transactionCB: (t: Sequelize.Transaction) => PromiseLike<any>) {
-    await this.sequelize.transaction((t: Sequelize.Transaction) => {
+  public async transaction(transactionCB: (t: Transaction) => PromiseLike<any>) {
+    await this.sequelize.transaction((t: Transaction) => {
       return transactionCB(t);
     });
   }

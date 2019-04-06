@@ -47,6 +47,9 @@ export class ServiceRoute extends Route {
         if (this.options && this.options.allowedMethods && this.options.allowedMethods.indexOf(req.method.toUpperCase()) === -1) {
           new NotFoundResponse().send(res);
         } else {
+          if (req.session === undefined) {
+            req.session = null;
+          }
           const ret = await handler(req, res, next);
           logger.debug(`${req.method} handler ret [${ret}]`);
           return ret;

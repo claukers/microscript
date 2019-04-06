@@ -12,4 +12,7 @@ export interface ISession extends INoTokenSession {
 
 export interface IServiceArgs extends ISimpleMap<any> {
   session: ISession;
+  params: ISimpleMap<any>;
+  query: ISimpleMap<any>;
+  body: ISimpleMap<any>;
 }
