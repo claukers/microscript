@@ -1,7 +1,7 @@
 import * as Sequelize from "sequelize";
-import { Util, ParseOptionsError } from "../util";
-import { AbstractModelService, IServiceArgs } from "./common";
 import { Database } from "../db";
+import { ParseOptionsError, Util } from "../util";
+import { AbstractModelService, IServiceArgs } from "./common";
 
 let logger = null;
 
@@ -22,20 +22,20 @@ export class ModelService extends AbstractModelService {
     const { include } = Util.parseOptions("query", query, [
       { name: "include", type: "string", required: false }
     ], "no_extra");
-    let include_models = [];
+    const includeModels = [];
     if (include) {
-      let include_list = [];
+      let includeList = [];
       try {
-        include_list = JSON.parse(include);
+        includeList = JSON.parse(include);
       } catch (e) {
         throw new ParseOptionsError(`query.include not a valid JSON`);
       }
-      for (const include_model of include_list) {
-        const model = Database.getInstance().models[include_model];
+      for (const includeModel of includeList) {
+        const model = Database.getInstance().models[includeModel];
         if (model) {
-          include_models.push(model);
+          includeModels.push(model);
         } else {
-          throw new ParseOptionsError(`query.include[${include_model}] model doesnt exists!`);
+          throw new ParseOptionsError(`query.include[${includeModel}] model doesnt exists!`);
         }
       }
     }
@@ -44,11 +44,11 @@ export class ModelService extends AbstractModelService {
     if (Object.keys(params).length > 0) {
       ret = await this.model.findAll({
         where: params,
-        include: include_models
+        include: includeModels
       });
     } else {
       ret = await this.model.findAll({
-        include: include_models
+        include: includeModels
       });
     }
     return ret;
@@ -71,9 +71,6 @@ export class ModelService extends AbstractModelService {
       { name: "params", type: "object", required: true },
       { name: "session", type: "object", required: false }
     ], "no_extra");
-    Util.parseOptions("params", params, [
-      { name: "id", type: "number", required: true }
-    ], "no_extra");
     Util.parseOptions("query", query, [], "no_extra");
     const instances = await this.get({
       session: options.session,
@@ -93,9 +90,6 @@ export class ModelService extends AbstractModelService {
       { name: "query", type: "object", required: true },
       { name: "params", type: "object", required: true },
       { name: "session", type: "object", required: false }
-    ], "no_extra");
-    Util.parseOptions("params", params, [
-      { name: "id", type: "number", required: true }
     ], "no_extra");
     Util.parseOptions("query", query, [], "no_extra");
     Util.parseOptions("body", body, [], "no_extra");
