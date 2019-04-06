@@ -61,6 +61,8 @@ export class ServiceRoute extends Route {
           new BadRequestResponse(e.message).send(res);
         } else if (e.name === "SequelizeValidationError") {
           new BadRequestResponse(e.message).send(res);
+        } else if (e.name === "SequelizeEagerLoadingError") {
+          new BadRequestResponse(e.message).send(res);
         } else {
           logger.error(e);
           new ErrorResponse(e.message).send(res);
