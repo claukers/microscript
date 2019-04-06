@@ -1,6 +1,6 @@
 import { APIResponse } from "./api";
 
-export class ModelServiceResponse extends APIResponse {
+export class ServiceResponse extends APIResponse {
   constructor(result: any) {
     super({
       success: result ? true : false,
