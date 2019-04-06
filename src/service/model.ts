@@ -42,7 +42,6 @@ export class ModelService extends AbstractModelService {
     Util.parseOptions("body", body, [], "no_extra");
     let ret;
     if (Object.keys(params).length > 0) {
-      console.log(params);
       ret = await this.model.findAll({
         where: params,
         include: include_models
