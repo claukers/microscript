@@ -19,9 +19,6 @@ export class ModelService extends AbstractModelService {
       { name: "params", type: "object", required: true },
       { name: "session", type: "object", required: false }
     ], "no_extra");
-    Util.parseOptions("params", params, [
-      { name: "id", type: "number", required: false }
-    ], "no_extra");
     const { include } = Util.parseOptions("query", query, [
       { name: "include", type: "string", required: false }
     ], "no_extra");
@@ -44,11 +41,10 @@ export class ModelService extends AbstractModelService {
     }
     Util.parseOptions("body", body, [], "no_extra");
     let ret;
-    if (options.params.id) {
+    if (Object.keys(params).length > 0) {
+      console.log(params);
       ret = await this.model.findAll({
-        where: {
-          id: options.params.id
-        },
+        where: params,
         include: include_models
       });
     } else {
