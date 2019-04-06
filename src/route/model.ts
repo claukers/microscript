@@ -22,27 +22,27 @@ export class ModelRoute extends ServiceRoute implements IModelRoute {
     }
     // Get All
     this.get("/", async (req: IAPIRequest, res: express.Response) => {
-      return await this.getInstance(req, res);
+      return this.getInstance(req, res);
     });
     // Get by Id
     this.get("/:id", async (req: IAPIRequest, res: express.Response) => {
-      return await this.getInstance(req, res);
+      return this.getInstance(req, res);
     });
     // Post
     this.post("/", async (req: IAPIRequest, res: express.Response) => {
-      return await this.postInstance(req, res);
+      return this.postInstance(req, res);
     });
     // Delete by id
     this.delete("/:id", async (req: IAPIRequest, res: express.Response) => {
-      return await this.deleteInstance(req, res);
+      return this.deleteInstance(req, res);
     });
     // Patch by id
     this.patch("/:id", async (req: IAPIRequest, res: express.Response) => {
-      return await this.patchInstance(req, res);
+      return this.patchInstance(req, res);
     });
     // Patch by id
     this.put("/", async (req: IAPIRequest, res: express.Response) => {
-      return await this.putInstance(req, res);
+      return this.putInstance(req, res);
     });
   }
   public async getInstance(req: IAPIRequest, res: express.Response) {

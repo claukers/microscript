@@ -1,5 +1,5 @@
 import { EventEmitter } from "events";
-import { Model, Transaction, Sequelize } from "sequelize";
+import { Model, Sequelize, Transaction } from "sequelize";
 import { ISimpleMap, Util } from "../util";
 import { setupDB } from "../util/loader";
 
