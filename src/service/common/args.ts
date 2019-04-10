@@ -16,6 +16,7 @@ export interface IServiceArgs extends ISimpleMap<any> {
   params: ISimpleMap<any>;
   query: ISimpleMap<any>;
   body: ISimpleMap<any>;
+  headers: ISimpleMap<any>;
 }
 
 export class ServiceArg implements IServiceArgs {
@@ -23,10 +24,12 @@ export class ServiceArg implements IServiceArgs {
   public params: ISimpleMap<any>;
   public query: ISimpleMap<any>;
   public body: ISimpleMap<any>;
+  public headers: ISimpleMap<any>;
   public constructor(req: IAPIRequest) {
     this.session = req.session;
     this.params = req.params;
     this.query = req.query;
     this.body = req.body;
+    this.headers = req.headers;
   }
 }

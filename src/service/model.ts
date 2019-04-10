@@ -76,7 +76,8 @@ export class ModelService extends AbstractModelService {
       session: options.session,
       body: {},
       query,
-      params
+      params,
+      headers: {}
     });
     if (instances.length === 1) {
       return instances[0].update(body);
@@ -97,7 +98,8 @@ export class ModelService extends AbstractModelService {
       session: options.session,
       body: {},
       query,
-      params
+      params,
+      headers: {}
     });
     if (instances.length === 1) {
       return instances[0].destroy();

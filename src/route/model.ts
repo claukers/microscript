@@ -1,5 +1,5 @@
 import * as express from "express";
-import { IModelService } from "../service";
+import { IModelService, ServiceArg } from "../service";
 import { Util } from "../util";
 import { IAPIRequest, ServiceResponse } from "./response";
 import { IServiceRouteOptions, ServiceRoute } from "./service";
@@ -46,52 +46,27 @@ export class ModelRoute extends ServiceRoute implements IModelRoute {
     });
   }
   public async getInstance(req: IAPIRequest, res: express.Response) {
-    const ret = await this.service.get({
-      session: req.session,
-      query: req.query,
-      params: req.params,
-      body: req.body
-    });
+    const ret = await this.service.get(new ServiceArg(req));
     logger.debug(`${req.method} handler ret [${ret}]`);
     await new ServiceResponse(ret).send(res);
   }
   public async postInstance(req: IAPIRequest, res: express.Response) {
-    const ret = await this.service.post({
-      session: req.session,
-      query: req.query,
-      params: req.params,
-      body: req.body
-    });
+    const ret = await this.service.post(new ServiceArg(req));
     logger.debug(`${req.method} handler ret [${ret}]`);
     await new ServiceResponse(ret).send(res);
   }
   public async deleteInstance(req: IAPIRequest, res: express.Response) {
-    const ret = await this.service.delete({
-      session: req.session,
-      query: req.query,
-      params: req.params,
-      body: req.body
-    });
+    const ret = await this.service.delete(new ServiceArg(req));
     logger.debug(`${req.method} handler ret [${ret}]`);
     await new ServiceResponse(ret).send(res);
   }
   public async patchInstance(req: IAPIRequest, res: express.Response) {
-    const ret = await this.service.patch({
-      session: req.session,
-      query: req.query,
-      params: req.params,
-      body: req.body
-    });
+    const ret = await this.service.patch(new ServiceArg(req));
     logger.debug(`${req.method} handler ret [${ret}]`);
     await new ServiceResponse(ret).send(res);
   }
   public async putInstance(req: IAPIRequest, res: express.Response) {
-    const ret = await this.service.put({
-      session: req.session,
-      query: req.query,
-      params: req.params,
-      body: req.body
-    });
+    const ret = await this.service.put(new ServiceArg(req));
     logger.debug(`${req.method} handler ret [${ret}]`);
     await new ServiceResponse(ret).send(res);
   }
