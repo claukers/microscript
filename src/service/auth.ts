@@ -69,6 +69,8 @@ export class AuthService implements IAuthService {
                 const verified = await this.options.verify(decoded);
                 if (verified) {
                   resolve(decoded);
+                } else {
+                  resolve(null);
                 }
               } catch (e) {
                 logger.error(e);
