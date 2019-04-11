@@ -12,13 +12,7 @@ export class ModelService extends AbstractModelService {
       logger = Util.getLogger("ModelService");
     }
   }
-  public async get(options: IServiceArgs): Promise<any> {
-    const { body, query, params } = Util.parseOptions("request", options, [
-      { name: "body", type: "object", required: true },
-      { name: "query", type: "object", required: true },
-      { name: "params", type: "object", required: true },
-      { name: "session", type: "object", required: false }
-    ], "no_extra");
+  public async get({ body, query, params, session }: IServiceArgs): Promise<any> {
     const { include } = Util.parseOptions("query", query, [
       { name: "include", type: "string", required: false }
     ], "no_extra");
@@ -53,27 +47,15 @@ export class ModelService extends AbstractModelService {
     }
     return ret;
   }
-  public async post(options: IServiceArgs): Promise<any> {
-    const { body, query, params } = Util.parseOptions("request", options, [
-      { name: "body", type: "object", required: true },
-      { name: "query", type: "object", required: true },
-      { name: "params", type: "object", required: true },
-      { name: "session", type: "object", required: false }
-    ], "no_extra");
+  public async post({ body, query, params, session }: IServiceArgs): Promise<any> {
     Util.parseOptions("params", params, [], "no_extra");
     Util.parseOptions("query", query, [], "no_extra");
     return this.model.create(body);
   }
-  public async patch(options: IServiceArgs): Promise<any> {
-    const { body, query, params } = Util.parseOptions("request", options, [
-      { name: "body", type: "object", required: true },
-      { name: "query", type: "object", required: true },
-      { name: "params", type: "object", required: true },
-      { name: "session", type: "object", required: false }
-    ], "no_extra");
+  public async patch({ body, query, params, session }: IServiceArgs): Promise<any> {
     Util.parseOptions("query", query, [], "no_extra");
     const instances = await this.get({
-      session: options.session,
+      session,
       body: {},
       query,
       params,
@@ -85,17 +67,11 @@ export class ModelService extends AbstractModelService {
       return null;
     }
   }
-  public async delete(options: IServiceArgs): Promise<any> {
-    const { body, query, params } = Util.parseOptions("request", options, [
-      { name: "body", type: "object", required: true },
-      { name: "query", type: "object", required: true },
-      { name: "params", type: "object", required: true },
-      { name: "session", type: "object", required: false }
-    ], "no_extra");
+  public async delete({ body, query, params, session }: IServiceArgs): Promise<any> {
     Util.parseOptions("query", query, [], "no_extra");
     Util.parseOptions("body", body, [], "no_extra");
     const instances = await this.get({
-      session: options.session,
+      session,
       body: {},
       query,
       params,
