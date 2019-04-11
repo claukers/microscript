@@ -34,7 +34,12 @@ export class AuthService implements IAuthService {
       try {
         const noTokenSession = await this.options.authenticate(req);
         if (noTokenSession) {
-          const token = jsonwebtoken.sign(noTokenSession, process.env.JWT_SECRET, {
+          const token = jsonwebtoken.sign({
+            account: noTokenSession.account,
+            groups: noTokenSession.groups,
+            username: noTokenSession.username,
+            seed: Math.random()
+          }, process.env.JWT_SECRET, {
             expiresIn: process.env.JWT_EXPIRATION
           });
           const session = {
@@ -68,7 +73,12 @@ export class AuthService implements IAuthService {
               try {
                 const verified = await this.options.verify(decoded);
                 if (verified) {
-                  resolve(decoded);
+                  resolve({
+                    username: decoded.username,
+                    account: decoded.account,
+                    groups: decoded.groups,
+                    token: decoded.token
+                  });
                 } else {
                   resolve(null);
                 }

@@ -21,7 +21,12 @@ export class AuthRoute extends ProtectedRoute {
       });
       super.initJwt();
       this.get("/authentication", async (req: IAPIRequest, res: express.Response, next: express.NextFunction) => {
-        await new AuthResponse(req.session).send(res);
+        await new AuthResponse(req.session ? {
+          account: req.session.account,
+          groups: req.session.groups,
+          username: req.session.username,
+          token: req.session.token
+        } : null).send(res);
       });
     }
   }
