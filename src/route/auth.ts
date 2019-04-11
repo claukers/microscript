@@ -15,7 +15,7 @@ export class AuthRoute extends ProtectedRoute {
   }
   protected initJwt() {
     if (!this.jwtInited) {
-      this.post("/authenticate", async (req: IAPIRequest, res: express.Response, next: express.NextFunction) => {
+      this.router.post("/authenticate", async (req: IAPIRequest, res: express.Response, next: express.NextFunction) => {
         const session: ISession = await this.authService.authenticate(req);
         await new AuthResponse(session).send(res);
       });
