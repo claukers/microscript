@@ -41,7 +41,7 @@ export class AuthService implements IAuthService {
             token,
             account: noTokenSession.account,
             groups: noTokenSession.groups,
-            user: noTokenSession.user
+            username: noTokenSession.username
           };
           if (this.options.onAuthenticate) {
             await this.options.onAuthenticate(session);

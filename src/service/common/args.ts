@@ -3,7 +3,7 @@ import { ISimpleMap } from "../../util";
 
 export interface INoTokenSession {
   account: string;
-  user: string;
+  username: string;
   groups: string[];
 }
 

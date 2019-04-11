@@ -246,7 +246,7 @@ const api = new AuthRoute({
       // Use req to authenticate 
       return {
         account: "account",
-        user: "user",
+        username: "user",
         groups: ["group1", "group2"]
       }; // OR NULL/undefined/false for a an invalid authenticate
     },
