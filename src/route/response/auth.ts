@@ -5,7 +5,8 @@ export class AuthResponse extends APIResponse {
   constructor(session?: ISession) {
     super({
       success: session ? true : false,
-      message: session ? JSON.stringify(session) : "Not Authorized!"
+      message: session ? "success" : "Not Authorized!",
+      session: session ? session : false
     });
   }
 }
