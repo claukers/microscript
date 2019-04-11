@@ -13,6 +13,8 @@ export interface IServiceHandler {
 
 export interface IServiceRouteOptions {
   allowedMethods?: string[];
+  preRoute?: string;
+  postRoute?: string;
 }
 
 export function createServiceHandler(service, method) {
@@ -51,6 +53,9 @@ export class ServiceRoute extends Route {
     this.addRoute(null, route, handler);
   }
   protected addRoute(method: string, route: string | string[], handler: IServiceHandler) {
+    const renderRoute = (r: string): string => {
+      return `${this.options && this.options.preRoute ? this.options.preRoute : ''}${r}${this.options && this.options.postRoute ? this.options.postRoute : ''}`;
+    }
     const realHandler = async (req: IAPIRequest, res, next) => {
       try {
 
@@ -83,10 +88,10 @@ export class ServiceRoute extends Route {
     if (!method) {
       if (route) {
         if (typeof route === "string") {
-          this.router.use(route, realHandler);
+          this.router.use(renderRoute(route), realHandler);
         } else {
           for (const r of route) {
-            this.router.use(r, realHandler);
+            this.router.use(renderRoute(r), realHandler);
           }
         }
       } else {
@@ -95,10 +100,10 @@ export class ServiceRoute extends Route {
     } else {
       if (route) {
         if (typeof route === "string") {
-          this.router[method](route, realHandler);
+          this.router[method](renderRoute(route), realHandler);
         } else {
           for (const r of route) {
-            this.router[method](r, realHandler);
+            this.router[method](renderRoute(r), realHandler);
           }
         }
       } else {
