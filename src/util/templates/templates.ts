@@ -137,7 +137,6 @@ DB_USER=
 # should be loadad from a secret manager into process.env.DB_PASS
 DB_PASS=
 DB_DIALECT=sqlite
-DB_OPERATORSALIASES=false
 DB_POOL_MAX=5
 DB_POOL_MIN=0
 DB_POOL_ACQUIRE=30000
@@ -155,7 +154,7 @@ HTTPS_KEY=
 # should be loadad from a secret manager into process.env.JWT_SECRET
 HTTPS_CERT=
 # jsonwebtoken
-JWT_HEADER=X-TOKEN
+JWT_HEADER=Authorization
 # should be loadad from a secret manager into process.env.JWT_SECRET
 JWT_SECRET=
 JWT_EXPIRATION=3d

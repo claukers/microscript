@@ -5,7 +5,7 @@ import { setupDB } from "../util/loader";
 
 export type DataBaseState = "stopped" | "starting" | "started" | "startstop" | "error";
 
-export interface IModelMap extends ISimpleMap<Model<any, any>> {
+export interface IModelMap extends ISimpleMap<any> {
 }
 
 let logger = null;

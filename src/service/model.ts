@@ -49,7 +49,7 @@ const parseIncludeQuery = (includeQuery: any[]): any[] => {
 };
 
 export class ModelService extends AbstractModelService {
-  constructor(protected model: Sequelize.Model<any, any>) {
+  constructor(protected model: any) {
     super();
     if (!logger) {
       logger = Util.getLogger("ModelService");
