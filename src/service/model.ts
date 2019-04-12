@@ -20,7 +20,7 @@ const parseIncludeQuery = (includeQuery: any[]): any[] => {
         { name: "model", type: "string", required: true },
         { name: "required", type: "boolean", required: true },
         { name: "where", type: "object", required: true },
-        { name: "include", type: "array", arrayType: "any", required: false },
+        { name: "include", type: "array", arrayType: "any", required: false }
       ], "no_extra");
       const model = Database.getInstance().models[includeO.model];
       if (model) {
@@ -46,7 +46,7 @@ const parseIncludeQuery = (includeQuery: any[]): any[] => {
     }
   }
   return ret;
-}
+};
 
 export class ModelService extends AbstractModelService {
   constructor(protected model: Sequelize.Model<any, any>) {

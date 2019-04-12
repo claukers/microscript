@@ -54,8 +54,9 @@ export class ServiceRoute extends Route {
   }
   protected addRoute(method: string, route: string | string[], handler: IServiceHandler) {
     const renderRoute = (r: string): string => {
-      return `${this.options && this.options.preRoute ? this.options.preRoute : ''}${r}${this.options && this.options.postRoute ? this.options.postRoute : ''}`;
-    }
+      return `${this.options && this.options.preRoute ? this.options.preRoute : ""}` +
+        `${r}${this.options && this.options.postRoute ? this.options.postRoute : ""}`;
+    };
     const realHandler = async (req: IAPIRequest, res, next) => {
       try {
 
