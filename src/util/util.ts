@@ -12,16 +12,18 @@ const logContainer = new winston.Container();
 const logger = console;
 
 export type IOPTIONPARSER = "remove_extra" | "add_extra" | "no_extra";
-export type IParseSimpleType = "string" | "boolean" | "number" | "object";
-export type IParseType = "string" | "boolean" | "number" | "array";
+export type IParseSimpleType = "string" | "boolean" | "number" | "object" | "any";
+export type IParseType = "string" | "boolean" | "number" | "array" | "any";
 
 const isParseSimpleOption = (type: string): boolean => {
-  return ["string", "boolean", "number", "object"].indexOf(type) !== -1;
+  return ["string", "boolean", "number", "object", "any"].indexOf(type) !== -1;
 };
 
 const parseSimpleOption = (type: IParseSimpleType, value): boolean => {
   let isType;
-  if (type === "number") {
+  if (type === "any") {
+    isType = true;
+  } else if (type === "number") {
     value = parseInt(value, 10);
     isType = !isNaN(value);
   } else if (type === "boolean") {
@@ -135,11 +137,11 @@ export abstract class Util {
     });
   }
   public static parseOptions(argName,
-                             arg: { [name: string]: any },
-                             optionsArray: Array<{
+    arg: { [name: string]: any },
+    optionsArray: Array<{
       name: string, type: string, arrayType?: string, required: boolean
     }>,
-                             parserOption: IOPTIONPARSER = "no_extra"): { [name: string]: any } {
+    parserOption: IOPTIONPARSER = "no_extra"): { [name: string]: any } {
     const ret = {};
     if (typeof arg !== "object" || !arg) {
       throw new ParseOptionsError(`${argName} not valid`);
