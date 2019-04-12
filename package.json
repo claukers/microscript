@@ -17,8 +17,7 @@
     "test": "NODE_ENV=test nyc mocha test/*.test.ts",
     "testfile": "NODE_ENV=test nyc mocha",
     "lint": "tslint -c ./tslint.json -p ./tsconfig.json",
-    "fixlint": "tslint --fix -c ./tslint.json -p ./tsconfig.json",
-    "doc": "typedoc --tsconfig ./tsconfig.json --target ES6 --module commonjs --out ./docs/ ./src/"
+    "fixlint": "tslint --fix -c ./tslint.json -p ./tsconfig.json"
   },
   "author": "claukers",
   "license": "ISC",
@@ -41,18 +40,17 @@
     "@types/chai": "^4.1.7",
     "@types/express": "^4.16.1",
     "@types/jsonwebtoken": "^8.3.2",
-    "@types/sequelize": "^4.27.46",
+    "@types/sequelize": "^4.27.47",
     "@types/sinon": "^7.0.11",
     "chai": "^4.2.0",
     "mocha": "^5.2.0",
     "nyc": "^13.3.0",
-    "rewiremock": "^3.13.3",
+    "rewiremock": "^3.13.4",
     "rimraf": "^2.6.3",
     "sinon": "^7.3.1",
     "ts-node": "^7.0.1",
-    "tslint": "^5.14.0",
-    "typedoc": "^0.14.2",
-    "typescript": "^3.4.1"
+    "tslint": "^5.15.0",
+    "typescript": "^3.4.3"
   },
   "engines": {
     "node": "^ 10.0.0",
