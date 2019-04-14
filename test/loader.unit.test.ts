@@ -6,6 +6,18 @@ import rewiremockdefault, * as rewiremock from 'rewiremock';
 
 describe('lib.util.loader unit tests', function () {
   this.timeout(100000);
+  const fakeDataBaseInstance = {
+    start: sinon.fake(async () => {
+
+    })
+  };
+  const fakeDatabase = {
+    Database: {
+      getInstance: sinon.fake(() => {
+        return fakeDataBaseInstance;
+      })
+    }
+  };
   const fakePath = {
     resolve: sinon.fake()
   };
@@ -68,6 +80,7 @@ describe('lib.util.loader unit tests', function () {
     const pathrc = path.resolve("", ".sequelizerc");
     rewiremock.default("express").with(fakeExpress);
     rewiremock.default("fs").with(fakeFS);
+    rewiremock.default("../db").with(fakeDatabase);
     rewiremock.default("http").with(fakeHttp);
     rewiremock.default("https").with(fakeHttps);
     rewiremock.default("../util").with({ Util: FakeUtil });
@@ -126,6 +139,8 @@ describe('lib.util.loader unit tests', function () {
       const oldCount5 = fakeServer.listen.callCount;
       const oldCount6 = fakeServer.once.callCount;
       const oldCount7 = fakeServer.removeListener.callCount;
+      const oldCount8 = fakeDatabase.Database.getInstance.callCount;
+      const oldCount9 = fakeDataBaseInstance.start.callCount;
 
       const loaders = require("../src/util/loader");
       await loaders.runInstance(fakeLogger, fakeScriptModule, "nodeScript");
@@ -153,6 +168,8 @@ describe('lib.util.loader unit tests', function () {
       chai.expect(removeListenerArgs[0]).to.be.equals("error");
       chai.expect(typeof removeListenerArgs[1]).to.be.equals("function");
       chai.expect(removeListenerArgs[1]).to.be.equals(onceArgs[1]);
+      chai.expect(fakeDatabase.Database.getInstance.callCount).to.be.equals(oldCount8 + 1);
+      chai.expect(fakeDataBaseInstance.start.callCount).to.be.equals(oldCount9 + 1);
     };
     test().then(done).catch(done);
   });
@@ -169,6 +186,8 @@ describe('lib.util.loader unit tests', function () {
       const oldCount7 = fakeServer.removeListener.callCount;
       const oldCount8 = fakePath.resolve.callCount;
       const oldCount9 = fakeFS.readFileSync.callCount;
+      const oldCount10 = fakeDatabase.Database.getInstance.callCount;
+      const oldCount11 = fakeDataBaseInstance.start.callCount;
 
       const loaders = require("../src/util/loader");
       const OLD_ENABLE = process.env.HTTPS_ENABLE;
@@ -204,6 +223,8 @@ describe('lib.util.loader unit tests', function () {
       chai.expect(removeListenerArgs[1]).to.be.equals(onceArgs[1]);
       chai.expect(fakePath.resolve.callCount).to.be.equals(oldCount8 + 2);
       chai.expect(fakeFS.readFileSync.callCount).to.be.equals(oldCount9 + 2);
+      chai.expect(fakeDatabase.Database.getInstance.callCount).to.be.equals(oldCount10 + 1);
+      chai.expect(fakeDataBaseInstance.start.callCount).to.be.equals(oldCount11 + 1);
     };
     test().then(done).catch(done);
   });

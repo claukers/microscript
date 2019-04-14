@@ -7,6 +7,7 @@ import * as https from "https";
 import * as  path from "path";
 import { setupMiddleware } from "../middleware";
 import { Util } from "../util";
+import { Database } from "../db";
 
 export const setupDB = () => {
   Util.checkEnvVariables(["MIQRO_DIRNAME"]);
@@ -43,9 +44,8 @@ export const runInstance = async (logger, script, scriptPath) => {
   Util.checkEnvVariables(["PORT", "HTTPS_ENABLE"]);
   return new Promise(async (resolve, reject) => {
     logger.info(`launching script`);
-    const bApp = express();
-    await setupMiddleware(bApp, logger);
-    script(bApp).then((app) => {
+    await Database.getInstance().start();
+    script(await setupMiddleware(express(), logger)).then((app) => {
       try {
         const errorHandler = (err) => {
           reject(err);
