@@ -33,7 +33,7 @@ Object.keys(db).forEach((modelName) => {
 module.exports = db;
 `;
 const dbConfig =
-  `["DB_NAME", "DB_USER", "DB_PASS", "DB_HOST", "DB_DIALECT", "DB_POOL_MAX", "DB_POOL_MIN", "DB_POOL_ACQUIRE", "DB_POOL_IDDLE", "DB_STORAGE"
+  `["DB_PORT", "DB_NAME", "DB_USER", "DB_PASS", "DB_HOST", "DB_DIALECT", "DB_POOL_MAX", "DB_POOL_MIN", "DB_POOL_ACQUIRE", "DB_POOL_IDDLE", "DB_STORAGE"
 ].forEach((envName) => {
 if (process.env[envName] === undefined) {
   throw new Error(\`Env variable [\${envName}!] not defined\`);
@@ -46,6 +46,10 @@ module.exports = {
   database: process.env.DB_NAME,
   host: process.env.DB_HOST,
   dialect: process.env.DB_DIALECT,
+  port: process.env.DB_PORT,
+  dialectOptions: {
+    ssl: process.env.DB_DIALECT_SSL === "true"
+  }
   pool: {
     acquire: parseInt(process.env.DB_POOL_ACQUIRE, 10),
     idle: parseInt(process.env.DB_POOL_IDDLE, 10),
@@ -130,11 +134,13 @@ module.exports = (identifier) => {
 export const defaultEnvFile = `# db
 DB_NAME=db
 DB_HOST=localhost
+DB_PORT=3306
 # should be loadad from a secret manager into process.env.DB_USER
 DB_USER=
 # should be loadad from a secret manager into process.env.DB_PASS
 DB_PASS=
 DB_DIALECT=sqlite
+DB_DIALECT_SSL="true"
 DB_POOL_MAX=5
 DB_POOL_MIN=0
 DB_POOL_ACQUIRE=30000

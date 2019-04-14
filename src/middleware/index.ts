@@ -13,4 +13,5 @@ export const setupMiddleware = async (app, logger) => {
     type: process.env.BODYPARSER_TYPE
     // verify: undefined
   }));
+  return app;
 };
