@@ -40,9 +40,9 @@ export class AuthService implements IAuthService {
             username: noTokenSession.username,
             seed: Math.random()
           }, process.env.JWT_SECRET, {
-            expiresIn: process.env.JWT_EXPIRATION
-          });
-          const session = {
+              expiresIn: process.env.JWT_EXPIRATION
+            });
+          const session: ISession = {
             token,
             account: noTokenSession.account,
             groups: noTokenSession.groups,
@@ -71,14 +71,15 @@ export class AuthService implements IAuthService {
           } else {
             if (this.options.verify) {
               try {
-                const verified = await this.options.verify(decoded);
+                const session: ISession = {
+                  username: decoded.username,
+                  account: decoded.account,
+                  groups: decoded.groups,
+                  token
+                };
+                const verified = await this.options.verify(session);
                 if (verified) {
-                  resolve({
-                    username: decoded.username,
-                    account: decoded.account,
-                    groups: decoded.groups,
-                    token: decoded.token
-                  });
+                  resolve(session);
                 } else {
                   resolve(null);
                 }
