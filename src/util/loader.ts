@@ -41,7 +41,7 @@ export const setupInstance = (serviceName, scriptPath) => {
 };
 
 export const runInstance = async (logger, script, scriptPath) => {
-  Util.checkEnvVariables(["PORT", "HTTPS_ENABLE", "HTTPS_CA"]);
+  Util.checkEnvVariables(["PORT", "HTTPS_ENABLE"]);
   return new Promise(async (resolve, reject) => {
     logger.info(`launching script`);
     await Database.getInstance().start();
@@ -53,7 +53,7 @@ export const runInstance = async (logger, script, scriptPath) => {
         let server = null;
         if (process.env.HTTPS_ENABLE === "true") {
           logger.info(`HTTPS enabled`);
-          Util.checkEnvVariables(["HTTPS_KEY", "HTTPS_CERT"]);
+          Util.checkEnvVariables(["HTTPS_KEY", "HTTPS_CERT", "HTTPS_CA"]);
           const key = fs.readFileSync(path.resolve(process.env.HTTPS_KEY), "utf8");
           const cert = fs.readFileSync(path.resolve(process.env.HTTPS_CERT), "utf8");
           const ca = fs.readFileSync(path.resolve(process.env.HTTPS_CA), "utf8");
