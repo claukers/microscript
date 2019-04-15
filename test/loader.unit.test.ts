@@ -221,8 +221,8 @@ describe('lib.util.loader unit tests', function () {
       chai.expect(removeListenerArgs[0]).to.be.equals("error");
       chai.expect(typeof removeListenerArgs[1]).to.be.equals("function");
       chai.expect(removeListenerArgs[1]).to.be.equals(onceArgs[1]);
-      chai.expect(fakePath.resolve.callCount).to.be.equals(oldCount8 + 2);
-      chai.expect(fakeFS.readFileSync.callCount).to.be.equals(oldCount9 + 2);
+      chai.expect(fakePath.resolve.callCount).to.be.equals(oldCount8 + 3);
+      chai.expect(fakeFS.readFileSync.callCount).to.be.equals(oldCount9 + 3);
       chai.expect(fakeDatabase.Database.getInstance.callCount).to.be.equals(oldCount10 + 1);
       chai.expect(fakeDataBaseInstance.start.callCount).to.be.equals(oldCount11 + 1);
     };
