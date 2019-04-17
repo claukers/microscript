@@ -56,8 +56,9 @@ export class ModelService extends AbstractModelService {
     }
   }
   public async get({ body, query, params, session }: IServiceArgs): Promise<any> {
-    const { include } = Util.parseOptions("query", query, [
-      { name: "include", type: "string", required: false }
+    const { pagination, include } = Util.parseOptions("query", query, [
+      { name: "include", type: "string", required: false },
+      { name: "pagination", type: "string", required: false }
     ], "no_extra");
     let includeModels = [];
     if (include) {
@@ -69,17 +70,48 @@ export class ModelService extends AbstractModelService {
       }
       includeModels = parseIncludeQuery(includeList);
     }
+    let paginationJSON;
+    if (pagination) {
+      try {
+        paginationJSON = JSON.parse(pagination);
+      } catch (e) {
+        throw new ParseOptionsError(`query.pagination not a valid JSON`);
+      }
+      Util.parseOptions("query.pagination", paginationJSON, [
+        { name: "limit", type: "number", required: true },
+        { name: "offset", type: "number", required: true }
+      ], "no_extra");
+    }
     Util.parseOptions("body", body, [], "no_extra");
     let ret;
     if (Object.keys(params).length > 0) {
-      ret = await this.model.findAll({
-        where: params,
-        include: includeModels
-      });
+      if (pagination) {
+        ret = await this.model.findAndCountAll({
+          where: params,
+          include: includeModels,
+          limit: paginationJSON.limit,
+          offset: paginationJSON.offset,
+        });
+        ret = ret.rows;
+      } else {
+        ret = await this.model.findAll({
+          where: params,
+          include: includeModels
+        });
+      }
     } else {
-      ret = await this.model.findAll({
-        include: includeModels
-      });
+      if (pagination) {
+        ret = await this.model.findAndCountAll({
+          include: includeModels,
+          limit: paginationJSON.limit,
+          offset: paginationJSON.offset,
+        });
+        ret = ret.rows;
+      } else {
+        ret = await this.model.findAll({
+          include: includeModels
+        });
+      }
     }
     return ret;
   }
