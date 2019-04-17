@@ -92,7 +92,6 @@ export class ModelService extends AbstractModelService {
           limit: paginationJSON.limit,
           offset: paginationJSON.offset,
         });
-        ret = ret.rows;
       } else {
         ret = await this.model.findAll({
           where: params,
@@ -106,7 +105,6 @@ export class ModelService extends AbstractModelService {
           limit: paginationJSON.limit,
           offset: paginationJSON.offset,
         });
-        ret = ret.rows;
       } else {
         ret = await this.model.findAll({
           include: includeModels
