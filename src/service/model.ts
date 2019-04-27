@@ -79,13 +79,34 @@ export class ModelService extends AbstractModelService {
       }
       Util.parseOptions("query.pagination", paginationJSON, [
         { name: "limit", type: "number", required: true },
+        { name: "search", type: "object", required: false },
         { name: "offset", type: "number", required: true }
       ], "no_extra");
+      if (paginationJSON.search) {
+        Util.parseOptions("query.pagination.search", paginationJSON.search, [
+          { name: "columns", type: "array", arrayType: "string", required: true },
+          { name: "query", type: "string", required: true }
+        ], "no_extra");
+      }
     }
     Util.parseOptions("body", body, [], "no_extra");
     let ret;
     if (Object.keys(params).length > 0) {
       if (pagination) {
+        if (paginationJSON.search) {
+          if (paginationJSON.search.columns.length > 0) {
+            const searchParams = {};
+            for (const column of paginationJSON.search.columns) {
+              searchParams[column] = {
+                [Sequelize.Op.like]: '%' + paginationJSON.search.query + '%'
+              };
+            }
+            params = {
+              [Sequelize.Op.and]: params,
+              [Sequelize.Op.or]: searchParams
+            };
+          }
+        }
         ret = await this.model.findAndCountAll({
           where: params,
           include: includeModels,
@@ -100,11 +121,34 @@ export class ModelService extends AbstractModelService {
       }
     } else {
       if (pagination) {
-        ret = await this.model.findAndCountAll({
-          include: includeModels,
-          limit: paginationJSON.limit,
-          offset: paginationJSON.offset,
-        });
+        let params2 = null;
+        if (paginationJSON.search) {
+          if (paginationJSON.search.columns.length > 0) {
+            const searchParams = {};
+            for (const column of paginationJSON.search.columns) {
+              searchParams[column] = {
+                [Sequelize.Op.like]: '%' + paginationJSON.search.query + '%'
+              };
+            }
+            params2 = {
+              [Sequelize.Op.or]: searchParams
+            };
+          }
+        }
+        if (params2) {
+          ret = await this.model.findAndCountAll({
+            where: params,
+            include: includeModels,
+            limit: paginationJSON.limit,
+            offset: paginationJSON.offset,
+          });
+        } else {
+          ret = await this.model.findAndCountAll({
+            include: includeModels,
+            limit: paginationJSON.limit,
+            offset: paginationJSON.offset,
+          });
+        }
       } else {
         ret = await this.model.findAll({
           include: includeModels
