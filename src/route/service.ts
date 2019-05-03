@@ -67,7 +67,7 @@ export class ServiceRoute extends Route {
             req.session = null;
           }
           const ret = await handler(req, res, next);
-          logger.debug(`${req.method} handler ret [${ret}]`);
+          // logger.debug(`${req.method} handler ret [${ret}]`);
           return ret;
         }
       } catch (e) {
