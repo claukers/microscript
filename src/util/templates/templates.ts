@@ -49,7 +49,7 @@ module.exports = {
   port: process.env.DB_PORT,
   dialectOptions: {
     ssl: process.env.DB_DIALECT_SSL === "true"
-  }
+  },
   pool: {
     acquire: parseInt(process.env.DB_POOL_ACQUIRE, 10),
     idle: parseInt(process.env.DB_POOL_IDDLE, 10),
