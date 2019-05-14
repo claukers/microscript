@@ -5,9 +5,9 @@ import * as  fs from "fs";
 import * as http from "http";
 import * as https from "https";
 import * as  path from "path";
+import { Database } from "../db";
 import { setupMiddleware } from "../middleware";
 import { Util } from "../util";
-import { Database } from "../db";
 
 export const setupDB = () => {
   Util.checkEnvVariables(["MIQRO_DIRNAME"]);
@@ -65,6 +65,24 @@ export const runInstance = async (logger, script, scriptPath) => {
         server.listen(process.env.PORT, () => {
           logger.info(`script started on [${process.env.PORT}]`);
           server.removeListener("error", errorHandler);
+          let cleaningUp = false;
+          const cleanUp = () => {
+            if (!cleaningUp) {
+              logger.info("cleaning up");
+              server.once("close", async () => {
+                logger.info("clean up");
+                try {
+                  await Database.getInstance().stop();
+                } catch (e) {
+                  logger.error(e);
+                }
+              });
+              server.close();
+            }
+            cleaningUp = true;
+          };
+          process.on("SIGINT", cleanUp);
+          process.on("SIGTERM", cleanUp);
           resolve({ app, server });
         });
       } catch (e) {
