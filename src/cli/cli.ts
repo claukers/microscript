@@ -12,7 +12,8 @@ const cmds: ISimpleMap<{ module: string; description: string }> = {
   automigrate: { module: "./automigrate", description: "runs makemigrations and migrate together" },
   seed: { module: "./seed", description: "seeds your db" },
   init: { module: "./init", description: "inits your config folder (MIQRO_DIRNAME)" },
-  reset: { module: "./reset", description: "delete custom made config files." }
+  reset: { module: "./reset", description: "delete custom made config files." },
+  version: { module: "./version", description: "prints miqro version." }
 };
 
 const main = async () => {

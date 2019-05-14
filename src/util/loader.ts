@@ -81,6 +81,7 @@ export const runInstance = async (logger, script, scriptPath) => {
             }
             cleaningUp = true;
           };
+          logger.info("setting up clean up handlers");
           process.on("SIGINT", cleanUp);
           process.on("SIGTERM", cleanUp);
           resolve({ app, server });
