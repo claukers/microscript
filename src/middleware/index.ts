@@ -3,6 +3,7 @@ import * as morgan from "morgan";
 import { Util } from "../util";
 
 export const setupMiddleware = async (app, logger) => {
+  app.disable("x-powered-by");
   app.use(morgan("combined", { stream: logger.stream }));
   Util.checkEnvVariables(["BODYPARSER_INFLATE", "BODYPARSER_LIMIT", "BODYPARSER_STRICT", "BODYPARSER_TYPE"]);
   app.use(bodyParser.json({
