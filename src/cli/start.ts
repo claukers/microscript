@@ -57,6 +57,20 @@ const micro = new Miqro({
   mode: mode as any
 });
 
-micro.start().catch((e) => {
+micro.start().then(()=>{
+  let cleaningUp = false;
+  const cleanUp = () => {
+    // logger.info("cleaning up");
+    if (!cleaningUp) {
+      micro.stop().then(() => {
+        // logger.info("clean up");
+        process.exit(0);
+      });
+    }
+    cleaningUp = true;
+  };
+  process.on("SIGINT", cleanUp);
+  process.on("SIGTERM", cleanUp);
+}).catch((e) => {
   logger.error(e);
 });
