@@ -42,6 +42,7 @@
     "chai": "^4.2.0",
     "mocha": "^5.2.0",
     "nyc": "^14.1.1",
+    "lodash.template": ">=4.5.0",
     "rewiremock": "^3.13.7",
     "rimraf": "^2.7.1",
     "sinon": "^7.5.0",
