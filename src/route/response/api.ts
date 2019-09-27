@@ -4,7 +4,11 @@ import { ISimpleMap } from "../../util";
 
 export interface IAPIRequest extends Request {
   session: ISession;
+  method: string;
   params: ISimpleMap<any>;
+  query: ISimpleMap<any>;
+  body: ISimpleMap<any>;
+  headers: ISimpleMap<any>;
 }
 
 export class APIResponse {
