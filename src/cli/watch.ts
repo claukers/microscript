@@ -90,7 +90,7 @@ const restart = (silent?) => {
       proc.once("close", (code) => {
         start();
       });
-      proc.kill("SIGHUP");
+      proc.kill("SIGINT");
       proc = null;
     } else {
       start();

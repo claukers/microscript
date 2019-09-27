@@ -98,7 +98,7 @@ export class ModelService extends AbstractModelService {
             const searchParams = {};
             for (const column of paginationJSON.search.columns) {
               searchParams[column] = {
-                [Sequelize.Op.like]: '%' + paginationJSON.search.query + '%'
+                [Sequelize.Op.like]: "%" + paginationJSON.search.query + "%"
               };
             }
             params = {
@@ -111,7 +111,7 @@ export class ModelService extends AbstractModelService {
           where: params,
           include: includeModels,
           limit: paginationJSON.limit,
-          offset: paginationJSON.offset,
+          offset: paginationJSON.offset
         });
       } else {
         ret = await this.model.findAll({
@@ -127,7 +127,7 @@ export class ModelService extends AbstractModelService {
             const searchParams = {};
             for (const column of paginationJSON.search.columns) {
               searchParams[column] = {
-                [Sequelize.Op.like]: '%' + paginationJSON.search.query + '%'
+                [Sequelize.Op.like]: "%" + paginationJSON.search.query + "%"
               };
             }
             params2 = {
@@ -140,13 +140,13 @@ export class ModelService extends AbstractModelService {
             where: params,
             include: includeModels,
             limit: paginationJSON.limit,
-            offset: paginationJSON.offset,
+            offset: paginationJSON.offset
           });
         } else {
           ret = await this.model.findAndCountAll({
             include: includeModels,
             limit: paginationJSON.limit,
-            offset: paginationJSON.offset,
+            offset: paginationJSON.offset
           });
         }
       } else {

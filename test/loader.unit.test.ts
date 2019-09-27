@@ -54,6 +54,7 @@ describe('lib.util.loader unit tests', function () {
   }
   const fakeLogger = {
     info: sinon.fake(),
+    debug: sinon.fake(),
     error: sinon.fake()
   };
   const fakeExpress = sinon.fake(() => {
