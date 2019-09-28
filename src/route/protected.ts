@@ -1,8 +1,9 @@
 import * as express from "express";
 import { AuthService, IAuthOptions, IAuthService, ISession } from "../service";
 import { Util } from "../util";
+import { IServiceHandler, IServiceRouteOptions } from "./common/service";
 import { BadRequestResponse, IAPIRequest } from "./response";
-import { IServiceHandler, IServiceRouteOptions, ServiceRoute } from "./service";
+import { ServiceRoute } from "./service";
 
 let logger = null;
 
