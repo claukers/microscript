@@ -12,53 +12,21 @@ export class ServiceRoute extends Route {
     }
   }
   public get(route: string | string[], handler: IServiceHandler) {
-    this.addRoute("get", route, handler);
+    super.get(route, createAPIHandler(handler, this));
   }
   public post(route: string | string[], handler: IServiceHandler) {
-    this.addRoute("post", route, handler);
+    super.post(route, createAPIHandler(handler, this));
   }
   public delete(route: string | string[], handler: IServiceHandler) {
-    this.addRoute("delete", route, handler);
+    super.delete(route, createAPIHandler(handler, this));
   }
   public patch(route: string | string[], handler: IServiceHandler) {
-    this.addRoute("patch", route, handler);
+    super.patch(route, createAPIHandler(handler, this));
   }
   public put(route: string | string[], handler: IServiceHandler) {
-    this.addRoute("put", route, handler);
+    super.put(route, createAPIHandler(handler, this));
   }
   public use(route: string | string[], handler: IServiceHandler) {
-    this.addRoute(null, route, handler);
-  }
-  protected addRoute(method: string, route: string | string[], handler: IServiceHandler) {
-    const renderRoute = (r: string): string => {
-      return `${this.options && this.options.preRoute ? this.options.preRoute : ""}` +
-        `${r}${this.options && this.options.postRoute ? this.options.postRoute : ""}`;
-    };
-    const realHandler = createAPIHandler(handler, this);
-    if (!method) {
-      if (route) {
-        if (typeof route === "string") {
-          this.router.use(renderRoute(route), realHandler);
-        } else {
-          for (const r of route) {
-            this.router.use(renderRoute(r), realHandler);
-          }
-        }
-      } else {
-        this.router.use(realHandler);
-      }
-    } else {
-      if (route) {
-        if (typeof route === "string") {
-          this.router[method](renderRoute(route), realHandler);
-        } else {
-          for (const r of route) {
-            this.router[method](renderRoute(r), realHandler);
-          }
-        }
-      } else {
-        this.router[method](realHandler);
-      }
-    }
+    super.use(route, createAPIHandler(handler, this));
   }
 }

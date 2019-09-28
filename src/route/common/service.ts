@@ -46,6 +46,8 @@ export interface IServiceRouteOptions {
   postRoute?: string;
 }
 
+export type IRouteOptions = IServiceRouteOptions;
+
 export const createServiceHandler = (service, method: string, options?: { options?: IServiceRouteOptions }): IServiceHandler =>
   async (req: IAPIRequest, res: Response) => {
     await new ServiceResponse(
