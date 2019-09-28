@@ -7,7 +7,7 @@ const {
   createServiceHandler,
   createAPIHandler,
   Route
-} = require("../dist");
+} = require("miqro");
 
 const logger = Util.getLogger("exception test service");
 const db = Database.getInstance();
