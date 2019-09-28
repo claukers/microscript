@@ -2,11 +2,19 @@ const {
   ModelRoute,
   ModelService,
   Database,
-  Util
+  Util,
+  createServiceAPIHandler,
+  ParseOptionsError,
 } = require("miqro");
 
 const logger = Util.getLogger("posts.js");
 const db = Database.getInstance();
+
+class MyCustomService {
+  async myFunction(args) {
+    throw new ParseOptionsError(`my request error.`);
+  }
+}
 
 module.exports = async (app) => {
   /*
@@ -26,5 +34,6 @@ module.exports = async (app) => {
       {
         allowedMethods: ["GET", "POST", "PATCH"]
       }).routes());
+  app.use("/myFunction", createServiceAPIHandler(new MyCustomService(), "myFunction"));
   return app;
 };
