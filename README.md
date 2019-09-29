@@ -347,6 +347,29 @@ example start in fork node
 
 ```miqro start fork posts.js```
 
+## stripping dendencies in your app
+
+![](Diagram1.png)
+
+to provide all the features miqro depends on alot of modules. But there is a fix to this, the ```miqro``` module just exports all the features from other modules.
+
+
+miqro's module ```index.ts```
+```javascript
+export * from "miqro-core"; // logger(winston), config files(dotenv)
+export * from "miqro-express"; // basic routers and error handler utilities
+export * from "miqro-sequelize"; // Database(sequelize), automigrations(sequelize-auto-migrations), migrations(sequelize-cli), seed(sequelize-cli) and miqro-db
+export * from "miqro-sequelize-express"; // ModelRoute, ModelService, pagination, agregation and searching
+export * from "miqro-runner"; // the miqro runner
+export * from "miqro-jwt-express"; // simple jwt flow implementation
+```
+
+so if you dont want to use sequelize as your ORM or to have jsonwebtoken as a dependency, instead of using the adding ```miqro``` to your application dependencies, you can use just the modules you want. For minimal support you can just use the ```miqro-core``` that just provides the bare bone minimals (app configuration per env and logger support via winston).
+
+## database migrations
+
+TODO
+
 ## sedding your database
 
 TODO
@@ -355,19 +378,28 @@ TODO
 
 TODO
 
-## cli
+## runner cli
 
-```npx miqro <command> [args..]```
+```miqro-runner <command> [args..]```
 
 ```
-usage: miqro <command> [args]
+usage: miqro-runner <command> [args]
 Available commands:
 	start	starts a microservice
 	watch	starts a microservice in watch mode on the service dir.
+	init	inits your config folder (MIQRO_DIRNAME)
+	reset	delete custom made config files.
+```
+
+## db cli
+
+```miqro-db <command> [args..]```
+
+```
+usage: miqro-db <command> [args]
+Available commands:
 	makemigrations	seeks changes in your models and creates migrations
 	migrate	runs the migrations
 	automigrate	runs makemigrations and migrate together
 	seed	seeds your db
-	init	inits your config folder (MIQRO_DIRNAME)
-	reset	delete custom made config files.
 ```
