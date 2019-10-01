@@ -77,7 +77,7 @@ create a empty nodejs project.
 
 inits a miqro service configurations
 
-```$ npx miqro-runner init posts.js```
+```$ npx miqro-core init posts.js```
 
 **NOTE** this is only needed once
 
@@ -145,7 +145,7 @@ now lets take care of the tables for the development database.
 
 ```npm install miqro-sequelize --save```
 
-```node_modules/.bin/miqro-db automigrate posts.js```
+```node_modules/.bin/miqro-sequelize automigrate posts.js```
 
 **take notice that the last argument is the service script not a model in particular.**
 
@@ -308,6 +308,21 @@ TODO
 
 TODO
 
+## core cli
+
+```npm install miqro-core --save```
+
+
+```
+usage: miqro-core <command> [args]
+Available commands:
+  init  inits your config folder (MIQRO_DIRNAME)
+  createservice create a service.
+  reset delete custom made config files.
+usage: miqro-core <command> [args]
+no command
+```
+
 ## runner cli
 
 ```npm install miqro-runner --save```
@@ -317,10 +332,11 @@ TODO
 ```
 usage: miqro-runner <command> [args]
 Available commands:
-	start	starts a microservice
-	watch	starts a microservice in watch mode on the service dir.
-	init	inits your config folder (MIQRO_DIRNAME)
-	reset	delete custom made config files.
+  start starts a microservice
+  watch starts a microservice in watch mode on the service dir
+  version prints miqro version.
+usage: miqro-runner <command> [args]
+no command
 ```
 
 ## db cli
@@ -328,10 +344,12 @@ Available commands:
 ```miqro-db <command> [args..]```
 
 ```
-usage: miqro-db <command> [args]
+usage: miqro-sequelize <command> [args]
 Available commands:
-	makemigrations	seeks changes in your models and creates migrations
-	migrate	runs the migrations
-	automigrate	runs makemigrations and migrate together
-	seed	seeds your db
+  makemigrations  seeks changes in your models and creates migrations
+  migrate runs the migrations
+  automigrate runs makemigrations and migrate together
+  seed  seeds your db
+usage: miqro-sequelize <command> [args]
+no command
 ```
