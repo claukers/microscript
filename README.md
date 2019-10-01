@@ -10,7 +10,7 @@ little framework for creating microservices with **express**, **sequelize** and 
 
 - utilities for creating services and routes for direct model **pagination**, **searching** and **agregation**.
 
-- utility for implementing a very simple flow of **authentication** and **validation** using **jsonwebtoken** module.
+- Utility route for validating tokens.
 
 - runner with autorestart for cluster, fork and debug ( no autorestart in debug ).
 
@@ -77,7 +77,7 @@ create a empty nodejs project.
 
 inits a miqro service configurations
 
-```$ npx miqro init posts.js```
+```$ npx miqro-runner init posts.js```
 
 **NOTE** this is only needed once
 
@@ -143,7 +143,9 @@ module.exports = (sequelize, DataTypes) => {
 
 now lets take care of the tables for the development database.
 
-```npx miqro automigrate posts.js```
+```npm install miqro-sequelize --save```
+
+```node_modules/.bin/miqro-db automigrate posts.js```
 
 **take notice that the last argument is the service script not a model in particular.**
 
@@ -151,15 +153,17 @@ now lets take care of the tables for the development database.
 
 **makemigrations and migrate commands also exists for doing this steps apart.**
 
-finally lets review the newly generated dotenv configuration file for your **$NODE_ENV**( by default is **development** ) located in ```config/development.env```. This file holds the configuration environment variables miqro uses to configure every component like database and jwt. **Its is encouraged to load the passwords. secrets and other sensible information from a secret manager into the process.env.**
+finally lets review the newly generated dotenv configuration file for your **$NODE_ENV**( by default is **development** ) located in ```config/development.env```. This file holds the configuration environment variables miqro uses to configure every component like database and express. **Its is encouraged to load the passwords. secrets and other sensible information from a secret manager into the process.env.**
 
 then start a node inspect/debug friendly mode.
 
-```npx miqro start posts.js```
+```npx miqro-runner start posts.js```
 
 or directly with node inspect 
 
-```node inspect node_modules/.bin/miqro start posts.js```
+```npm install miqro-runner --save-dev```
+
+```node inspect node_modules/.bin/miqro-runner start posts.js```
 
 **usefull for some IDE's with node debug support like VSCode**
 
@@ -167,7 +171,7 @@ You can also start the service in a cluster mode for better performance with the
 
 example.
 
-```npx miqro start 4 cluster posts.js```
+```npx miqro-runner start 4 cluster posts.js```
 
 this will create 4 processes running your service in a node cluster.
 
@@ -205,92 +209,6 @@ const { name, id, aliases } = Util.parseOptions("body", body, [
 
 in case a the body doesnt pass the parseOptions function the route will return a **BadRequestResponse** with a message like ```body.name not a string!``` automatically.
 
-## jwt
-
-miqro provides a very simple implementation of jwt using the **jsonwebtoken** module. Like every piece of miqro the use of this is optional. 
-
-**NOTE** it's recommended that you put a API Gateway or Managment software ( like KONG ) on top of your miqroservices than implementing authentication directly on your service.
-
-#### setup jwt_header, jwt_secret and default expiration
-
-edit your ```$MIQRO_DIRNAME/config/$NODE_ENV.env``` file and look at the following variables.
-
-```dotenv
-JWT_HEADER=#the header to be used for the token
-JWT_SECRET=#the secret for signing the token better to load it from a secret manager
-JWT_EXPIRATION=#the default expiration of the signed tokens
-```
-
-#### create a simple jwt protected route
-
-a protected route is a route that can only be access with a valid token. the token must be in the incoming **request header** called like the **JWT_HEADER** env variable. 
-
-the **JWT_HEADER** env variable can be set in the ```$MIQRO_DIRNAME/config/$NODE_ENV.env``` dotenv file.
-
-```javascript
-...
-const { ProtectedRoute } = require("miqro");
-...
-// create a protected route and add some protected routes
-// keep in mind that only the token will be validated
-const api = new ProtectedRoute()
-  .use("/user", new ModelRoute(new ModelService(db.models.user)));
-...
-// attach route
-app.use("/api/v1", api.routes());
-```
-
-#### create a simple jwt auth route
-
-a auth route is a route that can only be access with a valid token with the except of the [POST][/authenticate] path. the token must be in the incoming **request header** called like the **JWT_HEADER** env variable.
-
-the **JWT_HEADER** env variable can be set in the ```$MIQRO_DIRNAME/config/$NODE_ENV.env``` dotenv file.
-
-```javascript
-...
-const { AuthRoute } = require("miqro");
-...
-const api = new AuthRoute({
-  auth: {
-    authenticate: async (req) => {
-      // Use req to authenticate 
-      return {
-        account: "account",
-        username: "user",
-        groups: ["group1", "group2"]
-      }; // OR NULL/undefined/false for a an invalid authenticate
-    },
-    onAuthenticate: async (session) => {
-      // posible store the token in db for manual invalidation ?
-    }
-  }
-});
-...
-// attach route
-app.use("/api/v1/auth", api.routes());
-```
-
-#### create a custom protected route
-
-```javascript
-...
-const { ProtectedRoute } = require("miqro");
-...
-// create a protected route and add some protected routes
-// keep in mind that only the token will be validated
-const api = new ProtectedRoute({
-  auth: {
-    verify: async (session) => {
-      return true; // OR NULL/undefined/false for a an invalid session
-    }
-  }
-})
-  .use("/user", new ModelRoute(new ModelService(db.models.user)));
-...
-// attach route
-app.use("/api/v1", api.routes());
-```
-
 ## using miqro without the runner
 
 you should be able to run your microservice without the miqro runner simply defining the ```MIQRO_DIRNAME``` env variable so that the components of **miqro** you are using will be able to **find** the config **dotenv files**.
@@ -307,7 +225,7 @@ then create a ```main.js``` creating a simple express server.
 ```javascript
 const express = require("express");
 const { Util, setupMiddleware } = require("miqro");
-// process.env.MIQRO_DIRNAME must exists!
+process.env.MIQRO_DIRNAME=__dirname;
 Util.loadConfig();
 
 const logger = Util.getLogger("main.js");
@@ -331,23 +249,31 @@ then run it
 
 miqro has its own runner with auto-restart and can start your service in a **cluster**, **fork** or simple mode for debugging purposes.
 
+first install the module
+
+```npm install miqro-runner --save```
+
+or as a dev deps if only you want it for development
+
+```npm install miqro-runner --save-dev```
+
 usage 
 
-```miqro start [nodes=1] [mode=simple] <microservice.js>```
+```miqro-runner start [nodes=1] [mode=simple] <microservice.js>```
 
 example start in simple node
 
-```miqro start posts.js```
+```miqro-runner start posts.js```
 
 **simple mode is usefull for running the service in a debug environment like node inspect**
 
 example start with 4 cluster nodes
 
-```miqro start 4 cluster posts.js```
+```miqro-runner start 4 cluster posts.js```
 
 example start in fork node
 
-```miqro start fork posts.js```
+```miqro-runner start fork posts.js```
 
 ## stripping dendencies in your app
 
@@ -358,15 +284,13 @@ to provide all the features miqro depends on alot of modules. But there is a fix
 
 miqro's module ```index.ts```
 ```javascript
-export * from "miqro-core"; // logger(winston), config files(dotenv)
-export * from "miqro-express"; // basic routers and error handler utilities
-export * from "miqro-sequelize"; // Database(sequelize), automigrations(sequelize-auto-migrations), migrations(sequelize-cli), seed(sequelize-cli) and miqro-db
-export * from "miqro-sequelize-express"; // ModelRoute, ModelService, pagination, agregation and searching
-export * from "miqro-runner"; // the miqro runner
-export * from "miqro-jwt-express"; // simple jwt flow implementation
+export * from "miqro-core";
+export * from "miqro-sequelize";
+export * from "miqro-express";
+export * from "miqro-sequelize-express";
 ```
 
-so if you dont want to use sequelize as your ORM or to have jsonwebtoken as a dependency, instead of using the adding ```miqro``` to your application dependencies, you can use just the modules you want. For minimal support you can just use the ```miqro-core``` that just provides the bare bone minimals (app configuration per env and logger support via winston).
+so if you dont want to use sequelize as your ORM or to have X as a dependency, instead of using the adding ```miqro``` to your application dependencies, you can use just the modules you want. For minimal support you can just use the ```miqro-core``` that just provides the bare bone minimals (app configuration per env and logger support via winston).
 
 ## database migrations
 
@@ -385,6 +309,8 @@ TODO
 TODO
 
 ## runner cli
+
+```npm install miqro-runner --save```
 
 ```miqro-runner <command> [args..]```
 
