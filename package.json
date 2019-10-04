@@ -17,10 +17,10 @@
   "author": "claukers",
   "license": "ISC",
   "dependencies": {
-    "miqro-core": "^0.1.5",
-    "miqro-express": "^0.1.7",
-    "miqro-sequelize": "^0.1.5",
-    "miqro-sequelize-express": "^0.1.5"
+    "miqro-core": "git+https://github.com/claukers/miqro-core.git#develop",
+    "miqro-express": "git+https://github.com/claukers/miqro-express.git#develop",
+    "miqro-sequelize": "git+https://github.com/claukers/miqro-sequelize.git#develop",
+    "miqro-sequelize-express": "git+https://github.com/claukers/miqro-sequelize-express.git#develop"
   },
   "devDependencies": {
     "mocha": "^5.2.0",
