@@ -6,16 +6,16 @@ const {
   APIRoute,
   createSessionHandler,
   createGroupPolicyHandler,
-  createMethodHandler,
-  createServiceResponseHandler,
+  createFunctionHandler,
+  createResponseHandler,
 } = require("miqro-express");
 const path = require("path");
 
-// curl --header "Authorization: token" localhost:8080/sum/1/2/3
+// curl --header "Authorization: token" localhost:8080/api/v0/sum/1/2/3
 // TO GET A RANDOM AUTH ERROR
-// curl --header "Authorization: othertoken" localhost:8080/sum/1/2/3
+// curl --header "Authorization: othertoken" localhost:8080/api/v0/sum/1/2/3
 // TO GET A 400
-// curl --header "Authorization: token" localhost:8080/sum/1/b/3
+// curl --header "Authorization: token" localhost:8080/api/v0/sum/1/b/3
 
 module.exports = async (app) => {
   const api = new APIRoute({
@@ -51,17 +51,17 @@ module.exports = async (app) => {
       groups: [[1, 2], 5],
       groupPolicy: "at_leats_one"
     }, api.logger),
-    createMethodHandler(parse("params", "a"), api.logger),
-    createMethodHandler(parse("params", "b"), api.logger),
-    createMethodHandler(parse("params", "c"), api.logger),
-    createMethodHandler(async ({ results }) => {
+    createFunctionHandler(parse("params", "a"), api.logger),
+    createFunctionHandler(parse("params", "b"), api.logger),
+    createFunctionHandler(parse("params", "c"), api.logger),
+    createFunctionHandler(async ({ results }) => {
       api.logger.info(results);
       const reduced = results.reduce((total, num) => total + num);
       api.logger.info(reduced);
       results.splice(0, results.length);
       return reduced;
     }, api.logger),
-    createServiceResponseHandler()
+    createResponseHandler(api.logger)
   ]);
   app.use("/api/v0", api.routes());
   api.logger.info("up");

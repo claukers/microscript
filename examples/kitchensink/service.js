@@ -1,16 +1,17 @@
 const {
-  createServiceAPIHandler
+  createServiceHandler,
+  APIRoute
 } = require("miqro-express");
 const {
   Util,
   ParseOptionsError
 } = require("miqro-core");
 const {
-  Database
+  Database,
+  ModelService
 } = require("miqro-sequelize");
 const {
   ModelRoute,
-  ModelService
 } = require("miqro-sequelize-express");
 
 const logger = Util.getLogger("posts.js");
@@ -32,7 +33,8 @@ module.exports = async (app) => {
   * for model db.models.post
   * to allow delete add it to the allowedMethods list
   */
-  app.use("/post",
+  const api = new APIRoute();
+  api.use("/post",
     new ModelRoute(
       new ModelService(
         db.models.post
@@ -40,6 +42,7 @@ module.exports = async (app) => {
       {
         allowedMethods: ["GET", "POST", "PATCH"]
       }).routes());
-  app.use("/myFunction", createServiceAPIHandler(new MyCustomService(), "myFunction"));
+  api.use("/myFunction", createServiceHandler(new MyCustomService(), "myFunction"));
+  app.use("/api", api.routes());
   return app;
 };

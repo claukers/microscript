@@ -1,5 +1,5 @@
 const express = require("express");
-const { Util, setupMiddleware } = require("../dist");
+const { Util, setupMiddleware } = require("../../dist");
 const path = require("path");
 
 process.env.MIQRO_DIRNAME = path.resolve(__dirname);
