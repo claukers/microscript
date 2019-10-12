@@ -18,9 +18,9 @@
   "license": "ISC",
   "dependencies": {
     "miqro-core": "^0.1.6",
-    "miqro-express": "^0.1.10",
+    "miqro-express": "^0.1.11",
     "miqro-sequelize": "^0.1.6",
-    "miqro-sequelize-express": "^0.1.8"
+    "miqro-sequelize-express": "^0.1.9"
   },
   "devDependencies": {
     "mocha": "^5.2.0",
