@@ -12,3 +12,4 @@ query.js
 apidoc/
 .vscode/
 /nbproject/private/
+.idea/
