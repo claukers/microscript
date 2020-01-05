@@ -1,6 +1,6 @@
 {
   "name": "miqro",
-  "version": "0.1.11",
+  "version": "0.2.1",
   "description": "",
   "main": "dist/index.js",
   "repository": {
@@ -17,10 +17,10 @@
   "author": "claukers",
   "license": "ISC",
   "dependencies": {
-    "miqro-core": "^0.1.7",
-    "miqro-express": "^0.1.15",
-    "miqro-sequelize": "^0.1.9",
-    "miqro-sequelize-express": "^0.1.12"
+    "miqro-core": "^0.2.1",
+    "miqro-express": "^0.2.2",
+    "miqro-sequelize": "^0.2.1",
+    "miqro-sequelize-express": "^0.2.1"
   },
   "devDependencies": {
     "mocha": "^5.2.0",
@@ -28,7 +28,7 @@
     "rimraf": "^2.7.1",
     "ts-node": "^7.0.1",
     "tslint": "^5.20.1",
-    "typescript": "^3.7.2"
+    "typescript": "^3.7.4"
   },
   "engines": {
     "node": "^ 10.0.0",
