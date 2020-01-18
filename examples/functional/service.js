@@ -3,12 +3,13 @@ const {
   ParseOptionsError
 } = require("miqro-core");
 const {
-  APIRoute,
-  createSessionHandler,
-  createGroupPolicyHandler,
-  createFunctionHandler,
-  createResponseHandler,
+  SessionHandler,
+  GroupPolicyHandler,
+  Handler,
+  ErrorHandler,
+  ResponseHandler,
 } = require("miqro-express");
+const {Router} = require("express");
 const path = require("path");
 
 // curl --header "Authorization: token" localhost:8080/api/v0/sum/1/2/3
@@ -18,9 +19,8 @@ const path = require("path");
 // curl --header "Authorization: token" localhost:8080/api/v0/sum/1/b/3
 
 module.exports = async (app) => {
-  const api = new APIRoute({
-    name: "API V0"
-  });
+  const api = Router();
+  const logger = Util.getLogger("myapp");
   const parse = (attr, key) => {
     return async (args) => {
       const data = args && args[attr] ? args[attr][key] : null;
@@ -32,8 +32,8 @@ module.exports = async (app) => {
   };
 
   api.get("/sum/:a/:b/:c", [
-    createSessionHandler({
-      verify: async ({ token }) => {
+    SessionHandler({
+      verify: async ({token}) => {
         return token === "token" ? { // token token get the correct groups only
           account: "a",
           username: "u",
@@ -46,24 +46,25 @@ module.exports = async (app) => {
           token: "t"
         } : null);
       }
-    }, api.logger),
-    createGroupPolicyHandler({
+    }),
+    GroupPolicyHandler({
       groups: [[1, 2], 5],
-      groupPolicy: "at_leats_one"
-    }, api.logger),
-    createFunctionHandler(parse("params", "a"), api.logger),
-    createFunctionHandler(parse("params", "b"), api.logger),
-    createFunctionHandler(parse("params", "c"), api.logger),
-    createFunctionHandler(async ({ results }) => {
-      api.logger.info(results);
+      groupPolicy: "at_least_one"
+    }),
+    Handler(parse("params", "a"), logger),
+    Handler(parse("params", "b"), logger),
+    Handler(parse("params", "c"), logger),
+    Handler(async ({results}) => {
+      logger.info(results);
       const reduced = results.reduce((total, num) => total + num);
-      api.logger.info(reduced);
+      logger.info(reduced);
       results.splice(0, results.length);
       return reduced;
-    }, api.logger),
-    createResponseHandler(api.logger)
+    }, logger),
+    ResponseHandler(logger)
   ]);
-  app.use("/api/v0", api.routes());
-  api.logger.info("up");
+  api.use(ErrorHandler(logger));
+  app.use("/api/v0", api);
+  logger.info("up");
   return app;
 };

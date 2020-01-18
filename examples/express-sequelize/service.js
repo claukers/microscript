@@ -15,6 +15,7 @@ module.exports = async (app) => {
 
   app.get("/hello", async (req, res) => {
     logger.info("GET /hello called!");
+    // TODO DO some stuff with db.models[model]
     await new APIResponse({
       result: "world"
     }).send(res);

@@ -18,11 +18,13 @@
   "license": "ISC",
   "dependencies": {
     "miqro-core": "^0.2.1",
-    "miqro-express": "^0.2.2",
+    "miqro-express": "git+https://github.com/claukers/miqro-express.git#develop",
     "miqro-sequelize": "^0.2.1",
-    "miqro-sequelize-express": "^0.2.1"
+    "miqro-sequelize-express": "git+https://github.com/claukers/miqro-sequelize-express.git#develop",
+    "sqlite3": "^4.1.1"
   },
   "devDependencies": {
+    "@types/express": "^4.17.2",
     "mocha": "^5.2.0",
     "nyc": "^14.1.1",
     "rimraf": "^2.7.1",

@@ -1,0 +1,3 @@
+1579322531926 44734 [service.js] started
+1579322551373 44734 [service.js] GET /hello called!
+1579322551382 44734 [main.js] request[53bd6993-9b4e-4560-933d-5fa5c869f390] [GET] [/hello] [200] [6.148]ms

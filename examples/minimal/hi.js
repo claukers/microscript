@@ -1,6 +1,5 @@
 const { Util } = require("miqro-core");
 
-process.env.MIQRO_DIRNAME=__dirname;
 Util.loadConfig();
 const logger = Util.getLogger("HI");
 logger.info("hello");
