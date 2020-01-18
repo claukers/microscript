@@ -51,13 +51,10 @@ module.exports = async (app) => {
   * to allow delete add it to the allowedMethods list
   */
   app.use("/post",
-    new ModelRoute(
+    ModelRoute(
       new ModelService(
         db.models.post
-      ),
-      {
-        allowedMethods: ["GET", "POST", "PATCH"]
-      }).routes());
+      )).routes());
   return app;
 };
 ```
@@ -105,13 +102,10 @@ module.exports = async (app) => {
   * to allow delete add it to the allowedMethods list
   */
   app.use("/post",
-    new ModelRoute(
+    ModelRoute(
       new ModelService(
         db.models.post
-      ),
-      {
-        allowedMethods: ["GET", "POST", "PATCH"]
-      }).routes());
+      )).routes());
   return app;
 };
 ```
