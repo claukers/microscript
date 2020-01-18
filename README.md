@@ -48,7 +48,6 @@ module.exports = async (app) => {
   * POST /post/
   * 
   * for model db.models.post
-  * to allow delete add it to the allowedMethods list
   */
   app.use("/post",
     ModelRoute(

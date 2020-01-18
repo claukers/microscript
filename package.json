@@ -1,6 +1,6 @@
 {
   "name": "miqro",
-  "version": "0.2.1",
+  "version": "0.4.0",
   "description": "",
   "main": "dist/index.js",
   "repository": {
@@ -18,9 +18,9 @@
   "license": "ISC",
   "dependencies": {
     "miqro-core": "^0.2.1",
-    "miqro-express": "git+https://github.com/claukers/miqro-express.git#develop",
+    "miqro-express": "^0.4.1",
     "miqro-sequelize": "^0.2.1",
-    "miqro-sequelize-express": "git+https://github.com/claukers/miqro-sequelize-express.git#develop",
+    "miqro-sequelize-express": "^0.4.0",
     "sqlite3": "^4.1.1"
   },
   "devDependencies": {
