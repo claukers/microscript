@@ -31,7 +31,7 @@ little framework for creating microservices with **express**, **sequelize** and 
 
 ```javascript
 const {
-  ModelRoute,
+  ModelRouter,
   ModelService,
   Database,
   Util
@@ -50,10 +50,10 @@ module.exports = async (app) => {
   * for model db.models.post
   */
   app.use("/post",
-    ModelRoute(
+    ModelRouter(
       new ModelService(
         db.models.post
-      )).routes());
+      )));
   return app;
 };
 ```
