@@ -81,7 +81,7 @@ edit the main service file ```posts.js``` to look like this.
 
 ```javascript
 const {
-  ModelRoute,
+  ModelRouter,
   ModelService,
   Database,
   Util
@@ -101,10 +101,10 @@ module.exports = async (app) => {
   * to allow delete add it to the allowedMethods list
   */
   app.use("/post",
-    ModelRoute(
+    ModelRouter(
       new ModelService(
         db.models.post
-      )).routes());
+      )));
   return app;
 };
 ```
