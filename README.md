@@ -45,6 +45,7 @@ module.exports = async (app) => {
   * GET /post/
   * GET /post/:id
   * PATCH /post/:id
+  * DELETE /post/:id
   * POST /post/
   * 
   * for model db.models.post
@@ -95,10 +96,10 @@ module.exports = async (app) => {
   * GET /post/
   * GET /post/:id
   * PATCH /post/:id
+  * DELETE /post/:id
   * POST /post/
   * 
   * for model db.models.post
-  * to allow delete add it to the allowedMethods list
   */
   app.use("/post",
     ModelRouter(
@@ -138,13 +139,15 @@ now lets take care of the tables for the development database.
 
 ```npm install miqro-sequelize --save```
 
-```node_modules/.bin/miqro-sequelize automigrate posts.js```
+```npx miqro-sequelize automigrate```
 
-**take notice that the last argument is the service script not a model in particular.**
-
-**automigrate will run sequelize-automigrations and that will create migrations for creations, deletions or modifications of models created in the project and will try to apply them.**
+**automigrate will first run sequelize-makemigrations and that will create migrations for creations, deletions or modifications of models created in the project and will try to apply them.**
 
 **makemigrations and migrate commands also exists for doing this steps apart.**
+
+```npx miqro-sequelize makemigrations```
+
+```npx miqro-sequelize migrate```
 
 finally lets review the newly generated dotenv configuration file for your **$NODE_ENV**( by default is **development** ) located in ```config/development.env```. This file holds the configuration environment variables miqro uses to configure every component like database and express. **Its is encouraged to load the passwords. secrets and other sensible information from a secret manager into the process.env.**
 
@@ -156,7 +159,7 @@ or directly with node inspect
 
 ```npm install miqro-runner --save-dev```
 
-```node inspect node_modules/.bin/miqro-runner start posts.js```
+```npx miqro-runner start posts.js```
 
 **usefull for some IDE's with node debug support like VSCode**
 
@@ -170,7 +173,12 @@ this will create 4 processes running your service in a node cluster.
 
 ## configuration
 
-by default all configuration is done with env variables. You can load the env variables using the ```Util.loadConfig()``` call. This will load the correct **dotenv** file located in ```$MIQRO_DIRNAME/config/$NODE_ENV.env```. Calling ```Util.loadConfig()``` is not neccesary when using the **miqro runner**.
+by default all configuration is done with env variables. You can load the env variables using the ```Util.loadConfig()``` call. This will load the correct **dotenv** file located in ```$MIQRO_DIRNAME/config/$NODE_ENV.env```. Calling ```Util.loadConfig()``` is not neccesary when using **miqro runner**.
+
+```javascript
+const { Util } = require("miqro");
+Util.loadConfig(); // not neccesary when using **miqro runner**
+```
 
 ## request body parsing
 
@@ -200,7 +208,48 @@ const { name, id, aliases } = Util.parseOptions("body", body, [
 ...
 ```
 
-in case a the body doesnt pass the parseOptions function the route will return a **BadRequestResponse** with a message like ```body.name not a string!``` automatically.
+in case a the body doesnt pass the parseOptions function the route will return a **BadRequestResponse** with a message like ```body.name not a string!``` automatically when using the **ErrorHandler** middleware.
+
+## error handling
+
+to catch exceptions thrown inside your app you can add **ErrorHandler** as the last step of setting up the app like.
+
+```javascript
+...
+app.use(.....)
+....
+// put this at the end of the setup of the app
+app.use(ErrorHandler())
+app.use(myFallBackerrorHandler) // this will catch all throws that are not reconized by ErrorHandler()
+```
+
+## handler result passing
+
+```javascript
+...
+const getSomething = (param)=> {
+    return async ({params}) => {
+        const value = parseInt(params[param]);
+        return value;
+    }
+}
+
+app.get("/add/:a/:b/:c", [
+    Handler(getSomething("a")),
+    Handler(getSomething("b")),
+    Handler(getSomething("c")),
+    Handler(({results}) => {
+        const ret = results.reduce((ag, value) => {
+            ag += value;
+        }, 0);
+        // clear prev results ?
+        results.splice(0, results.length);
+        return ret;
+    }), 
+    ResponseHandler()
+]);
+....
+```
 
 ## using miqro without the runner
 
