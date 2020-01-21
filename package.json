@@ -9,16 +9,17 @@
   },
   "scripts": {
     "prepare": "npm run build",
-    "build": "rimraf dist/ && tsc",
+    "prebuild": "rm -Rf dist;",
+    "build": "tsc",
     "test": "echo modules are tested individually"
   },
   "author": "claukers",
   "license": "ISC",
   "dependencies": {
     "miqro-core": "^0.2.1",
-    "miqro-express": "^0.4.2",
-    "miqro-sequelize": "^0.2.1",
-    "miqro-sequelize-express": "^0.4.0",
+    "miqro-express": "^0.4.3",
+    "miqro-sequelize": "^0.2.2",
+    "miqro-sequelize-express": "^0.4.2",
     "sqlite3": "^4.1.1"
   },
   "devDependencies": {
@@ -26,7 +27,7 @@
     "typescript": "^3.7.4"
   },
   "engines": {
-    "node": "^ 10.0.0",
-    "npm": "^ 6.0.0"
+    "node": "^10.0.0",
+    "npm": "^6.0.0"
   }
 }
