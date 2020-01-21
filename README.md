@@ -192,7 +192,7 @@ BODYPARSER_TYPE="application/json"
 
 you can change them in the appropiate dotenv file.
 
-additionally miqro provides a **checkOptions** method that throws a ParserOptionError that is **automatically** handled by **ModelRoute**, **ServiceRoute**, **createAPIHandler** and **createServiceAPIHandler** routes. Also this utilities handle **sequelize** errors automatically.
+additionally miqro provides a **parseOptions** method that throws a ParserOptionError that is **automatically** handled by **ErrorHandler**. Also this utility handle **sequelize** errors automatically.
 
 an example usage of ```Util.parseOptions```.
 
@@ -213,7 +213,7 @@ in case a the body doesnt pass the parseOptions function the route will return a
 ## error handling
 
 to catch exceptions thrown inside your app you can add **ErrorHandler** as the last step of setting up the app like.
-
+This will catch and handle an apropiate response to known errors like request parsing, not authorized, sequelize, etc.
 ```javascript
 ...
 app.use(.....)
@@ -338,7 +338,7 @@ so if you dont want to use sequelize as your ORM or to have X as a dependency, i
 
 TODO
 
-## sedding your database
+## seeding your database
 
 TODO
 
@@ -383,7 +383,7 @@ no command
 
 ## db cli
 
-```miqro-db <command> [args..]```
+```miqro-sequelize <command> [args..]```
 
 ```
 usage: miqro-sequelize <command> [args]
