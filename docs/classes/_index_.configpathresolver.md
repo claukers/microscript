@@ -14,6 +14,7 @@
 * [getConfigDirname](_index_.configpathresolver.md#static-getconfigdirname)
 * [getConfigFilePath](_index_.configpathresolver.md#static-getconfigfilepath)
 * [getServiceDirname](_index_.configpathresolver.md#static-getservicedirname)
+* [getSrcDirname](_index_.configpathresolver.md#static-getsrcdirname)
 
 ## Methods
 
@@ -21,7 +22,7 @@
 
 ▸ **getBaseDirname**(): *string*
 
-Defined in node_modules/miqro-core/dist/util/config.d.ts:5
+Defined in node_modules/miqro-core/dist/util/config.d.ts:6
 
 **Returns:** *string*
 
@@ -31,7 +32,7 @@ ___
 
 ▸ **getConfigDirname**(): *string*
 
-Defined in node_modules/miqro-core/dist/util/config.d.ts:4
+Defined in node_modules/miqro-core/dist/util/config.d.ts:5
 
 **Returns:** *string*
 
@@ -52,5 +53,15 @@ ___
 ▸ **getServiceDirname**(): *string*
 
 Defined in node_modules/miqro-core/dist/util/config.d.ts:3
+
+**Returns:** *string*
+
+___
+
+### `Static` getSrcDirname
+
+▸ **getSrcDirname**(): *string*
+
+Defined in node_modules/miqro-core/dist/util/config.d.ts:4
 
 **Returns:** *string*
