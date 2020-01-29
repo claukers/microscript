@@ -92,7 +92,11 @@ Defined in node_modules/miqro-core/dist/util/index.d.ts:10
 
 • **ErrorHandler**: *function*
 
-Defined in node_modules/miqro-express/dist/route/common/handler.d.ts:3
+Defined in node_modules/miqro-express/dist/route/common/handler.d.ts:14
+
+Express middleware that catches sequelize and other known errors. If the error is not **known** the next callback is called.
+
+**`param`** logger for logging errors ´ILogger´.
 
 #### Type declaration:
 
@@ -150,7 +154,13 @@ ___
 
 • **Handler**: *function*
 
-Defined in node_modules/miqro-express/dist/route/common/handler.d.ts:4
+Defined in node_modules/miqro-express/dist/route/common/handler.d.ts:21
+
+Wraps an async express request handler but catches the return value and appends it to req.results
+
+**`param`** express request handler ´async function´.
+
+**`param`** logger for logging errors ´ILogger´.
 
 #### Type declaration:
 
@@ -236,7 +246,13 @@ ___
 
 • **NextErrorHandler**: *function*
 
-Defined in node_modules/miqro-express/dist/route/common/handler.d.ts:2
+Defined in node_modules/miqro-express/dist/route/common/handler.d.ts:8
+
+Wraps an async express request handler that when the function throws it is correctly handled by calling the next function
+
+**`param`** express request handler ´async function´.
+
+**`param`** logger for logging errors ´ILogger´.
 
 #### Type declaration:
 
@@ -362,7 +378,13 @@ ___
 
 • **ResponseHandler**: *function*
 
-Defined in node_modules/miqro-express/dist/route/common/handler.d.ts:5
+Defined in node_modules/miqro-express/dist/route/common/handler.d.ts:28
+
+Express middleware that uses req.resutls to create a response.
+
+**`param`** factory to create the response ´async function´.
+
+**`param`** logger for logging errors ´ILogger´.
 
 #### Type declaration:
 
