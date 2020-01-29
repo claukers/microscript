@@ -1,3 +1,7 @@
+[miqro](README.md) › [Globals](globals.md)
+
+# miqro
+
 # miqro
 
 **in early development not to use in production**
@@ -25,7 +29,6 @@ little framework for creating microservices with **express**, **sequelize** and 
 - all project configuration, migrations, seeders and models are independant of **miqro** so you can **eject** your microservice easily from **miqro** and/or use another runner like **pm2**.
 
 - exports type files for using miqro with **Typescript**. basic example on https://github.com/claukers/miqro-typescript
-
 
 ## posts.js
 
@@ -68,7 +71,6 @@ there is a miqro base project with Typescript hosted at https://github.com/clauk
 create a empty nodejs project.
 
 ```$ npm init``` 
-
 
 ```$ npm install --save miqro```
 
@@ -286,7 +288,6 @@ then run it
 
 ```node main.js```
 
-
 ## using the miqro runner
 
 miqro has its own runner with auto-restart and can start your service in a **cluster**, **fork** or simple mode for debugging purposes.
@@ -323,7 +324,6 @@ example start in fork node
 
 to provide all the features miqro depends on alot of modules. But there is a fix to this, the ```miqro``` module just exports all the features from other modules.
 
-
 miqro's module ```index.ts```
 ```javascript
 export * from "miqro-core";
@@ -353,7 +353,6 @@ TODO
 ## core cli
 
 ```npm install miqro-core --save```
-
 
 ```
 usage: miqro-core <command> [args]
