@@ -1,33 +1,37 @@
 {
   "name": "miqro",
-  "version": "0.4.5",
+  "version": "0.8.6",
   "description": "",
   "main": "dist/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/claukers/miqro.git"
   },
+  "bin": {
+    "miqro": "node dist/cli/cli.js"
+  },
   "scripts": {
-    "predoc": "rm -Rf docs;",
-    "doc": "typedoc --mode library --plugin typedoc-plugin-markdown --out docs src",
     "prepare": "npm run build",
     "prebuild": "rm -Rf dist;",
     "build": "tsc",
+    "lint": "eslint ./src --ext ts",
+    "fixlint": "eslint ./src --ext ts --fix",
     "test": "echo modules are tested individually"
   },
   "author": "claukers",
   "license": "ISC",
   "dependencies": {
-    "miqro-core": "^0.2.4",
-    "miqro-express": "^0.4.6",
-    "miqro-sequelize": "^0.2.5",
-    "miqro-sequelize-express": "^0.4.4"
+    "@miqro/core": "^0.8.5",
+    "@miqro/database": "^0.8.5",
+    "@miqro/handlers": "^0.8.3",
+    "@miqro/modelhandlers": "^0.8.3",
+    "@miqro/runner": "^0.8.7"
   },
   "devDependencies": {
-    "@types/express": "^4.17.2",
-    "typedoc": "^0.17.0-3",
-    "typedoc-plugin-markdown": "^2.2.16",
-    "typescript": "^3.7.4"
+    "@typescript-eslint/eslint-plugin": "^4.1.0",
+    "@typescript-eslint/parser": "^4.1.0",
+    "eslint": "^7.9.0",
+    "typescript": "^4.0.2"
   },
   "engines": {
     "node": "^10.0.0",
