@@ -9,6 +9,7 @@ import {main as configEnv} from "@miqro/core/dist/cli/config-env";
 import {main as dbInit} from "@miqro/database/dist/cli/init";
 import {main as makeMigrations} from "@miqro/database/dist/cli/makemigrations";
 import {main as migrate} from "@miqro/database/dist/cli/migrate";
+import {main as consoleCMD} from "@miqro/database/dist/cli/console";
 import {main as autoMigrate} from "@miqro/database/dist/cli/automigrate";
 import {main as seed} from "@miqro/database/dist/cli/seed";
 import {main as undoSeed} from "@miqro/database/dist/cli/undo-seed";
@@ -36,6 +37,7 @@ CLIUtil.cliFlow({
     cb: makeMigrations,
     description: "seeks changes in your models and creates migrations"
   },
+  ["db:console"]: {cb: consoleCMD, description: "runs a readline interface that send the input as a query"},
   ["db:migrate"]: {cb: migrate, description: "runs the migrations"},
   ["db:automigrate"]: {cb: autoMigrate, description: "runs makemigrations and migrate together"},
   ["db:seed"]: {cb: seed, description: "seeds your db"},
