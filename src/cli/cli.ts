@@ -51,4 +51,4 @@ CLIUtil.cliFlow({
   ["runner:watch"]: {cb: watch, description: "\tstarts a microservice in watch mode on the service dir"},
   ["runner:watch-script"]: {cb: watchScript, description: "starts a script in watch mode on the script dir"},
   ["runner:version"]: {cb: version, description: "\tprints miqro-runner version."}
-}, "miqro-core", console);
+}, "miqro", console);
