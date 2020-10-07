@@ -8,7 +8,7 @@
     "url": "https://github.com/claukers/miqro.git"
   },
   "bin": {
-    "miqro": "node dist/cli/cli.js"
+    "miqro": "dist/cli/cli.js"
   },
   "scripts": {
     "prepare": "npm run build",
