@@ -31,19 +31,19 @@ CLIUtil.cliFlow({
     cb: configBash,
     description: "outputs to stdout the config as a bash script"
   },
-  ["core:config-env"]: {cb: configEnv, description: "outputs to stdout the config as a env file"},
-  ["db:init"]: {cb: dbInit, description: "init sequelize configuration."},
+  ["core:config-env"]: {cb: configEnv, description: "\toutputs to stdout the config as a env file"},
+  ["db:init"]: {cb: dbInit, description: "\t\tinit sequelize configuration."},
   ["db:makemigrations"]: {
     cb: makeMigrations,
     description: "seeks changes in your models and creates migrations"
   },
-  ["db:console"]: {cb: consoleCMD, description: "runs a readline interface that send the input as a query"},
-  ["db:migrate"]: {cb: migrate, description: "runs the migrations"},
-  ["db:automigrate"]: {cb: autoMigrate, description: "runs makemigrations and migrate together"},
-  ["db:seed"]: {cb: seed, description: "seeds your db"},
-  ["db:undo-seed"]: {cb: undoSeed, description: "undo all seeds from your db"},
+  ["db:console"]: {cb: consoleCMD, description: "\truns a readline interface that send the input as a query"},
+  ["db:migrate"]: {cb: migrate, description: "\truns the migrations"},
+  ["db:automigrate"]: {cb: autoMigrate, description: "\truns makemigrations and migrate together"},
+  ["db:seed"]: {cb: seed, description: "\t\tseeds your db"},
+  ["db:undo-seed"]: {cb: undoSeed, description: "\tundo all seeds from your db"},
   ["db:migration-status"]: {cb: migrationStatus, description: "..."},
-  ["db:createmodel"]: {cb: createModel, description: "creates an example model"},
+  ["db:createmodel"]: {cb: createModel, description: "\tcreates an example model"},
 
   ["runner:start"]: {cb: start, description: "\tstarts a microservice"},
   ["runner:start-script"]: {cb: startScript, description: "starts a script"},
