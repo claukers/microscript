@@ -25,13 +25,13 @@ import {main as version} from "@miqro/runner/dist/cli/version";
 
 // noinspection SpellCheckingInspection
 CLIUtil.cliFlow({
-  ["core:init"]: {cb: init, description: "\tinits your config folder"},
-  ["core:config"]: {cb: config, description: "\toutputs to stdout the config as a json"},
-  ["core:config-bash"]: {
+  ["init"]: {cb: init, description: "\tinits your config folder"},
+  ["config"]: {cb: config, description: "\toutputs to stdout the config as a json"},
+  ["config-bash"]: {
     cb: configBash,
     description: "outputs to stdout the config as a bash script"
   },
-  ["core:config-env"]: {cb: configEnv, description: "\toutputs to stdout the config as a env file"},
+  ["config-env"]: {cb: configEnv, description: "\toutputs to stdout the config as a env file"},
   ["db:init"]: {cb: dbInit, description: "\t\tinit sequelize configuration."},
   ["db:makemigrations"]: {
     cb: makeMigrations,
@@ -45,10 +45,10 @@ CLIUtil.cliFlow({
   ["db:migration-status"]: {cb: migrationStatus, description: "..."},
   ["db:createmodel"]: {cb: createModel, description: "\tcreates an example model"},
 
-  ["runner:start"]: {cb: start, description: "\tstarts a microservice"},
-  ["runner:start-script"]: {cb: startScript, description: "starts a script"},
-  ["runner:start-api"]: {cb: startApi, description: "starts an apirouter on a directory"},
-  ["runner:watch"]: {cb: watch, description: "\tstarts a microservice in watch mode on the service dir"},
-  ["runner:watch-script"]: {cb: watchScript, description: "starts a script in watch mode on the script dir"},
-  ["runner:version"]: {cb: version, description: "\tprints miqro-runner version."}
+  ["start"]: {cb: start, description: "\tstarts a microservice"},
+  ["start-script"]: {cb: startScript, description: "starts a script"},
+  ["start-api"]: {cb: startApi, description: "starts an apirouter on a directory"},
+  ["watch"]: {cb: watch, description: "\tstarts a microservice in watch mode on the service dir"},
+  ["watch-script"]: {cb: watchScript, description: "starts a script in watch mode on the script dir"},
+  ["version"]: {cb: version, description: "\tprints miqro-runner version."}
 }, "npx miqro <command> [args]", console);
