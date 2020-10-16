@@ -21,6 +21,7 @@ import {main as startScript} from "@miqro/runner/dist/cli/start-script";
 import {main as startApi} from "@miqro/runner/dist/cli/start-api";
 import {main as watch} from "@miqro/runner/dist/cli/watch";
 import {main as watchScript} from "@miqro/runner/dist/cli/watch-script";
+import {main as watchApi} from "@miqro/runner/dist/cli/watch-api";
 import {main as version} from "@miqro/runner/dist/cli/version";
 
 // noinspection SpellCheckingInspection
@@ -50,5 +51,6 @@ CLIUtil.cliFlow({
   ["start-api"]: {cb: startApi, description: "\tstarts an apirouter on a directory"},
   ["watch"]: {cb: watch, description: "\t\tstarts a microservice in watch mode on the service dir"},
   ["watch-script"]: {cb: watchScript, description: "\tstarts a script in watch mode on the script dir"},
+  ["watch-api"]: {cb: watchApi, description: "\tstarts a apirouter on a directory in watch mode on the dir"},
   ["version"]: {cb: version, description: "\t\tprints miqro-runner version."}
 }, "npx miqro <command> [args]", console);
