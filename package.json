@@ -23,13 +23,13 @@
   "dependencies": {
     "@miqro/core": "^0.8.23",
     "@miqro/database": "^0.8.19",
-    "@miqro/handlers": "^0.8.10",
+    "@miqro/handlers": "^0.8.11",
     "@miqro/modelhandlers": "^0.8.9",
     "@miqro/runner": "^0.8.20"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^4.4.1",
-    "@typescript-eslint/parser": "^4.4.1",
+    "@typescript-eslint/eslint-plugin": "^4.5.0",
+    "@typescript-eslint/parser": "^4.5.0",
     "eslint": "^7.11.0",
     "typescript": "^4.0.3"
   },
