@@ -23,7 +23,7 @@
   "dependencies": {
     "@miqro/core": "^0.8.29",
     "@miqro/database": "^0.8.21",
-    "@miqro/handlers": "^0.8.15",
+    "@miqro/handlers": "^0.8.16",
     "@miqro/modelhandlers": "^0.8.10",
     "@miqro/runner": "^0.8.21"
   },
