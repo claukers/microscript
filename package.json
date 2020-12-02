@@ -24,7 +24,7 @@
     "@miqro/core": "^0.8.31",
     "@miqro/database": "^0.9.1",
     "@miqro/handlers": "^0.8.23",
-    "@miqro/modelhandlers": "^0.9.5",
+    "@miqro/modelhandlers": "^0.9.7",
     "@miqro/runner": "^0.8.21"
   },
   "devDependencies": {
