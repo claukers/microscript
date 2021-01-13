@@ -22,10 +22,10 @@
   "license": "ISC",
   "dependencies": {
     "@miqro/core": "^0.9.14",
-    "@miqro/database": "^0.9.6",
-    "@miqro/handlers": "^0.8.28",
-    "@miqro/modelhandlers": "^0.9.15",
-    "@miqro/runner": "^0.8.23"
+    "@miqro/database": "^0.9.7",
+    "@miqro/handlers": "^0.8.29",
+    "@miqro/modelhandlers": "^0.9.16",
+    "@miqro/runner": "^0.8.24"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.13.0",
