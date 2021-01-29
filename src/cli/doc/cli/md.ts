@@ -26,7 +26,7 @@ export const main = (): void => {
     if (policy) {
       return `|policy|groups|\n|----|----|\n|${policy.groupPolicy}|${policy.groups.join(", ")}|`;
     } else {
-      return ``;
+      return "```no policy provided!!```";
     }
 
   };
