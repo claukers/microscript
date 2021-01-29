@@ -116,11 +116,11 @@ export const migrateStatus = (): void => {
   }
 };
 
-export const seed = (): void => {
+export const seed = (seedPath?: string): void => {
   try {
     // noinspection SpellCheckingInspection
     logger.log(childProcess.execSync(
-      "npx sequelize-cli db:seed:all",
+      seedPath ? `npx sequelize-cli db:seed ${seedPath}` : "npx sequelize-cli db:seed:all",
       {
         cwd: dirname(ConfigPathResolver.getSequelizeRCFilePath()),
         env: process.env,
@@ -133,11 +133,11 @@ export const seed = (): void => {
   }
 };
 
-export const undoSeed = (): void => {
+export const undoSeed = (seedPath?: string): void => {
   try {
     // noinspection SpellCheckingInspection
     logger.log(childProcess.execSync(
-      "npx sequelize-cli db:seed:undo:all",
+      seedPath ? `npx sequelize-cli db:seed:undo ${seedPath}` : "npx sequelize-cli db:seed:undo:all",
       {
         cwd: dirname(ConfigPathResolver.getSequelizeRCFilePath()),
         env: process.env,

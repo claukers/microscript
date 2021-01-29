@@ -1,11 +1,19 @@
-import {Util} from "@miqro/core";
+import {Util, ConfigPathResolver} from "@miqro/core";
 import {undoSeed} from "../db";
+import {resolve} from "path";
 
 export const main = (): void => {
-  if (process.argv.length !== 3) {
+  if (process.argv.length !== 4) {
     throw new Error(`invalid number of args`);
   }
 
+  if (process.argv.length !== 4) {
+    throw new Error(`arguments: <seed_file>`);
+  }
+
   Util.loadConfig();
-  undoSeed();
+
+  const filePath = resolve(ConfigPathResolver.getBaseDirname(), process.argv[3]);
+  
+  undoSeed(filePath);
 }
