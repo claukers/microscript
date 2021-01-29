@@ -8,4 +8,4 @@ RUN mkdir /home/node/app
 
 ENV NODE_PATH=/usr/local/lib/node_modules:/usr/local/lib/node_modules/miqro/node_modules:/home/node/app/node_modules
 
-CMD npx miqro runner:start $CLUSTER_COUNT cluster /home/node/app
+CMD npx miqro start $CLUSTER_COUNT cluster /home/node/app
