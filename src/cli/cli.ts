@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 //@miqro/core
 import { CLIUtil } from "@miqro/core";
+import { main as apiDocJSON } from "./doc/cli/json";
+import { main as apiDocMD } from "./doc/cli/md";
 import { main as init } from "./core/cli/init";
 import { main as config } from "./core/cli/config";
 import { main as configBash } from "./core/cli/config-bash";
@@ -28,16 +30,16 @@ import { main as version } from "./runner/cli/version";
 
 // noinspection SpellCheckingInspection
 CLIUtil.cliFlow({
-  ["config:init"]: { cb: init, description: "\t\tinits your config folder" },
+  ["doc"]: { cb: apiDocJSON, description: "\t\toutputs to stdout an api folder auto doc as a json" },
+  ["doc:md"]: { cb: apiDocMD, description: "\t\toutputs to a file an api folder auto doc as a markdown" },
   ["config"]: { cb: config, description: "\t\toutputs to stdout the config as a json" },
   ["config:bash"]: {
     cb: configBash,
     description: "\toutputs to stdout the config as a bash script"
   },
   ["config:env"]: { cb: configEnv, description: "\toutputs to stdout the config as a env file" },
+  ["config:init"]: { cb: init, description: "\tinits your config folder" },
 
-
-  ["db:init"]: { cb: dbInit, description: "\t\tinit sequelize configuration." },
   ["db:console"]: { cb: consoleCMD, description: "\truns a readline interface that send the input as a query" },
   ["db:dump:data"]: { cb: dumpData, description: "\tdump the data of the database (only defined models)" },
   ["db:push:data"]: { cb: pushData, description: "\tpush a dump to the database" },
@@ -51,6 +53,7 @@ CLIUtil.cliFlow({
   ["db:seed:all"]: { cb: seedAll, description: "\tnpx sequelize-cli db:seed:all" },
   ["db:seed:undo:all"]: { cb: undoSeed, description: "npx sequelize-cli db:seed:undo:all" },
   ["db:create:model"]: { cb: createModel, description: "\tcreates an example model" },
+  ["db:init"]: { cb: dbInit, description: "\t\tinit sequelize configuration." },
 
   ["start"]: { cb: start, description: "\t\tstarts a microservice" },
   ["start:script"]: { cb: startScript, description: "\tstarts a script" },
