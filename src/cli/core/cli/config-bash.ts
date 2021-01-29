@@ -1,4 +1,4 @@
-import { CLIUtil, Util } from "@miqro/core";
+import { Util } from "@miqro/core";
 
 export const main = (): void => {
   const logger = console;
