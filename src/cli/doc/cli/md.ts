@@ -84,7 +84,7 @@ export const main = (): void => {
   const parseOptionTable = (options: { options: ParseOption[]; } | false | undefined, subName = ""): string => {
     if (options) {
 
-      return `${subName !== "" ? "" : `|name|type|arrayRange|arrayType|range|values|defaultValue|required|description|\n|----|----|----|----|----|----|----|----|----|\n`}${options.options.map(o => {
+      return `${subName !== "" ? "" : `|name|type|arrayRange|arrayType|range|values|defaultValue|required|allowNull|description|\n|----|----|----|----|----|----|----|----|----|----|\n`}${options.options.map(o => {
 
         const arrayRange = o.type === "array" ? getRange(o, o.type) : " ";
         const range = o.type === "array" ? (o.arrayType ? getRange(o, o.arrayType) : " ") : getRange(o, o.type);
@@ -93,7 +93,7 @@ export const main = (): void => {
         // |name|type|arrayType|range|values|defaultValue|required|description
         let out = `|${subName}${o.name}|${o.type}|${arrayRange}|${o.arrayType ? o.arrayType : " "}|` +
           `${range}|` +
-          `${o.enumValues ? o.enumValues.join(", ") : " "}|${o.defaultValue !== undefined ? o.defaultValue : " "}|${o.required}|${o.description ? o.description : " "}|`;
+          `${o.enumValues ? o.enumValues.join(", ") : " "}|${o.defaultValue !== undefined ? o.defaultValue : " "}|${o.required}|${o.allowNull ? "true" : "false"}|${o.description ? o.description : " "}|`;
         if (o.type === "nested" || o.arrayType === "nested") {
           out += `\n${parseOptionTable({ options: o.nestedOptions.options }, `${subName}${o.name}.`)}`;
           return out;
