@@ -28,7 +28,7 @@
     "@miqro/database": "^0.9.9",
     "@miqro/handlers": "^0.9.8",
     "@miqro/modelhandlers": "^0.9.32",
-    "@miqro/runner": "^0.9.2",
+    "@miqro/runner": "^0.9.3",
     "deep-diff": "^1.0.2",
     "object-hash": "^2.1.1"
   },
