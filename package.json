@@ -24,10 +24,10 @@
   "author": "claukers",
   "license": "ISC",
   "dependencies": {
-    "@miqro/core": "^0.9.18",
+    "@miqro/core": "^0.9.19",
     "@miqro/database": "^0.9.9",
-    "@miqro/handlers": "^0.9.13",
-    "@miqro/modelhandlers": "^0.9.34",
+    "@miqro/handlers": "^0.9.14",
+    "@miqro/modelhandlers": "^0.9.36",
     "@miqro/runner": "^0.9.4",
     "deep-diff": "^1.0.2",
     "object-hash": "^2.1.1"

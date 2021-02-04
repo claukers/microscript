@@ -1,5 +1,5 @@
 import { ConfigPathResolver, GroupPolicy, Logger } from "@miqro/core";
-import { ParseResultsHandlerOptions, traverseAPIRouteDir, ValidateBodyHandlerOptions, ValidateParamsHandlerOptions, ValidateQueryHandlerOptions } from "@miqro/handlers";
+import { APIRoute, ParseResultsHandlerOptions, traverseAPIRouteDir, BasicParseOptions } from "@miqro/handlers";
 import { basename, resolve } from "path";
 
 export const getDOCJSON = ({ dirname, subPath }: { dirname: string; subPath: string; }, logger: Logger): {
@@ -7,9 +7,9 @@ export const getDOCJSON = ({ dirname, subPath }: { dirname: string; subPath: str
   methods: string[];
   identifier: string;
   description: string;
-  query: false | ValidateQueryHandlerOptions;
-  body: false | ValidateBodyHandlerOptions;
-  params: false | ValidateParamsHandlerOptions;
+  query: false | BasicParseOptions;
+  body: false | BasicParseOptions;
+  params: false | BasicParseOptions;
   policy: GroupPolicy;
   results: ParseResultsHandlerOptions;
   featureName: string;
