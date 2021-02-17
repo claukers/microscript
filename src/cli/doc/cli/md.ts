@@ -1,4 +1,4 @@
-import { ConfigPathResolver, GroupPolicy, ParseOption } from "@miqro/core";
+import { ConfigPathResolver, GroupPolicy, ParseOption, ParseOptionMap, parseOptionMap2ParseOptionList } from "@miqro/core";
 import { traverseAPIRouteDir } from "@miqro/handlers";
 import { resolve, basename } from "path";
 import { writeFileSync } from "fs";
@@ -81,9 +81,9 @@ export const main = (): void => {
     return range;
   };
 
-  const parseOptionTable = (options: { options: ParseOption[]; } | false | undefined, subName = ""): string => {
+  const parseOptionTable = (options: { options: ParseOption[] | ParseOptionMap; } | false | undefined, subName = ""): string => {
     if (options) {
-
+      options.options = options.options instanceof Array ? options.options : parseOptionMap2ParseOptionList(options.options);
       return `${subName !== "" ? "" : `|name|type|arrayRange|arrayType|range|values|defaultValue|required|allowNull|description|\n|----|----|----|----|----|----|----|----|----|----|\n`}${options.options.map(o => {
 
         const arrayRange = o.type === "array" ? getRange(o, o.type) : " ";
