@@ -1,8 +1,8 @@
 # miqro
 
-helpers for creating applications with **express** and **sequelize**.
+helpers for creating apis applications with nodejs **http** module and **sequelize**.
 
-this module just bundles the following npm modules.
+this module is just a cli for the following npm modules.
 
 - logging, config loading, feature toggling see [@miqro/core](https://www.npmjs.com/package/@miqro/core)
 
@@ -17,11 +17,12 @@ this module just bundles the following npm modules.
 ```
 npx miqro <command> [args]
 Available commands:
-	init			inits your config folder
+	doc			outputs to stdout an api folder auto doc as a json
+	doc:md			outputs to a file an api folder auto doc as a markdown
 	config			outputs to stdout the config as a json
-	config-bash		outputs to stdout the config as a bash script
-	config-env		outputs to stdout the config as a env file
-	db:init			init sequelize configuration.
+	config:bash		outputs to stdout the config as a bash script
+	config:env		outputs to stdout the config as a env file
+	config:init		inits your config folder
 	db:console		runs a readline interface that send the input as a query
 	db:dump:data		dump the data of the database (only defined models)
 	db:push:data		push a dump to the database
@@ -31,7 +32,9 @@ Available commands:
 	db:migrate		npx sequelize-cli db:migrate
 	db:seed:all		npx sequelize-cli db:seed:all
 	db:seed:undo:all	npx sequelize-cli db:seed:undo:all
+	db:seed:undo		npx sequelize-cli db:seed:undo
 	db:create:model		creates an example model
+	db:init			init sequelize configuration.
 	start			starts a microservice
 	start:script		starts a script
 	start:api		starts an apirouter on a directory
