@@ -115,48 +115,9 @@ export const main = (): void => {
     return `- [${doc.featureName}](#${doc.featureName.toLowerCase()})\n\n${doc.description ? `${FAKE_TAB}${doc.description}\n\n` : ""}${FAKE_DOUBLE_TAB}${doc.path}`;
   }).join("\n\n")}`;
 
-  writeFileSync(resolve(process.cwd(), "api.md"), `${featureIndex}\n\n` + docJSON.map(doc => {
-    let queryTable = parseOptionTable(doc.query);
-    let paramsTable = parseOptionTable(doc.params);
-    let bodyTable = parseOptionTable(doc.body);
-    let resultsTable = doc.results ? parseOptionTable(doc.results) : "";
-    if (queryTable.split("\n").length > 1) {
-      queryTable = `- query\n\n${queryTable}`;
-    } else {
-      queryTable = queryTable === "" ? "" : `- query: ${queryTable}`;
-    }
-    if (paramsTable.split("\n").length > 1) {
-      paramsTable = `- params\n\n${paramsTable}`;
-    } else {
-      paramsTable = paramsTable === "" ? "" : `- params: ${paramsTable}`;
-    }
-    if (bodyTable.split("\n").length > 1) {
-      bodyTable = `- body\n\n${bodyTable}`;
-    } else {
-      bodyTable = bodyTable === "" ? "" : `- body: ${bodyTable}`;
-    }
-    if (resultsTable.split("\n").length > 1) {
-      resultsTable = `- results\n\n${resultsTable}`;
-    } else {
-      resultsTable = resultsTable === "" ? "" : `- results: ${resultsTable}`;
-    }
-
-    const pTable = policyTable(doc.policy);
-
-    return `### ${doc.featureName}\n\n` +
-      `${doc.description ? `${doc.description}\n\n` : ""}` +
-      `${pTable ? `${pTable}\n\n` : ""}` +
-      `- endpoint\n\n` +
-      `${methodUrlTable(doc)}\n\n` +
-      `${paramsTable ? `${paramsTable}\n\n` : ""}` +
-      `${queryTable ? `${queryTable}\n\n` : ""}` +
-      `${bodyTable ? `${bodyTable}\n\n` : ""}` +
-      `${resultsTable ? `${resultsTable}\n\n` : ""}`;
-  }).join("\n\n"));
-
   writeFileSync(resolve(ConfigPathResolver.getBaseDirname(), outPath), `${featureIndex}\n\n` + docJSON.map(doc => {
     let queryTable = parseOptionTable(doc.query);
-    let paramsTable = parseOptionTable(doc.params);
+    // let paramsTable = parseOptionTable(doc.params);
     let bodyTable = parseOptionTable(doc.body);
     let resultsTable = doc.results ? parseOptionTable(doc.results) : "";
     if (queryTable.split("\n").length > 1) {
@@ -164,11 +125,11 @@ export const main = (): void => {
     } else {
       queryTable = queryTable === "" ? "" : `- query: ${queryTable}`;
     }
-    if (paramsTable.split("\n").length > 1) {
+    /*if (paramsTable.split("\n").length > 1) {
       paramsTable = `- params\n\n${paramsTable}`;
     } else {
       paramsTable = paramsTable === "" ? "" : `- params: ${paramsTable}`;
-    }
+    }*/
     if (bodyTable.split("\n").length > 1) {
       bodyTable = `- body\n\n${bodyTable}`;
     } else {
@@ -187,7 +148,7 @@ export const main = (): void => {
       `${pTable ? `${pTable}\n\n` : ""}` +
       `- endpoint\n\n` +
       `${methodUrlTable(doc)}\n\n` +
-      `${paramsTable ? `${paramsTable}\n\n` : ""}` +
+      // `${paramsTable ? `${paramsTable}\n\n` : ""}` +
       `${queryTable ? `${queryTable}\n\n` : ""}` +
       `${bodyTable ? `${bodyTable}\n\n` : ""}` +
       `${resultsTable ? `${resultsTable}\n\n` : ""}`;
