@@ -9,12 +9,7 @@ LOG_LEVEL_Database=error
 
 export const featuresEnvFile = `####################
 ## features
-DISABLE_POWERED=true
-REQUEST_UUID=true
-MORGAN=true
-BODY_PARSER=true
-BODY_PARSER_URL_ENCODED=true
-#MY_CUSTOM_FEATURE=true
+#MY_CUSTOM_FEATURE=false
 `;
 
 export const dbEnvFile = `####################
@@ -35,8 +30,9 @@ DB_POOL_IDDLE=10000
 DB_STORAGE=./dev.sqlite3
 `;
 
-export const expressEnvFile = `####################
-## express
+export const httpEnvFile = `####################
+####################
+## http
 PORT=8080
 HTTPS_ENABLE=false
 # should be loadad from a secret manager into process.env.HTTPS_KEY
@@ -45,13 +41,10 @@ HTTPS_ENABLE=false
 #HTTPS_CERT=
 ####################
 ## body-parser
-BODY_PARSER_INFLATE=true
-BODY_PARSER_LIMIT=100kb
+BODY_PARSER_LIMIT=819200
 BODY_PARSER_STRICT=true
 BODY_PARSER_TYPE=application/json
-BODY_PARSER_URL_ENCODED_INFLATE=true
-BODY_PARSER_URL_ENCODED_LIMIT=100kb
-BODY_PARSER_URL_ENCODED_EXTENDED=true
+BODY_PARSER_URL_ENCODED_LIMIT=819200
 BODY_PARSER_URL_ENCODED_TYPE=application/x-www-form-urlencoded
 `;
 
@@ -72,6 +65,6 @@ export const templates = {
   logEnvFile,
   authEnvFile,
   dbEnvFile,
-  expressEnvFile,
+  httpEnvFile,
   featuresEnvFile
 };
