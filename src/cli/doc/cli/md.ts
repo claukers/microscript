@@ -66,10 +66,10 @@ export const main = (): void => {
           range += `:${o.numberMax}`;
         }
         if (o.numberMinDecimals !== undefined) {
-          range = `${range ? " " : ""}decimal ${o.numberMin}:`;
+          range = `${range ? " " : ""}decimal ${o.numberMinDecimals}:`;
         }
         if (o.numberMaxDecimals !== undefined) {
-          range += `${range ? " " : ""}${o.numberMinDecimals !== undefined ? "" : "decimal "}:${o.numberMax}`;
+          range += `${range ? " " : ""}${o.numberMinDecimals !== undefined ? "" : "decimal "}:${o.numberMaxDecimals}`;
         }
         break;
       case "array":
