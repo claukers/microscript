@@ -1,8 +1,3 @@
-import { ConfigPathResolver } from "@miqro/core";
-import { traverseAPIRouteDir } from "@miqro/handlers";
-import { resolve, basename } from "path";
-
-
 import { Util } from "@miqro/core";
 import { getDOCJSON } from "../util";
 

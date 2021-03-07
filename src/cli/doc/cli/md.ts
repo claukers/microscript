@@ -65,6 +65,12 @@ export const main = (): void => {
         if (o.numberMax !== undefined) {
           range += `:${o.numberMax}`;
         }
+        if (o.numberMinDecimals !== undefined) {
+          range = `${range ? " " : ""}decimal ${o.numberMin}:`;
+        }
+        if (o.numberMaxDecimals !== undefined) {
+          range += `${range ? " " : ""}${o.numberMinDecimals !== undefined ? "" : "decimal "}:${o.numberMax}`;
+        }
         break;
       case "array":
         if (o.arrayMinLength !== undefined || o.arrayMaxLength !== undefined) {
@@ -89,8 +95,6 @@ export const main = (): void => {
         const arrayRange = o.type === "array" ? getRange(o, o.type) : " ";
         const range = o.type === "array" ? (o.arrayType ? getRange(o, o.arrayType) : " ") : getRange(o, o.type);
 
-
-        // |name|type|arrayType|range|values|defaultValue|required|description
         let out = `|${subName}${o.name}|${o.type}|${arrayRange}|${o.arrayType ? o.arrayType : " "}|` +
           `${range}|` +
           `${o.enumValues ? o.enumValues.join(", ") : " "}|${o.defaultValue !== undefined ? o.defaultValue : " "}|${o.required}|${o.allowNull ? "true" : "false"}|${o.description ? o.description : " "}|`;
