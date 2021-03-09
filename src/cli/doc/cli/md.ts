@@ -1,6 +1,5 @@
 import { ConfigPathResolver, GroupPolicy, ParseOption, ParseOptionMap, parseOptionMap2ParseOptionList } from "@miqro/core";
-import { traverseAPIRouteDir } from "@miqro/handlers";
-import { resolve, basename } from "path";
+import { resolve } from "path";
 import { writeFileSync } from "fs";
 
 
