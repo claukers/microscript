@@ -1,7 +1,7 @@
-import {Util, SimpleMap} from "@miqro/core";
-import {resolve} from "path";
-import {writeFileSync} from "fs";
-import {Database} from "@miqro/database";
+import { Util, SimpleMap } from "@miqro/core";
+import { resolve } from "path";
+import { writeFileSync } from "fs";
+import { Database } from "@miqro/database";
 
 export const main = async (): Promise<void> => {
   const logger = console;
@@ -17,12 +17,16 @@ export const main = async (): Promise<void> => {
 
   Util.loadConfig();
   const db = Database.getInstance();
+  await db.start();
   const out: SimpleMap<any[]> = {};
   logger.info(`beware that if the model is not implicitly defined in db.models it will be dumped.`);
   const models = Object.keys(db.models);
   for (const modelName of models) {
-    const rows = await db.models[modelName].findAll();
+    const rows = await db.models[modelName].findAll({
+      offset: 10
+    });
     out[modelName] = rows;
   }
+  await db.stop();
   writeFileSync(resolve(process.cwd(), outfile), JSON.stringify(out, undefined, 2));
 }

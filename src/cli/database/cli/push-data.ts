@@ -23,10 +23,12 @@ export const main = async (): Promise<void> => {
 
   Util.loadConfig();
   const db = Database.getInstance();
+  await db.start();
   const out: SimpleMap<any[]> = JSON.parse(readFileSync(resolve(process.cwd(), outfile)).toString());
   for (const modelName of modelList) {
     if (out[modelName] && db.models[modelName]) {
       await db.models[modelName].bulkCreate(out[modelName]);
     }
   }
+  await db.stop();
 }
