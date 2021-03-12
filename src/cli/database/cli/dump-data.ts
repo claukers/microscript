@@ -22,9 +22,7 @@ export const main = async (): Promise<void> => {
   logger.info(`beware that if the model is not implicitly defined in db.models it will be dumped.`);
   const models = Object.keys(db.models);
   for (const modelName of models) {
-    const rows = await db.models[modelName].findAll({
-      offset: 10
-    });
+    const rows = await db.models[modelName].findAll();
     out[modelName] = rows;
   }
   await db.stop();
