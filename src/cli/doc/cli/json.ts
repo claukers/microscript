@@ -1,8 +1,7 @@
-import { Util } from "@miqro/core";
+import { getLogger, Util } from "@miqro/core";
 import { getDOCJSON } from "../util";
 
 export const main = (): void => {
-  const logger = console;
 
   if (process.argv.length !== 5) {
     throw new Error(`arguments: <api_folder> <subPath>`);
@@ -13,5 +12,5 @@ export const main = (): void => {
 
   Util.getConfig();
 
-  logger.info(JSON.stringify(getDOCJSON({ dirname, subPath }, logger as any), undefined, 2));
+  console.log(JSON.stringify(getDOCJSON({ dirname, subPath }, getLogger("miqro")), undefined, 2));
 }
