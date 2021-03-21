@@ -25,16 +25,16 @@
   "license": "ISC",
   "dependencies": {
     "@miqro/core": "^0.9.28",
-    "@miqro/database": "^0.9.12",
-    "@miqro/handlers": "^1.0.29",
-    "@miqro/runner": "^1.0.9",
+    "@miqro/database": "^0.9.13",
+    "@miqro/handlers": "^1.0.31",
+    "@miqro/runner": "^1.0.10",
     "deep-diff": "^1.0.2",
     "object-hash": "^2.1.1"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^4.17.0",
-    "@typescript-eslint/parser": "^4.17.0",
-    "eslint": "^7.21.0",
+    "@typescript-eslint/eslint-plugin": "^4.18.0",
+    "@typescript-eslint/parser": "^4.18.0",
+    "eslint": "^7.22.0",
     "sequelize-cli": "^6.2.0",
     "sqlite3": "^5.0.2",
     "typescript": "^4.2.3"

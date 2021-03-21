@@ -41,5 +41,5 @@ Available commands:
 	watch			starts a microservice in watch mode on the service dir
 	watch:script		starts a script in watch mode on the script dir
 	watch:api		starts a apirouter on a directory in watch mode on the dir
-	version			prints miqro-runner version.
+	version			prints the version.
 ```

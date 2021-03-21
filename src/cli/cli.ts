@@ -63,5 +63,5 @@ CLIUtil.cliFlow({
   ["watch"]: { cb: watch, description: "\t\tstarts a microservice in watch mode on the service dir" },
   ["watch:script"]: { cb: watchScript, description: "\tstarts a script in watch mode on the script dir" },
   ["watch:api"]: { cb: watchApi, description: "\tstarts a apirouter on a directory in watch mode on the dir" },
-  ["version"]: { cb: version, description: "\t\tprints miqro-runner version." }
+  ["version"]: { cb: version, description: "\t\tprints the version." }
 }, "npx miqro <command> [args]", console);
