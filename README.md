@@ -6,11 +6,11 @@ this module is just a cli for the following npm modules.
 
 - logging, config loading, feature toggling see [@miqro/core](https://www.npmjs.com/package/@miqro/core)
 
-- express handlers see [@miqro/handlers](https://www.npmjs.com/package/@miqro/handlers)
+- api handlers see [@miqro/handlers](https://www.npmjs.com/package/@miqro/handlers)
 
 - sequelize integration see [@miqro/database](https://www.npmjs.com/package/@miqro/database)
 
-- sequelize express handlers [@miqro/modelhandlers](https://www.npmjs.com/package/@miqro/modelhandlers)
+- some helpers for doing pagination, searching, etc [@miqro/modelhandlers](https://www.npmjs.com/package/@miqro/modelhandlers)
 
 #### cli
 
