@@ -1,6 +1,6 @@
 # miqro
 
-helpers for creating apis applications with nodejs **http** module and **sequelize**.
+helpers for creating api with nodejs **http** module and **sequelize**.
 
 this module is just a cli for the following npm modules.
 
