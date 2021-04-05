@@ -24,9 +24,9 @@
   "author": "claukers",
   "license": "ISC",
   "dependencies": {
-    "@miqro/core": "git+https://github.com/claukers/miqro-core.git",
-    "@miqro/database": "git+https://github.com/claukers/miqro-database.git",
-    "@miqro/handlers": "git+https://github.com/claukers/miqro-handlers.git",
+    "@miqro/core": "^1.0.1",
+    "@miqro/database": "^1.0.1",
+    "@miqro/handlers": "^1.1.1",
     "deep-diff": "^1.0.2",
     "object-hash": "^2.1.1"
   },
