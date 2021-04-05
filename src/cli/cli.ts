@@ -3,7 +3,7 @@
 import { CLIUtil } from "@miqro/core";
 import { main as apiDocJSON } from "./doc/cli/json";
 import { main as apiDocMD } from "./doc/cli/md";
-import { main as init } from "./core/cli/init";
+import { main as configInit } from "./core/cli/config-init";
 import { main as config } from "./core/cli/config";
 import { main as configBash } from "./core/cli/config-bash";
 import { main as configEnv } from "./core/cli/config-env";
@@ -20,14 +20,6 @@ import { main as migrationStatus } from "./database/cli/migration-status";
 import { main as createModel } from "./database/cli/createmodel";
 import { main as pushData } from "./database/cli/push-data";
 import { main as dumpData } from "./database/cli/dump-data";
-//@miqro/runner
-import { main as start } from "./runner/cli/start";
-import { main as startScript } from "./runner/cli/start-script";
-import { main as startApi } from "./runner/cli/start-api";
-import { main as watch } from "./runner/cli/watch";
-import { main as watchScript } from "./runner/cli/watch-script";
-import { main as watchApi } from "./runner/cli/watch-api";
-import { main as version } from "./runner/cli/version";
 
 // noinspection SpellCheckingInspection
 CLIUtil.cliFlow({
@@ -39,7 +31,7 @@ CLIUtil.cliFlow({
     description: "\toutputs to stdout the config as a bash script"
   },
   ["config:env"]: { cb: configEnv, description: "\toutputs to stdout the config as a env file" },
-  ["config:init"]: { cb: init, description: "\tinits your config folder" },
+  ["config:init"]: { cb: configInit, description: "\tinits your config folder" },
 
   ["db:console"]: { cb: consoleCMD, description: "\truns a readline interface that send the input as a query" },
   ["db:dump:data"]: { cb: dumpData, description: "\tdump the data of the database (only defined models)" },
@@ -55,13 +47,5 @@ CLIUtil.cliFlow({
   ["db:seed:undo:all"]: { cb: undoSeedAll, description: "npx sequelize-cli db:seed:undo:all" },
   ["db:seed:undo"]: { cb: undoSeed, description: "\tnpx sequelize-cli db:seed:undo" },
   ["db:create:model"]: { cb: createModel, description: "\tcreates an example model" },
-  ["db:init"]: { cb: dbInit, description: "\t\tinit sequelize configuration." },
-
-  ["start"]: { cb: start, description: "\t\tstarts a microservice" },
-  ["start:script"]: { cb: startScript, description: "\tstarts a script" },
-  ["start:api"]: { cb: startApi, description: "\tstarts an apirouter on a directory" },
-  ["watch"]: { cb: watch, description: "\t\tstarts a microservice in watch mode on the service dir" },
-  ["watch:script"]: { cb: watchScript, description: "\tstarts a script in watch mode on the script dir" },
-  ["watch:api"]: { cb: watchApi, description: "\tstarts a apirouter on a directory in watch mode on the dir" },
-  ["version"]: { cb: version, description: "\t\tprints the version." }
+  ["db:init"]: { cb: dbInit, description: "\t\tinit sequelize configuration." }
 }, "npx miqro <command> [args]", console);

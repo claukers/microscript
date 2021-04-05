@@ -30,24 +30,6 @@ DB_POOL_IDDLE=10000
 DB_STORAGE=./dev.sqlite3
 `;
 
-export const httpEnvFile = `####################
-####################
-## http
-PORT=8080
-HTTPS_ENABLE=false
-# should be loadad from a secret manager into process.env.HTTPS_KEY
-#HTTPS_KEY=
-# should be loadad from a secret manager into process.env.HTTPS_CERT
-#HTTPS_CERT=
-####################
-## body-parser
-BODY_PARSER_LIMIT=819200
-BODY_PARSER_STRICT=true
-BODY_PARSER_TYPE=application/json
-BODY_PARSER_URL_ENCODED_LIMIT=819200
-BODY_PARSER_URL_ENCODED_TYPE=application/x-www-form-urlencoded
-`;
-
 export const authEnvFile = `####################
 ## Auth
 TOKEN_LOCATION=header
@@ -65,6 +47,5 @@ export const templates = {
   logEnvFile,
   authEnvFile,
   dbEnvFile,
-  httpEnvFile,
   featuresEnvFile
 };

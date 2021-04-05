@@ -2,17 +2,21 @@
 
 helpers for creating api with nodejs **http** module and **sequelize**.
 
-this module is just a cli for the following npm modules.
+this module is just a **cli** for the following npm modules.
 
 - logging, config loading, feature toggling see [@miqro/core](https://www.npmjs.com/package/@miqro/core)
 
-- api handlers see [@miqro/handlers](https://www.npmjs.com/package/@miqro/handlers)
+- api handlers, body parsing, etc see [@miqro/handlers](https://www.npmjs.com/package/@miqro/handlers)
 
 - sequelize integration see [@miqro/database](https://www.npmjs.com/package/@miqro/database)
 
 - some helpers for doing pagination, searching, etc [@miqro/modelhandlers](https://www.npmjs.com/package/@miqro/modelhandlers)
 
-#### cli
+- some helpers for starting a cluster with auto restart if crash [@miqro/runner](https://www.npmjs.com/package/@miqro/runner)
+
+## cli for development
+
+```npm install miqro --save-dev```
 
 ```
 npx miqro <command> [args]
@@ -35,11 +39,4 @@ Available commands:
 	db:seed:undo		npx sequelize-cli db:seed:undo
 	db:create:model		creates an example model
 	db:init			init sequelize configuration.
-	start			starts a microservice
-	start:script		starts a script
-	start:api		starts an apirouter on a directory
-	watch			starts a microservice in watch mode on the service dir
-	watch:script		starts a script in watch mode on the script dir
-	watch:api		starts a apirouter on a directory in watch mode on the dir
-	version			prints the version.
 ```

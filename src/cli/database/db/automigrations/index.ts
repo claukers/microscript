@@ -1,4 +1,5 @@
-import {Util, loadSequelizeRC} from "@miqro/core";
+import {Util} from "@miqro/core";
+import {loadSequelizeRC} from "@miqro/database";
 import fs from "fs";
 import path from "path";
 import {executeMigration, getMigration, parseDifference, reverseModels, sortActions, writeMigration} from "./migrate";

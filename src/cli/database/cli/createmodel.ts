@@ -1,7 +1,7 @@
 import {existsSync, mkdirSync, writeFileSync} from "fs";
 import {resolve} from "path";
 import {templates} from "../template";
-import {loadSequelizeRC} from "@miqro/core";
+import {loadSequelizeRC} from "@miqro/database";
 
 export const main = (): void => {
   const logger = console;

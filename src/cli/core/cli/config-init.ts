@@ -28,7 +28,6 @@ export const main = (): void => {
     initEnvFile(resolve(configPath, `log.env`), templates.logEnvFile);
     initEnvFile(resolve(configPath, `db.env`), templates.dbEnvFile);
     initEnvFile(resolve(configPath, `auth.env`), templates.authEnvFile);
-    initEnvFile(resolve(configPath, `http.env`), templates.httpEnvFile);
     initEnvFile(resolve(configPath, `features.env`), templates.featuresEnvFile);
   }
 }
