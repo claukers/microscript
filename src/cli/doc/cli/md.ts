@@ -139,9 +139,9 @@ export const main = (): void => {
       bodyTable = bodyTable === "" ? "" : `- body: ${bodyTable}`;
     }
     if (resultsTable.split("\n").length > 1) {
-      resultsTable = `- results\n\n${resultsTable}`;
+      resultsTable = `- response.data.result\n\n${resultsTable}`;
     } else {
-      resultsTable = resultsTable === "" ? "" : `- results: ${resultsTable}`;
+      resultsTable = resultsTable === "" ? "" : `- response.data.result: ${resultsTable}`;
     }
 
     const pTable = policyTable(doc.policy);
