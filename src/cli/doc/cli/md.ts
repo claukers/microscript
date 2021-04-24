@@ -112,7 +112,7 @@ export const main = (): void => {
           }, "", tableHeaders ? tableHeaders + 1 : 1)}`;
           return out;
         } else if (o.type === "nested" || o.arrayType === "nested") {
-          out += `\n${parseOptionTable({ options: o.nestedOptions.options }, `${subName}${o.name}.`, tableHeaders ? tableHeaders + 1 : 1)}`;
+          out += `\n${parseOptionTable({ options: o.nestedOptions.options }, `${subName}${o.name}${o.type === "array" ? "[..]" : ""}.`, tableHeaders ? tableHeaders + 1 : 1)}`;
           return out;
         } else {
           return out;
