@@ -86,19 +86,33 @@ export const main = (): void => {
     return range;
   };
 
-  const parseOptionTable = (options: { options: ParseOption[] | ParseOptionMap; } | false | undefined, subName = ""): string => {
+  const parseOptionTable = (options: { options: ParseOption[] | ParseOptionMap; } | false | undefined, subName = "", tableHeaders: number | null = 0): string => {
     if (options) {
+      let padding = "";
+      for (let i = 0; i < tableHeaders; i++) {
+        padding += "| ";
+      }
+      const hl = "|----|----|----|----|----|----|----|----|----|----|";
       options.options = options.options instanceof Array ? options.options : parseOptionMap2ParseOptionList(options.options);
-      return `${subName !== "" ? "" : `|name|type|arrayRange|arrayType|range|values|defaultValue|required|allowNull|description|\n|----|----|----|----|----|----|----|----|----|----|\n`}${options.options.map(o => {
-
+      const headers = `|**name**|**description**|**type**|**arrayRange**|**arrayType**|**range**|**values**|**defaultValue**|**required**|**allowNull**|`;
+      return `${tableHeaders >= 0 ? `${padding}${headers}\n${tableHeaders === 0 ? `${padding}${hl}\n` : ""}` : ""}${options.options.map(o => {
         const arrayRange = o.type === "array" ? getRange(o, o.type) : " ";
         const range = o.type === "array" ? (o.arrayType ? getRange(o, o.arrayType) : " ") : getRange(o, o.type);
-
-        let out = `|${subName}${o.name}|${o.type}|${arrayRange}|${o.arrayType ? o.arrayType : " "}|` +
+        let out = `${padding}|${subName}${o.name}|${o.description ? o.description : " "}|${o.type}|${arrayRange}|${o.arrayType ? o.arrayType : " "}|` +
           `${range}|` +
-          `${o.enumValues ? o.enumValues.join(", ") : " "}|${o.defaultValue !== undefined ? o.defaultValue : " "}|${o.required}|${o.allowNull ? "true" : "false"}|${o.description ? o.description : " "}|`;
-        if (o.type === "nested" || o.arrayType === "nested") {
-          out += `\n${parseOptionTable({ options: o.nestedOptions.options }, `${subName}${o.name}.`)}`;
+          `${o.enumValues ? o.enumValues.join(", ") : " "}|${o.defaultValue !== undefined ? o.defaultValue : " "}|${o.required}|${o.allowNull ? "true" : "false"}|`;
+        if (o.type === "multiple" || o.arrayType === "multiple") {
+          out += `\n${parseOptionTable({
+            options: o.multipleOptions.map(oM => {
+              return {
+                name: o.name,
+                ...oM
+              };
+            })
+          }, "", tableHeaders ? tableHeaders + 1 : 1)}`;
+          return out;
+        } else if (o.type === "nested" || o.arrayType === "nested") {
+          out += `\n${parseOptionTable({ options: o.nestedOptions.options }, `${subName}${o.name}.`, tableHeaders ? tableHeaders + 1 : 1)}`;
           return out;
         } else {
           return out;
