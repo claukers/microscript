@@ -102,14 +102,14 @@ export const main = (): void => {
           `${range}|` +
           `${o.enumValues ? o.enumValues.join(", ") : " "}|${o.defaultValue !== undefined ? o.defaultValue : " "}|${o.required}|${o.allowNull ? "true" : "false"}|`;
         if (o.type === "multiple" || o.arrayType === "multiple") {
-          out += `\n${parseOptionTable({
-            options: o.multipleOptions.map(oM => {
-              return {
+          out += `\n${o.multipleOptions.map(oM => {
+            return parseOptionTable({
+              options: [{
                 name: o.name,
                 ...oM
-              };
-            })
-          }, "", tableHeaders ? tableHeaders + 1 : 1)}`;
+              }]
+            }, "", tableHeaders ? tableHeaders + 1 : 1)
+          })}`;
           return out;
         } else if (o.type === "nested" || o.arrayType === "nested") {
           out += `\n${parseOptionTable({ options: o.nestedOptions.options }, `${subName}${o.name}${o.type === "array" ? "[..]" : ""}.`, tableHeaders ? tableHeaders + 1 : 1)}`;
