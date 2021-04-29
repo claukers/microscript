@@ -120,7 +120,7 @@ export const seed = (seedPath?: string): void => {
   try {
     // noinspection SpellCheckingInspection
     logger.log(childProcess.execSync(
-      seedPath ? `npx sequelize-cli db:seed ${seedPath}` : "npx sequelize-cli db:seed:all",
+      seedPath ? `npx sequelize-cli db:seed --seed ${seedPath}` : "npx sequelize-cli db:seed:all",
       {
         cwd: dirname(ConfigPathResolver.getSequelizeRCFilePath()),
         env: process.env,
@@ -137,7 +137,7 @@ export const undoSeed = (seedPath?: string): void => {
   try {
     // noinspection SpellCheckingInspection
     logger.log(childProcess.execSync(
-      seedPath ? `npx sequelize-cli db:seed:undo ${seedPath}` : "npx sequelize-cli db:seed:undo:all",
+      seedPath ? `npx sequelize-cli db:seed:undo --seed ${seedPath}` : "npx sequelize-cli db:seed:undo:all",
       {
         cwd: dirname(ConfigPathResolver.getSequelizeRCFilePath()),
         env: process.env,

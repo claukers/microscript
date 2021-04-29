@@ -14,6 +14,7 @@ import { main as migrate } from "./database/cli/migrate";
 import { main as consoleCMD } from "./database/cli/console";
 import { main as autoMigrate } from "./database/cli/automigrate";
 import { main as seedAll } from "./database/cli/seed-all";
+import { main as seed } from "./database/cli/seed";
 import { main as undoSeedAll } from "./database/cli/undo-seed-all";
 import { main as undoSeed } from "./database/cli/undo-seed";
 import { main as migrationStatus } from "./database/cli/migration-status";
@@ -44,6 +45,7 @@ CLIUtil.cliFlow({
   ["db:migrate:status"]: { cb: migrationStatus, description: "npx sequelize-cli db:migrate:status" },
   ["db:migrate"]: { cb: migrate, description: "\tnpx sequelize-cli db:migrate" },
   ["db:seed:all"]: { cb: seedAll, description: "\tnpx sequelize-cli db:seed:all" },
+  ["db:seed"]: { cb: seed, description: "\tnpx sequelize-cli db:seed" },
   ["db:seed:undo:all"]: { cb: undoSeedAll, description: "npx sequelize-cli db:seed:undo:all" },
   ["db:seed:undo"]: { cb: undoSeed, description: "\tnpx sequelize-cli db:seed:undo" },
   ["db:create:model"]: { cb: createModel, description: "\tcreates an example model" },
