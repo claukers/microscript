@@ -7,10 +7,10 @@ export const getDOCJSON = ({ dirname, subPath }: { dirname: string; subPath: str
   methods: string[];
   identifier: string;
   description: string;
-  query: false | ParseOptions;
-  body: false | ParseOptions;
+  query: false | ParseOptions | ParseOptions[];
+  body: false | ParseOptions | ParseOptions[];
   policy: GroupPolicy;
-  results: ParseOptions;
+  results: ParseOptions | ParseOptions[];
   featureName: string;
 }[] => {
   const apiTraverse = traverseAPIRouteDir(logger, basename(dirname).toUpperCase(), resolve(ConfigPathResolver.getBaseDirname(), dirname), subPath);

@@ -133,29 +133,47 @@ export const main = (): void => {
   }).join("\n\n")}`;
 
   writeFileSync(resolve(ConfigPathResolver.getBaseDirname(), outPath), `${featureIndex}\n\n` + docJSON.map(doc => {
-    let queryTable = parseOptionTable(doc.query);
-    // let paramsTable = parseOptionTable(doc.params);
-    let bodyTable = parseOptionTable(doc.body);
-    let resultsTable = doc.results ? parseOptionTable(doc.results) : "";
-    if (queryTable.split("\n").length > 1) {
-      queryTable = `- query\n\n${queryTable}`;
-    } else {
-      queryTable = queryTable === "" ? "" : `- query: ${queryTable}`;
+    const query = doc.query instanceof Array ? doc.query : [doc.query];
+    const queryTables = [];
+    for (const q of query) {
+      let queryTable = parseOptionTable(q);
+      // let paramsTable = parseOptionTable(doc.params);
+      if (queryTable.split("\n").length > 1) {
+        queryTable = `- query\n\n${queryTable}`;
+      } else {
+        queryTable = queryTable === "" ? "" : `- query: ${queryTable}`;
+      }
+      queryTables.push(queryTable);
     }
     /*if (paramsTable.split("\n").length > 1) {
       paramsTable = `- params\n\n${paramsTable}`;
     } else {
       paramsTable = paramsTable === "" ? "" : `- params: ${paramsTable}`;
     }*/
-    if (bodyTable.split("\n").length > 1) {
-      bodyTable = `- body\n\n${bodyTable}`;
-    } else {
-      bodyTable = bodyTable === "" ? "" : `- body: ${bodyTable}`;
+
+    const body = doc.body instanceof Array ? doc.body : [doc.body];
+    const bodyTables = [];
+    for (const b of body) {
+      let bodyTable = parseOptionTable(b);
+
+      if (bodyTable.split("\n").length > 1) {
+        bodyTable = `- body\n\n${bodyTable}`;
+      } else {
+        bodyTable = bodyTable === "" ? "" : `- body: ${bodyTable}`;
+      }
+      bodyTables.push(bodyTable);
     }
-    if (resultsTable.split("\n").length > 1) {
-      resultsTable = `- response.data\n\n${resultsTable}`;
-    } else {
-      resultsTable = resultsTable === "" ? "" : `- response.data: ${resultsTable}`;
+
+    const results = doc.body instanceof Array ? doc.body : [doc.body];
+    const resultTables = [];
+    for (const r of results) {
+      let resultsTable = doc.results ? parseOptionTable(r) : "";
+      if (resultsTable.split("\n").length > 1) {
+        resultsTable = `- response.data\n\n${resultsTable}`;
+      } else {
+        resultsTable = resultsTable === "" ? "" : `- response.data: ${resultsTable}`;
+      }
+      resultTables.push(resultsTable);
     }
 
     const pTable = policyTable(doc.policy);
@@ -166,9 +184,9 @@ export const main = (): void => {
       `- endpoint\n\n` +
       `${methodUrlTable(doc)}\n\n` +
       // `${paramsTable ? `${paramsTable}\n\n` : ""}` +
-      `${queryTable ? `${queryTable}\n\n` : ""}` +
-      `${bodyTable ? `${bodyTable}\n\n` : ""}` +
-      `${resultsTable ? `${resultsTable}\n\n` : ""}`;
+      `${queryTables.length > 0 ? `${queryTables.join("\n\n")}\n\n` : ""}` +
+      `${bodyTables.length > 0 ? `${bodyTables.join("\n\n")}\n\n` : ""}` +
+      `${resultTables.length > 0 ? `${resultTables.join("\n\n")}\n\n` : ""}`;
   }).join("\n\n"));
 
 }
