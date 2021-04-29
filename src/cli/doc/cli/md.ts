@@ -139,7 +139,7 @@ export const main = (): void => {
       let queryTable = parseOptionTable(q);
       // let paramsTable = parseOptionTable(doc.params);
       if (queryTable.split("\n").length > 1) {
-        queryTable = `- query\n\n${queryTable}`;
+        queryTable = `- query\n\n${q && q.description ? `${q.description}\n\n` : ""}${queryTable}`;
       } else {
         queryTable = queryTable === "" ? "" : `- query: ${queryTable}`;
       }
@@ -157,19 +157,19 @@ export const main = (): void => {
       let bodyTable = parseOptionTable(b);
 
       if (bodyTable.split("\n").length > 1) {
-        bodyTable = `- body\n\n${bodyTable}`;
+        bodyTable = `- body\n\n${b && b.description ? `${b.description}\n\n` : ""}${bodyTable}`;
       } else {
         bodyTable = bodyTable === "" ? "" : `- body: ${bodyTable}`;
       }
       bodyTables.push(bodyTable);
     }
 
-    const results = doc.body instanceof Array ? doc.body : [doc.body];
+    const results = doc.results instanceof Array ? doc.results : [doc.results];
     const resultTables = [];
     for (const r of results) {
       let resultsTable = doc.results ? parseOptionTable(r) : "";
       if (resultsTable.split("\n").length > 1) {
-        resultsTable = `- response.data\n\n${resultsTable}`;
+        resultsTable = `- response.data\n\n${r.description ? `${r.description}\n\n` : ""}${resultsTable}`;
       } else {
         resultsTable = resultsTable === "" ? "" : `- response.data: ${resultsTable}`;
       }
