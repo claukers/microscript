@@ -26,7 +26,7 @@
   "dependencies": {
     "@miqro/core": "^1.0.7",
     "@miqro/database": "^1.0.4",
-    "@miqro/handlers": "^1.1.8",
+    "@miqro/handlers": "^1.1.9",
     "deep-diff": "^1.0.2",
     "object-hash": "^2.1.1"
   },
