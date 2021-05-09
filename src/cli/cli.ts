@@ -7,6 +7,9 @@ import { main as configInit } from "./core/cli/config-init";
 import { main as config } from "./core/cli/config";
 import { main as configBash } from "./core/cli/config-bash";
 import { main as configEnv } from "./core/cli/config-env";
+//@miqro/handlers
+import { main as newRoute } from "./handlers/apiroute-new";
+import { main as newMain } from "./handlers/main-new";
 //@miqro/database
 import { main as dbInit } from "./database/cli/init";
 import { main as makeMigrations } from "./database/cli/makemigrations";
@@ -33,6 +36,9 @@ CLIUtil.cliFlow({
   },
   ["config:env"]: { cb: configEnv, description: "\toutputs to stdout the config as a env file" },
   ["config:init"]: { cb: configInit, description: "\tinits your config folder" },
+
+  ["new:main"]: { cb: newMain, description: "\tcreates a new main file" },
+  ["new:route"]: { cb: newRoute, description: "\tcreates a new route" },
 
   ["db:console"]: { cb: consoleCMD, description: "\truns a readline interface that send the input as a query" },
   ["db:dump:data"]: { cb: dumpData, description: "\tdump the data of the database (only defined models)" },
