@@ -5,7 +5,7 @@ import { resolve } from "path";
 const templates = {
   ts:
     `import { App, checkEnvVariables, getLogger } from "@miqro/core";
-import { APIRouter } from "@miqro/handlers";
+import { APIRouter, middleware } from "@miqro/handlers";
 import { resolve } from "path";
 
 /*
@@ -16,6 +16,7 @@ node file.js
 const [PORT] = checkEnvVariables(["PORT"], ["8080"]);
 
 const app = new App();
+app.use(middleware());
 const logger = getLogger("server");
 app.use(APIRouter({
   dirname: resolve(__dirname, "api")
@@ -26,7 +27,7 @@ app.listen(PORT, () => {
 `,
   js:
     `const { App, checkEnvVariables, getLogger } = require("@miqro/core");
-const { APIRouter } = require("@miqro/handlers");
+const { APIRouter, middleware } = require("@miqro/handlers");
 const { resolve } = require("path");
 
 /*
@@ -37,6 +38,7 @@ node file.js
 const [PORT] = checkEnvVariables(["PORT"], ["8080"]);
 
 const app = new App();
+app.use(middleware());
 const logger = getLogger("server");
 app.use(APIRouter({
   dirname: resolve(__dirname, "api")
