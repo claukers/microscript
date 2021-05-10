@@ -1,5 +1,5 @@
 import { Util, ConfigPathResolver } from "@miqro/core";
-import { seed } from "../db";
+import { undoSeed } from "../db";
 import { resolve } from "path";
 
 export const main = (): void => {
@@ -15,5 +15,5 @@ export const main = (): void => {
 
   const filePath = resolve(ConfigPathResolver.getBaseDirname(), process.argv[3]);
 
-  seed(filePath);
+  undoSeed(filePath);
 }
