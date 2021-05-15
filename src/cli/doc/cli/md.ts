@@ -1,4 +1,4 @@
-import { ConfigPathResolver, GroupPolicy, ParseOption, ParseOptionMap, parseOptionMap2ParseOptionList } from "@miqro/core";
+import { ConfigPathResolver, getLogger, GroupPolicy, ParseOption, ParseOptionMap, parseOptionMap2ParseOptionList } from "@miqro/core";
 import { resolve } from "path";
 import { writeFileSync } from "fs";
 
@@ -19,7 +19,7 @@ export const main = (): void => {
 
   Util.getConfig();
 
-  const docJSON = getDOCJSON({ dirname, subPath }, logger as any);
+  const docJSON = getDOCJSON({ dirname, subPath }, getLogger("miqro"));
 
   const policyTable = (policy: GroupPolicy | undefined | false): string => {
     if (policy) {
