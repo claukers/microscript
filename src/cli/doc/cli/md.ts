@@ -100,7 +100,7 @@ export const main = (): void => {
         const range = o.type === "array" ? (o.arrayType ? getRange(o, o.arrayType) : " ") : getRange(o, o.type);
         let out = `${padding}|${subName}${o.name}|${o.description ? o.description : " "}|${o.type}|${arrayRange}|${o.arrayType ? o.arrayType : " "}|` +
           `${range}|` +
-          `${o.enumValues ? o.enumValues.join(", ") : " "}|${o.defaultValue !== undefined ? o.defaultValue : " "}|${o.required}|${o.allowNull ? "true" : "false"}|`;
+          `${o.enumValues ? o.enumValues.join(", ") : " "}|${o.defaultValue !== undefined ? o.defaultValue : " "}|${o.required === undefined ? true : o.required}|${o.allowNull ? "true" : "false"}|`;
         if (o.type === "multiple" || o.arrayType === "multiple") {
           out += `\n${o.multipleOptions.map(oM => {
             return parseOptionTable({

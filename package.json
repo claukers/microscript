@@ -24,16 +24,16 @@
   "author": "claukers",
   "license": "ISC",
   "dependencies": {
-    "@miqro/core": "^1.0.14",
-    "@miqro/database": "^1.0.5",
-    "@miqro/handlers": "^1.1.19",
+    "@miqro/core": "^1.0.15",
+    "@miqro/database": "^1.0.6",
+    "@miqro/handlers": "^1.1.22",
     "deep-diff": "^1.0.2",
     "object-hash": "^2.1.1"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^4.23.0",
-    "@typescript-eslint/parser": "^4.23.0",
-    "eslint": "^7.26.0",
+    "@typescript-eslint/eslint-plugin": "^4.24.0",
+    "@typescript-eslint/parser": "^4.24.0",
+    "eslint": "^7.27.0",
     "sequelize-cli": "^6.2.0",
     "sqlite3": "^5.0.2",
     "typescript": "^4.2.4"
