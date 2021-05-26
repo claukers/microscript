@@ -17,6 +17,7 @@ const route: APIRoute = {
       mode: "no_extra"
     }
   ],
+  params: false,
   results: [
     {
       options: {
@@ -45,6 +46,7 @@ export default route;
       mode: "no_extra"
     }
   ],
+  params: false,
   results: [
     {
       options: {

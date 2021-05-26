@@ -133,6 +133,20 @@ export const main = (): void => {
   }).join("\n\n")}`;
 
   writeFileSync(resolve(ConfigPathResolver.getBaseDirname(), outPath), `${featureIndex}\n\n` + docJSON.map(doc => {
+
+    const param = doc.params instanceof Array ? doc.params : [doc.params];
+    const paramsTable = [];
+    for (const q of param) {
+      let paramTable = parseOptionTable(q);
+      // let paramsTable = parseOptionTable(doc.params);
+      if (paramTable.split("\n").length > 1) {
+        paramTable = `#### query${q && q.description ? ` (${q.description})` : ""}\n\n${paramTable}`;
+      } else {
+        paramTable = paramTable === "" ? "" : `#### query${q && q.description ? ` (${q.description})` : ""}: ${paramTable}`;
+      }
+      paramsTable.push(paramTable);
+    }
+
     const query = doc.query instanceof Array ? doc.query : [doc.query];
     const queryTables = [];
     for (const q of query) {
@@ -184,6 +198,7 @@ export const main = (): void => {
       `#### endpoint\n\n` +
       `${methodUrlTable(doc)}\n\n` +
       // `${paramsTable ? `${paramsTable}\n\n` : ""}` +
+      `${paramsTable.length > 0 ? `${paramsTable.join("\n\n")}\n\n` : ""}` +
       `${queryTables.length > 0 ? `${queryTables.join("\n\n")}\n\n` : ""}` +
       `${bodyTables.length > 0 ? `${bodyTables.join("\n\n")}\n\n` : ""}` +
       `${resultTables.length > 0 ? `${resultTables.join("\n\n")}\n\n` : ""}`;
