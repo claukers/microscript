@@ -140,9 +140,9 @@ export const main = (): void => {
       let paramTable = parseOptionTable(q);
       // let paramsTable = parseOptionTable(doc.params);
       if (paramTable.split("\n").length > 1) {
-        paramTable = `#### query${q && q.description ? ` (${q.description})` : ""}\n\n${paramTable}`;
+        paramTable = `#### params${q && q.description ? ` (${q.description})` : ""}\n\n${paramTable}`;
       } else {
-        paramTable = paramTable === "" ? "" : `#### query${q && q.description ? ` (${q.description})` : ""}: ${paramTable}`;
+        paramTable = paramTable === "" ? "" : `#### params${q && q.description ? ` (${q.description})` : ""}: ${paramTable}`;
       }
       paramsTable.push(paramTable);
     }
