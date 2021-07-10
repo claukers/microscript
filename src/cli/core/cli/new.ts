@@ -62,7 +62,16 @@ export const mainJS = (minimal = false, typescript = false): void => {
   writeFileSync(resolve(appFolder, "package.json"), packageTemplate[typescript ? "ts" : "js"](identifier));
 
   console.log(execSync(
-    `npm install miqro --save`,
+    `npm install miqro --save-dev`,
+    {
+      cwd: appFolder,
+      env: process.env,
+      windowsHide: true
+    }
+  ).toString());
+
+  console.log(execSync(
+    `npm install @miqro/core --save`,
     {
       cwd: appFolder,
       env: process.env,
