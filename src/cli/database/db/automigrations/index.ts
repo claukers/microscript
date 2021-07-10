@@ -1,7 +1,7 @@
 import {Util} from "@miqro/core";
-import {loadSequelizeRC} from "@miqro/database";
 import fs from "fs";
 import path from "path";
+import { checkModule } from "../../../utils";
 import {executeMigration, getMigration, parseDifference, reverseModels, sortActions, writeMigration} from "./migrate";
 
 // noinspection JSUnusedGlobalSymbols
@@ -18,6 +18,8 @@ export const migrateImpl = async (): Promise<void> => {
   if (!process.env.PWD) {
     process.env.PWD = process.cwd();
   }
+
+  const { loadSequelizeRC } = checkModule(`@miqro/database`);
 
   const {
     migrationsFolder,
@@ -93,6 +95,8 @@ export const makemigrationsImpl = (): string | undefined | null => {
   if (!process.env.PWD) {
     process.env.PWD = process.cwd();
   }
+
+  const { loadSequelizeRC } = checkModule(`@miqro/database`);
 
   const {
     migrationsFolder,

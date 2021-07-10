@@ -1,6 +1,7 @@
 import { ConfigPathResolver, Util } from "@miqro/core";
 import { mkdirSync, writeFileSync, existsSync } from "fs";
 import { resolve } from "path";
+import { checkModule } from "../utils";
 
 const mainTemplates = {
   ts: (minimal = false) =>
@@ -52,6 +53,10 @@ export const main = (minimal = false): void => {
 
   if (process.argv.length !== 4 || process.argv[3].length < 1) {
     throw new Error(`arguments: <identifier ex: SRC_MAIN>`);
+  }
+
+  if(!minimal) {
+    checkModule("@miqro/handlers");
   }
 
   const identifier = process.argv[3].toLocaleLowerCase();

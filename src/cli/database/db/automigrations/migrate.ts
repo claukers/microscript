@@ -2,7 +2,7 @@ import {diff} from "deep-diff";
 import fs from "fs";
 import hash from "object-hash";
 import path from "path";
-import Sequelize from "sequelize";
+import { checkModule } from "../../../utils";
 
 /* tslint:disable */
 
@@ -10,6 +10,8 @@ const reverseSequelizeColType = (col: any, prefix = "Sequelize."): string => {
   const attrName = col.type.key;
   const attrObj = col.type;
   const options = (col.type.options) ? col.type.options : {};
+
+  const Sequelize = checkModule(`sequelize`);
 
   const DataTypes = Sequelize.DataTypes;
 
@@ -178,6 +180,8 @@ const parseIndex = (idx: any): any => {
 /* eslint-disable  @typescript-eslint/explicit-module-boundary-types */
 export const reverseModels = (sequelize: any, models: any, logger: any): any => {
   const tables = {};
+
+  const Sequelize = checkModule(`sequelize`);
 
   delete models.default;
 
@@ -844,6 +848,8 @@ export const executeMigration = (queryInterface: any, filename: any, pos: any, c
     logger.info("Set position to " + pos);
     mig.pos = pos;
   }
+
+  const Sequelize = checkModule(`sequelize`);
 
   mig.up(queryInterface, Sequelize).then(
     () => {

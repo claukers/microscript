@@ -7,7 +7,6 @@ import { Util } from "@miqro/core";
 import { getDOCJSON } from "../util";
 
 export const main = (): void => {
-  const logger = console;
 
   if (process.argv.length !== 6) {
     throw new Error(`arguments: <api_folder> <subPath> <out.md>`);

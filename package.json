@@ -25,12 +25,11 @@
   "license": "ISC",
   "dependencies": {
     "@miqro/core": "^1.1.2",
-    "@miqro/database": "^1.0.10",
-    "@miqro/handlers": "^1.2.2",
     "deep-diff": "^1.0.2",
     "object-hash": "^2.2.0"
   },
   "devDependencies": {
+    "@types/node": "^16.3.1",
     "@typescript-eslint/eslint-plugin": "^4.28.2",
     "@typescript-eslint/parser": "^4.28.2",
     "eslint": "^7.30.0",

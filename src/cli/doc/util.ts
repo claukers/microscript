@@ -1,6 +1,6 @@
-import { ConfigPathResolver, GroupPolicy, Logger } from "@miqro/core";
-import { ParseOptions, traverseAPIRouteDir } from "@miqro/handlers";
+import { ConfigPathResolver, GroupPolicy, Logger, ParseOptions } from "@miqro/core";
 import { basename, resolve } from "path";
+import { checkModule } from "../utils";
 
 export const getDOCJSON = ({ dirname, subPath }: { dirname: string; subPath: string; }, logger: Logger): {
   path: string;
@@ -14,6 +14,7 @@ export const getDOCJSON = ({ dirname, subPath }: { dirname: string; subPath: str
   results: ParseOptions | ParseOptions[];
   featureName: string;
 }[] => {
+  const { traverseAPIRouteDir } = checkModule("@miqro/handlers");
   const apiTraverse = traverseAPIRouteDir(logger, basename(dirname).toUpperCase(), resolve(ConfigPathResolver.getBaseDirname(), dirname), subPath);
   const docJSON = Object.keys(apiTraverse.features).map(featureName => {
     const { path, methods, identifier, apiHandlerOptions } = apiTraverse.features[featureName];

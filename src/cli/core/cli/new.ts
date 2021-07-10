@@ -1,10 +1,9 @@
-import { ConfigPathResolver, Util } from "@miqro/core";
 import { mkdirSync, writeFileSync, existsSync } from "fs";
-import { resolve, dirname } from "path";
+import { resolve } from "path";
 import { execSync } from "child_process";
 
 const packageTemplate = {
-  ts: (name: string, minimal = false) =>
+  ts: (name: string) =>
     `{
   "name": "${name}",
   "version": "1.0.0",
@@ -22,7 +21,7 @@ const packageTemplate = {
   "author": "",
   "license": "ISC"
 }`,
-  js: (name: string, minimal = false) =>
+  js: (name: string) =>
     `{
   "name": "${name}",
   "version": "1.0.0",
@@ -60,7 +59,7 @@ export const mainJS = (minimal = false, typescript = false): void => {
     recursive: true
   });
 
-  writeFileSync(resolve(appFolder, "package.json"), packageTemplate[typescript ? "ts" : "js"](identifier, minimal));
+  writeFileSync(resolve(appFolder, "package.json"), packageTemplate[typescript ? "ts" : "js"](identifier));
 
   console.log(execSync(
     `npm install miqro --save-dev`,

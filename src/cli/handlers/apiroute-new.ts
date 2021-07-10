@@ -1,6 +1,7 @@
 import { ConfigPathResolver, Util } from "@miqro/core";
 import { mkdirSync, writeFileSync, existsSync } from "fs";
 import { resolve } from "path";
+import { checkModule } from "../utils";
 
 const templates = {
   ts:
@@ -71,6 +72,8 @@ export const main = (): void => {
   }
 
   const identifier = process.argv[3].toLocaleLowerCase();
+
+  checkModule("@miqro/handlers");
 
   Util.getConfig();
 
