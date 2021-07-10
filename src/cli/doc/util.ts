@@ -16,8 +16,8 @@ export const getDOCJSON = ({ dirname, subPath }: { dirname: string; subPath: str
 }[] => {
   const { traverseAPIRouteDir } = checkModule("@miqro/handlers");
   const apiTraverse = traverseAPIRouteDir(logger, basename(dirname).toUpperCase(), resolve(ConfigPathResolver.getBaseDirname(), dirname), subPath);
-  const docJSON = Object.keys(apiTraverse.features).map(featureName => {
-    const { path, methods, identifier, apiHandlerOptions } = apiTraverse.features[featureName];
+  const docJSON = Object.keys(apiTraverse).map(featureName => {
+    const { path, methods, identifier, apiHandlerOptions } = apiTraverse[featureName];
     const { params, description, query, body, policy, results } = apiHandlerOptions;
     return {
       path, methods, identifier,
