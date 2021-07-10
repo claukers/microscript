@@ -8,7 +8,7 @@ export const checkModule = (module: string, dev?: boolean): any => {
   }
 }
 
-export const execSync = (cmd: string, options?: cp.ExecSyncOptionsWithBufferEncoding) => {
+export const execSync = (cmd: string, options?: cp.ExecSyncOptionsWithBufferEncoding): void => {
   console.log(cmd);
   cp.execSync(
     cmd,
