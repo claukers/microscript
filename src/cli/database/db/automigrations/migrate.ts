@@ -1,6 +1,5 @@
-import {diff} from "deep-diff";
 import fs from "fs";
-import hash from "object-hash";
+
 import path from "path";
 import { checkModule } from "../../../utils";
 
@@ -144,7 +143,7 @@ const reverseSequelizeDefValueType = (defaultValue: any, prefix = "Sequelize."):
   return {value: defaultValue};
 };
 
-const parseIndex = (idx: any): any => {
+const parseIndex = (idx: any, hash: any): any => {
   delete idx.parser;
   if (idx.type == "") {
     delete idx.type;
@@ -178,7 +177,7 @@ const parseIndex = (idx: any): any => {
 };
 
 /* eslint-disable  @typescript-eslint/explicit-module-boundary-types */
-export const reverseModels = (sequelize: any, models: any, logger: any): any => {
+export const reverseModels = (sequelize: any, models: any, logger: any, hash: any): any => {
   const tables = {};
 
   const Sequelize = checkModule(`sequelize`);
@@ -291,7 +290,7 @@ export const reverseModels = (sequelize: any, models: any, logger: any): any => 
       // noinspection JSUnfilteredForInLoop
       for (const _i in models[model].options.indexes) {
         // noinspection JSUnfilteredForInLoop
-        const index = parseIndex(models[model].options.indexes[_i]);
+        const index = parseIndex(models[model].options.indexes[_i], hash);
         (idxOut as any)[index.hash + ""] = index;
         delete index.hash;
 
@@ -324,7 +323,7 @@ export interface DiffAction {
   depends?: any;
 }
 
-export const parseDifference = (previousState: any, currentState: any, logger: any): DiffAction[] => {
+export const parseDifference = (previousState: any, currentState: any, logger: any, diff: any): DiffAction[] => {
   //    log(JSON.stringify(currentState, null, 4));
   const actions: DiffAction[] = [];
   const difference = diff(previousState, currentState);

@@ -1,8 +1,8 @@
-import {Util} from "@miqro/core";
+import { Util } from "@miqro/core";
 import fs from "fs";
 import path from "path";
 import { checkModule } from "../../../utils";
-import {executeMigration, getMigration, parseDifference, reverseModels, sortActions, writeMigration} from "./migrate";
+import { executeMigration, getMigration, parseDifference, reverseModels, sortActions, writeMigration } from "./migrate";
 
 // noinspection JSUnusedGlobalSymbols
 export const migrateImpl = async (): Promise<void> => {
@@ -97,6 +97,8 @@ export const makemigrationsImpl = (): string | undefined | null => {
   }
 
   const { loadSequelizeRC } = checkModule(`@miqro/database`);
+  const hash = checkModule(`object-hash`);
+  const { diff } = checkModule(`deep-diff`);
 
   const {
     migrationsFolder,
@@ -143,9 +145,9 @@ export const makemigrationsImpl = (): string | undefined | null => {
 
     const models = sequelize.models;
 
-    currentState.tables = reverseModels(sequelize, models, logger);
+    currentState.tables = reverseModels(sequelize, models, logger, hash);
 
-    const actions = parseDifference(previousState.tables, currentState.tables, logger);
+    const actions = parseDifference(previousState.tables, currentState.tables, logger, diff);
 
     // sort actions
     sortActions(actions);

@@ -85,6 +85,11 @@
                     "field": "blo",
                     "seqType": "Sequelize.STRING"
                 },
+                "blo22": {
+                    "allowNull": true,
+                    "field": "blo22",
+                    "seqType": "Sequelize.STRING"
+                },
                 "createdAt": {
                     "allowNull": false,
                     "field": "createdAt",
@@ -99,5 +104,5 @@
             "indexes": []
         }
     },
-    "revision": 6
+    "revision": 7
 }
