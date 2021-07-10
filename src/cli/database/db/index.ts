@@ -3,14 +3,13 @@ import { existsSync, mkdirSync, writeFileSync } from "fs";
 import { dirname, resolve } from "path";
 import { templates } from "./../template";
 import { ConfigPathResolver } from "@miqro/core";
-import { checkModule, execSync } from "../../utils";
+import { execSync } from "../../utils";
 
 const logger = console;
 
 // noinspection SpellCheckingInspection
 export const initDBConfig = (): boolean => {
   try {
-    checkModule(`@miqro/database`);
     const initDir = (p: string): void => {
       if (!existsSync(p)) {
         logger.warn(`creating ${p}`);
@@ -59,7 +58,6 @@ export const initDBConfig = (): boolean => {
 // noinspection SpellCheckingInspection
 export const makemigrations = (): void => {
   try {
-    checkModule(`@miqro/database`);
     makemigrationsImpl();
   } catch (e) {
     logger.error(e.message);
@@ -69,7 +67,6 @@ export const makemigrations = (): void => {
 
 export const migrate = (): void => {
   try {
-    checkModule(`@miqro/database`);
     // noinspection SpellCheckingInspection
     execSync(
       "npx sequelize-cli db:migrate",
@@ -85,7 +82,6 @@ export const migrate = (): void => {
 
 export const undoMigrate = (): void => {
   try {
-    checkModule(`@miqro/database`);
     // noinspection SpellCheckingInspection
     execSync(
       "npx sequelize-cli db:migrate:undo:all",
@@ -101,8 +97,6 @@ export const undoMigrate = (): void => {
 
 export const migrateStatus = (): void => {
   try {
-    checkModule(`@miqro/database`);
-    checkModule(`sequelize-cli`, true);
     // noinspection SpellCheckingInspection
     execSync(
       "npx sequelize-cli db:migrate:status",
@@ -118,7 +112,6 @@ export const migrateStatus = (): void => {
 
 export const seed = (seedPath?: string): void => {
   try {
-    checkModule(`@miqro/database`);
     // noinspection SpellCheckingInspection
     execSync(
       seedPath ? `npx sequelize-cli db:seed --seed ${seedPath}` : "npx sequelize-cli db:seed:all",
@@ -134,7 +127,6 @@ export const seed = (seedPath?: string): void => {
 
 export const undoSeed = (seedPath?: string): void => {
   try {
-    checkModule(`@miqro/database`);
     // noinspection SpellCheckingInspection
     execSync(
       seedPath ? `npx sequelize-cli db:seed:undo --seed ${seedPath}` : "npx sequelize-cli db:seed:undo:all",
