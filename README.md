@@ -16,7 +16,45 @@ this module is just a **cli** for the following npm modules.
 
 ## quick start
 
-[quickstart](https://www.npmjs.com/package/@miqro/handlers#quickstart)
+## quickstart
+
+```
+npx miqro new:typescript my-app
+```
+
+or without typescript
+
+```
+npx miqro new my-app
+```
+
+create a sample route
+
+```
+npx miqro new:route src_api_v1_user_post
+```
+
+this will create a file at ```src/api/v1/user/post.ts``` that will be mounted as ***POST /api/v1/user***. See ```src/main.ts``` and look for the line refering to **APIRouter** to learn how it's mounted.
+
+to generate api documentation.
+
+```
+npx miqro doc:md src/api/ /api API.md
+```
+
+or if you want a json
+
+```
+npx miqro doc src/api/ /api > api.json
+```
+
+declare routes creating files in ```src/api/```
+
+APIRouter is a FeatureRouter so to disable routes you can set an ENV VAR with the name of the feature to **false**.
+
+```
+API_HEALTH_GET=false
+```
 
 ## cli for development
 

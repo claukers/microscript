@@ -1,6 +1,10 @@
 #!/usr/bin/env node
 //@miqro/core
 import { CLIUtil } from "@miqro/core";
+import { mainJS as newJS } from "./core/cli/new";
+import { mainTS as newTS } from "./core/cli/new";
+import { mainMinimalTS as newMinimalTS } from "./core/cli/new";
+import { mainMinimalJS as newMinimalJS } from "./core/cli/new";
 import { main as apiDocJSON } from "./doc/cli/json";
 import { main as apiDocMD } from "./doc/cli/md";
 import { main as configInit } from "./core/cli/config-init";
@@ -10,6 +14,7 @@ import { main as configEnv } from "./core/cli/config-env";
 //@miqro/handlers
 import { main as newRoute } from "./handlers/apiroute-new";
 import { main as newMain } from "./handlers/main-new";
+import { mainMinimal as newMainMinimal } from "./handlers/main-new";
 //@miqro/database
 import { main as dbInit } from "./database/cli/init";
 import { main as makeMigrations } from "./database/cli/makemigrations";
@@ -27,6 +32,12 @@ import { main as dumpData } from "./database/cli/dump-data";
 
 // noinspection SpellCheckingInspection
 CLIUtil.cliFlow({
+  ["new"]: { cb: newJS, description: "\t\tcreate a new project" },
+  ["new:minimal"]: { cb: newMinimalJS, description: "\t\tcreate a new minimal project" },
+
+  ["new:typescript"]: { cb: newTS, description: "\t\tcreate a new typescript project" },
+  ["new:typescript:minimal"]: { cb: newMinimalTS, description: "\t\tcreate a new typescript minimal project" },
+
   ["doc"]: { cb: apiDocJSON, description: "\t\toutputs to stdout an api folder auto doc as a json" },
   ["doc:md"]: { cb: apiDocMD, description: "\t\toutputs to a file an api folder auto doc as a markdown" },
   ["config"]: { cb: config, description: "\t\toutputs to stdout the config as a json" },
@@ -38,6 +49,8 @@ CLIUtil.cliFlow({
   ["config:init"]: { cb: configInit, description: "\tinits your config folder" },
 
   ["new:main"]: { cb: newMain, description: "\tcreates a new main file" },
+  ["new:main:minimal"]: { cb: newMainMinimal, description: "\tcreates a new minimal main file" },
+
   ["new:route"]: { cb: newRoute, description: "\tcreates a new route" },
 
   ["db:console"]: { cb: consoleCMD, description: "\truns a readline interface that send the input as a query" },

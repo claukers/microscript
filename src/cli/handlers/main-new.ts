@@ -2,11 +2,10 @@ import { ConfigPathResolver, Util } from "@miqro/core";
 import { mkdirSync, writeFileSync, existsSync } from "fs";
 import { resolve } from "path";
 
-const templates = {
-  ts:
+const mainTemplates = {
+  ts: (minimal = false) =>
     `import { App, checkEnvVariables, getLogger } from "@miqro/core";
-import { APIRouter, middleware } from "@miqro/handlers";
-import { resolve } from "path";
+${!minimal ? `import { APIRouter, middleware } from "@miqro/handlers";\nimport { resolve } from "path";` : ""}
 
 /*
 To be start as a main file
@@ -15,20 +14,20 @@ node file.js
 
 const [PORT] = checkEnvVariables(["PORT"], ["8080"]);
 
-const app = new App();
-app.use(middleware());
 const logger = getLogger("server");
-app.use(APIRouter({
+
+const app = new App();
+${!minimal ? `app.use(middleware());\napp.use(APIRouter({
   dirname: resolve(__dirname, "api")
-}));
+}));` : ""}
 app.listen(PORT, () => {
   logger.info("listening on " + PORT);
 });
 `,
-  js:
+  js: (minimal = false) =>
     `const { App, checkEnvVariables, getLogger } = require("@miqro/core");
-const { APIRouter, middleware } = require("@miqro/handlers");
-const { resolve } = require("path");
+${!minimal ? `const { APIRouter, middleware } = require("@miqro/handlers");
+const { resolve } = require("path");`: ""}
 
 /*
 To be start as a main file
@@ -37,19 +36,19 @@ node file.js
 
 const [PORT] = checkEnvVariables(["PORT"], ["8080"]);
 
-const app = new App();
-app.use(middleware());
 const logger = getLogger("server");
-app.use(APIRouter({
+
+const app = new App();
+${!minimal ? `app.use(middleware());\napp.use(APIRouter({
   dirname: resolve(__dirname, "api")
-}));
+}));` : ""}
 app.listen(PORT, () => {
   logger.info("listening on " + PORT);
 });
 `
 }
 
-export const main = (): void => {
+export const main = (minimal = false): void => {
 
   if (process.argv.length !== 4 || process.argv[3].length < 1) {
     throw new Error(`arguments: <identifier ex: SRC_MAIN>`);
@@ -81,5 +80,7 @@ export const main = (): void => {
     recursive: true
   });
 
-  writeFileSync(filePath, templates[ext]);
+  writeFileSync(filePath, mainTemplates[ext](minimal));
 }
+
+export const mainMinimal = (): void => main(true);
