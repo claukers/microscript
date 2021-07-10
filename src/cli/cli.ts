@@ -32,41 +32,41 @@ import { main as dumpData } from "./database/cli/dump-data";
 
 // noinspection SpellCheckingInspection
 CLIUtil.cliFlow({
-  ["new"]: { cb: newJS, description: "\t\tcreate a new project" },
+  ["new"]: { cb: newJS, description: "\t\t\tcreate a new project" },
   ["new:minimal"]: { cb: newMinimalJS, description: "\t\tcreate a new minimal project" },
 
   ["new:typescript"]: { cb: newTS, description: "\t\tcreate a new typescript project" },
-  ["new:typescript:minimal"]: { cb: newMinimalTS, description: "\t\tcreate a new typescript minimal project" },
+  ["new:typescript:minimal"]: { cb: newMinimalTS, description: "\tcreate a new typescript minimal project" },
 
-  ["doc"]: { cb: apiDocJSON, description: "\t\toutputs to stdout an api folder auto doc as a json" },
-  ["doc:md"]: { cb: apiDocMD, description: "\t\toutputs to a file an api folder auto doc as a markdown" },
-  ["config"]: { cb: config, description: "\t\toutputs to stdout the config as a json" },
+  ["doc"]: { cb: apiDocJSON, description: "\t\t\toutputs to stdout an api folder auto doc as a json" },
+  ["doc:md"]: { cb: apiDocMD, description: "\t\t\toutputs to a file an api folder auto doc as a markdown" },
+  ["config"]: { cb: config, description: "\t\t\toutputs to stdout the config as a json" },
   ["config:bash"]: {
     cb: configBash,
-    description: "\toutputs to stdout the config as a bash script"
+    description: "\t\toutputs to stdout the config as a bash script"
   },
-  ["config:env"]: { cb: configEnv, description: "\toutputs to stdout the config as a env file" },
-  ["config:init"]: { cb: configInit, description: "\tinits your config folder" },
+  ["config:env"]: { cb: configEnv, description: "\t\toutputs to stdout the config as a env file" },
+  ["config:init"]: { cb: configInit, description: "\t\tinits your config folder" },
 
-  ["new:main"]: { cb: newMain, description: "\tcreates a new main file" },
+  ["new:main"]: { cb: newMain, description: "\t\tcreates a new main file" },
   ["new:main:minimal"]: { cb: newMainMinimal, description: "\tcreates a new minimal main file" },
 
-  ["new:route"]: { cb: newRoute, description: "\tcreates a new route" },
+  ["new:route"]: { cb: newRoute, description: "\t\tcreates a new route" },
 
-  ["db:console"]: { cb: consoleCMD, description: "\truns a readline interface that send the input as a query" },
-  ["db:dump:data"]: { cb: dumpData, description: "\tdump the data of the database (only defined models)" },
-  ["db:push:data"]: { cb: pushData, description: "\tpush a dump to the database" },
-  ["db:automigrate"]: { cb: autoMigrate, description: "\truns makemigrations and migrate together" },
+  ["db:console"]: { cb: consoleCMD, description: "\t\truns a readline interface that send the input as a query" },
+  ["db:dump:data"]: { cb: dumpData, description: "\t\tdump the data of the database (only defined models)" },
+  ["db:push:data"]: { cb: pushData, description: "\t\tpush a dump to the database" },
+  ["db:automigrate"]: { cb: autoMigrate, description: "\t\truns makemigrations and migrate together" },
   ["db:makemigration"]: {
     cb: makeMigrations,
-    description: "seeks changes in your models and creates migrations"
+    description: "\tseeks changes in your models and creates migrations"
   },
-  ["db:migrate:status"]: { cb: migrationStatus, description: "npx sequelize-cli db:migrate:status" },
-  ["db:migrate"]: { cb: migrate, description: "\tnpx sequelize-cli db:migrate" },
-  ["db:seed:all"]: { cb: seedAll, description: "\tnpx sequelize-cli db:seed:all" },
-  ["db:seed"]: { cb: seed, description: "\tnpx sequelize-cli db:seed" },
-  ["db:seed:undo:all"]: { cb: undoSeedAll, description: "npx sequelize-cli db:seed:undo:all" },
-  ["db:seed:undo"]: { cb: undoSeed, description: "\tnpx sequelize-cli db:seed:undo" },
-  ["db:create:model"]: { cb: createModel, description: "\tcreates an example model" },
-  ["db:init"]: { cb: dbInit, description: "\t\tinit sequelize configuration." }
+  ["db:migrate:status"]: { cb: migrationStatus, description: "\tnpx sequelize-cli db:migrate:status" },
+  ["db:migrate"]: { cb: migrate, description: "\t\tnpx sequelize-cli db:migrate" },
+  ["db:seed:all"]: { cb: seedAll, description: "\t\tnpx sequelize-cli db:seed:all" },
+  ["db:seed"]: { cb: seed, description: "\t\t\tnpx sequelize-cli db:seed" },
+  ["db:seed:undo:all"]: { cb: undoSeedAll, description: "\tnpx sequelize-cli db:seed:undo:all" },
+  ["db:seed:undo"]: { cb: undoSeed, description: "\t\tnpx sequelize-cli db:seed:undo" },
+  ["db:create:model"]: { cb: createModel, description: "\t\tcreates an example model" },
+  ["db:init"]: { cb: dbInit, description: "\t\t\tinit sequelize configuration." }
 }, "npx miqro <command> [args]", console);
