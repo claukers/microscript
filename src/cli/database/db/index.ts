@@ -1,10 +1,9 @@
-import * as childProcess from "child_process";
 import { makemigrationsImpl } from "./automigrations";
 import { existsSync, mkdirSync, writeFileSync } from "fs";
 import { dirname, resolve } from "path";
 import { templates } from "./../template";
 import { ConfigPathResolver } from "@miqro/core";
-import { checkModule } from "../../utils";
+import { checkModule, execSync } from "../../utils";
 
 const logger = console;
 
@@ -72,14 +71,12 @@ export const migrate = (): void => {
   try {
     checkModule(`@miqro/database`);
     // noinspection SpellCheckingInspection
-    logger.log(childProcess.execSync(
+    execSync(
       "npx sequelize-cli db:migrate",
       {
-        cwd: dirname(ConfigPathResolver.getSequelizeRCFilePath()),
-        env: process.env,
-        windowsHide: true
+        cwd: dirname(ConfigPathResolver.getSequelizeRCFilePath())
       }
-    ).toString());
+    );
   } catch (e) {
     logger.error(e.message);
     throw e;
@@ -90,14 +87,12 @@ export const undoMigrate = (): void => {
   try {
     checkModule(`@miqro/database`);
     // noinspection SpellCheckingInspection
-    logger.log(childProcess.execSync(
+    execSync(
       "npx sequelize-cli db:migrate:undo:all",
       {
-        cwd: dirname(ConfigPathResolver.getSequelizeRCFilePath()),
-        env: process.env,
-        windowsHide: true
+        cwd: dirname(ConfigPathResolver.getSequelizeRCFilePath())
       }
-    ).toString());
+    );
   } catch (e) {
     logger.error(e.message);
     throw e;
@@ -107,15 +102,14 @@ export const undoMigrate = (): void => {
 export const migrateStatus = (): void => {
   try {
     checkModule(`@miqro/database`);
+    checkModule(`sequelize-cli`, true);
     // noinspection SpellCheckingInspection
-    logger.log(childProcess.execSync(
+    execSync(
       "npx sequelize-cli db:migrate:status",
       {
-        cwd: dirname(ConfigPathResolver.getSequelizeRCFilePath()),
-        env: process.env,
-        windowsHide: true
+        cwd: dirname(ConfigPathResolver.getSequelizeRCFilePath())
       }
-    ).toString());
+    );
   } catch (e) {
     logger.error(e.message);
     throw e;
@@ -126,14 +120,12 @@ export const seed = (seedPath?: string): void => {
   try {
     checkModule(`@miqro/database`);
     // noinspection SpellCheckingInspection
-    logger.log(childProcess.execSync(
+    execSync(
       seedPath ? `npx sequelize-cli db:seed --seed ${seedPath}` : "npx sequelize-cli db:seed:all",
       {
-        cwd: dirname(ConfigPathResolver.getSequelizeRCFilePath()),
-        env: process.env,
-        windowsHide: true
+        cwd: dirname(ConfigPathResolver.getSequelizeRCFilePath())
       }
-    ).toString());
+    );
   } catch (e) {
     logger.error(e.message);
     throw e;
@@ -144,14 +136,12 @@ export const undoSeed = (seedPath?: string): void => {
   try {
     checkModule(`@miqro/database`);
     // noinspection SpellCheckingInspection
-    logger.log(childProcess.execSync(
+    execSync(
       seedPath ? `npx sequelize-cli db:seed:undo --seed ${seedPath}` : "npx sequelize-cli db:seed:undo:all",
       {
-        cwd: dirname(ConfigPathResolver.getSequelizeRCFilePath()),
-        env: process.env,
-        windowsHide: true
+        cwd: dirname(ConfigPathResolver.getSequelizeRCFilePath())
       }
-    ).toString());
+    );
   } catch (e) {
     logger.error(e.message);
     throw e;

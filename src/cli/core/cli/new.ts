@@ -1,6 +1,6 @@
 import { mkdirSync, writeFileSync, existsSync } from "fs";
 import { resolve } from "path";
-import { execSync } from "child_process";
+import { execSync } from "../../utils";
 
 const packageTemplate = {
   ts: (name: string) =>
@@ -61,23 +61,19 @@ export const mainJS = (minimal = false, typescript = false): void => {
 
   writeFileSync(resolve(appFolder, "package.json"), packageTemplate[typescript ? "ts" : "js"](identifier));
 
-  console.log(execSync(
+  execSync(
     `npm install miqro --save-dev`,
     {
-      cwd: appFolder,
-      env: process.env,
-      windowsHide: true
+      cwd: appFolder
     }
-  ).toString());
+  );
 
-  console.log(execSync(
+  execSync(
     `npm install @miqro/core --save`,
     {
-      cwd: appFolder,
-      env: process.env,
-      windowsHide: true
+      cwd: appFolder
     }
-  ).toString());
+  );
 
   if (typescript) {
     writeFileSync(resolve(appFolder, "tsconfig.json"), `{
@@ -106,45 +102,34 @@ export const mainJS = (minimal = false, typescript = false): void => {
     "src"
   ]
 }`);
-    console.log(execSync(
-      `npm install typescript --save-dev`,
-      {
-        cwd: appFolder,
-        env: process.env,
-        windowsHide: true
-      }
-    ).toString());
+    execSync(`npm install typescript --save-dev`, {
+      cwd: appFolder
+    });
   }
 
   if (!minimal) {
-    console.log(execSync(
+    execSync(
       `npm install @miqro/handlers --save`,
       {
-        cwd: appFolder,
-        env: process.env,
-        windowsHide: true
+        cwd: appFolder
       }
-    ).toString());
+    );
   }
 
-  console.log(execSync(
+  execSync(
     `npx miqro new:main${minimal ? ":minimal" : ""} src_main`,
     {
-      cwd: appFolder,
-      env: process.env,
-      windowsHide: true
+      cwd: appFolder
     }
-  ).toString());
+  );
 
   if (!minimal) {
-    console.log(execSync(
+    execSync(
       `npx miqro new:route src_api_health_get`,
       {
-        cwd: appFolder,
-        env: process.env,
-        windowsHide: true
+        cwd: appFolder
       }
-    ).toString());
+    );
   }
 }
 
