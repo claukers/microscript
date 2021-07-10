@@ -62,16 +62,7 @@ export const mainJS = (minimal = false, typescript = false): void => {
   writeFileSync(resolve(appFolder, "package.json"), packageTemplate[typescript ? "ts" : "js"](identifier));
 
   console.log(execSync(
-    `npm install miqro --save-dev`,
-    {
-      cwd: appFolder,
-      env: process.env,
-      windowsHide: true
-    }
-  ).toString());
-
-  console.log(execSync(
-    `npm install @miqro/core --save`,
+    `npm install miqro --save`,
     {
       cwd: appFolder,
       env: process.env,
@@ -116,6 +107,17 @@ export const mainJS = (minimal = false, typescript = false): void => {
     ).toString());
   }
 
+  if (!minimal) {
+    console.log(execSync(
+      `npm install @miqro/handlers --save`,
+      {
+        cwd: appFolder,
+        env: process.env,
+        windowsHide: true
+      }
+    ).toString());
+  }
+
   console.log(execSync(
     `npx miqro new:main${minimal ? ":minimal" : ""} src_main`,
     {
@@ -126,14 +128,6 @@ export const mainJS = (minimal = false, typescript = false): void => {
   ).toString());
 
   if (!minimal) {
-    console.log(execSync(
-      `npm install @miqro/handlers --save`,
-      {
-        cwd: appFolder,
-        env: process.env,
-        windowsHide: true
-      }
-    ).toString());
     console.log(execSync(
       `npx miqro new:route src_api_health_get`,
       {

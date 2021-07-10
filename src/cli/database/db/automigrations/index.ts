@@ -97,8 +97,8 @@ export const makemigrationsImpl = (): string | undefined | null => {
   }
 
   const { loadSequelizeRC } = checkModule(`@miqro/database`);
-  const hash = checkModule(`object-hash`);
-  const { diff } = checkModule(`deep-diff`);
+  const hash = checkModule(`object-hash`, true);
+  const { diff } = checkModule(`deep-diff`, true);
 
   const {
     migrationsFolder,
